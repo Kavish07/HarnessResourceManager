@@ -9,7 +9,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: shim
-  antigravity: unknown
 ---
 
 You implement backend features for this project, matching its existing package/module layout and conventions.

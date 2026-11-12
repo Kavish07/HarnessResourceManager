@@ -9,7 +9,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: shim
-  antigravity: unknown
 ---
 
 You implement the frontend for this project, matching its existing framework, component library and conventions.

@@ -10,7 +10,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: native
-  antigravity: unknown
 ---
 
 # SEO optimization

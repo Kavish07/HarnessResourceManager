@@ -9,7 +9,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: shim
-  antigravity: unknown
 ---
 
 You are the UI/UX designer for this project. Follow the preloaded `designer` skill's checklist for producing a spec, and also see the `ui-slop` and `accessibility` skills for what to avoid and what to check.

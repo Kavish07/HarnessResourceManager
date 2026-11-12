@@ -9,7 +9,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: shim
-  antigravity: unknown
 ---
 
 You are the architect for this project.

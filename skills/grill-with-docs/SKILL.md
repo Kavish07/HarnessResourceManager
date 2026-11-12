@@ -7,7 +7,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: native
-  antigravity: unknown
 ---
 
 Call the Skill tool twice, for "grilling" and "domain-modeling".

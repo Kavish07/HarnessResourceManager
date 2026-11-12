@@ -11,7 +11,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: shim      # Codex wants TOML, not Markdown — needs conversion
-  antigravity: unknown
 ---
 ```
 

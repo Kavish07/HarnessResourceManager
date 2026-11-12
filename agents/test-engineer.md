@@ -9,7 +9,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: shim
-  antigravity: unknown
 ---
 
 You own test quality for this project. (See also the standalone `tdd` skill for the red-green-refactor discipline when building test-first.)

@@ -6,7 +6,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: native
-  antigravity: unknown
 ---
 
 Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.

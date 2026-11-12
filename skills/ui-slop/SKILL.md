@@ -10,7 +10,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: native
-  antigravity: unknown
 ---
 
 > **Gap:** this skill references rule numbers (R-01, R-10, …) defined in its sibling `antislop.md` "core" skill, which wasn't harvested (not found standalone in the source projects). The rule IDs below won't resolve to a definition until that core is added alongside this one.

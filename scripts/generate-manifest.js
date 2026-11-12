@@ -71,7 +71,6 @@ function toEntry(type, resourcePath, data) {
       'claude-code': 'unknown',
       cursor: 'unknown',
       codex: 'unknown',
-      antigravity: 'unknown',
     },
   };
 }

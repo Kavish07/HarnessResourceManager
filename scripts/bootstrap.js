@@ -1,5 +1,5 @@
 // Installs a named bundle (bundles.json) into a target project, per harness.
-// shortcut: only copies skills + agents (same Markdown shape across claude-code/cursor/codex/antigravity
+// shortcut: only copies skills + agents (same Markdown shape across claude-code/cursor/codex
 // per the harness research); hooks and MCP need per-harness event/TOML translation that nothing
 // here has been exercised against yet. Upgrade when a real hook or MCP entry needs exporting.
 const fs = require('fs');
@@ -11,7 +11,6 @@ const DEST = {
   'claude-code': { skills: '.claude/skills', agents: '.claude/agents' },
   cursor: { skills: '.cursor/skills', agents: '.cursor/agents' },
   codex: { skills: '.codex/skills', agents: '.codex/agents' },
-  antigravity: { skills: '.agents/skills', agents: '.agents/agents' },
 };
 
 function copyDir(src, dest) {
@@ -31,7 +30,7 @@ function main() {
   const harness = args.includes('--harness') ? args[args.indexOf('--harness') + 1] : 'claude-code';
 
   if (!target || !bundleName) {
-    console.error('Usage: node scripts/bootstrap.js <target-dir> --bundle <name> [--harness claude-code|cursor|codex|antigravity]');
+    console.error('Usage: node scripts/bootstrap.js <target-dir> --bundle <name> [--harness claude-code|cursor|codex]');
     process.exit(1);
   }
   const dest = DEST[harness];

@@ -10,8 +10,7 @@ Each hook lives at `hooks/<name>/hook.json`:
   "harnesses": {
     "claude-code": "native",
     "cursor": "shim",
-    "codex": "shim",
-    "antigravity": "unknown"
+    "codex": "shim"
   },
   "event": "PreToolUse",
   "command": "scripts/example.sh"

@@ -36,6 +36,5 @@ npx skills add <owner>/harness-resource-manager --skill grill-me
 ## Primary vs. best-effort harnesses
 
 Claude Code is the primary/canonical target. Cursor and Codex CLI are
-well-supported for skills/agents/MCP. Antigravity is best-effort — its
-subagent support is unconfirmed upstream and its hooks have been reported
-not to fire reliably in some builds; don't block on it.
+well-supported for skills/agents/MCP, with Codex needing a TOML shim for
+agents/hooks/MCP. Tracked harnesses: `claude-code`, `cursor`, `codex`.

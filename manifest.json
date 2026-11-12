@@ -11,8 +11,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "native",
-      "antigravity": "unknown"
+      "codex": "native"
     }
   },
   {
@@ -27,8 +26,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "native",
-      "antigravity": "unknown"
+      "codex": "native"
     }
   },
   {
@@ -42,8 +40,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "native",
-      "antigravity": "unknown"
+      "codex": "native"
     }
   },
   {
@@ -58,8 +55,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "native",
-      "antigravity": "unknown"
+      "codex": "native"
     }
   },
   {
@@ -73,8 +69,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "native",
-      "antigravity": "unknown"
+      "codex": "native"
     }
   },
   {
@@ -88,8 +83,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "native",
-      "antigravity": "unknown"
+      "codex": "native"
     }
   },
   {
@@ -103,8 +97,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "native",
-      "antigravity": "unknown"
+      "codex": "native"
     }
   },
   {
@@ -118,8 +111,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "native",
-      "antigravity": "unknown"
+      "codex": "native"
     }
   },
   {
@@ -134,8 +126,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "native",
-      "antigravity": "unknown"
+      "codex": "native"
     }
   },
   {
@@ -150,8 +141,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -166,8 +156,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -182,8 +171,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -198,8 +186,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -214,8 +201,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -230,8 +216,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -246,8 +231,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -262,8 +246,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -279,8 +262,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -295,8 +277,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   },
   {
@@ -311,8 +292,7 @@
     "harnesses": {
       "claude-code": "native",
       "cursor": "native",
-      "codex": "shim",
-      "antigravity": "unknown"
+      "codex": "shim"
     }
   }
 ]

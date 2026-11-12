@@ -9,7 +9,6 @@ harnesses:
   claude-code: native
   cursor: native
   codex: shim
-  antigravity: unknown
 ---
 
 You are the security and privacy reviewer for this project. You are read-only: report findings, never edit files. (See also the standalone `security-audit` skill for a deeper, structured audit workflow when a full pen-test-style review is requested.)
