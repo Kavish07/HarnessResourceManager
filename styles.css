@@ -1,19 +1,25 @@
 :root {
-  --bg: #15130f;
-  --bg-raised: #1c1a15;
-  --text: #ede7dd;
-  --text-dim: rgba(237, 231, 221, 0.6);
-  --text-dimmer: rgba(237, 231, 221, 0.34);
-  --line: rgba(237, 231, 221, 0.14);
-  --line-thin: rgba(237, 231, 221, 0.07);
-  --accent: #f2a93b;
-  --accent-dim: rgba(242, 169, 59, 0.12);
-  --accent-border: rgba(242, 169, 59, 0.5);
-  --shim: #8fae8a;
-  --shim-dim: rgba(143, 174, 138, 0.12);
-  --shim-border: rgba(143, 174, 138, 0.5);
+  --bg: #11151a;
+  --bg-raised: #171c22;
+  --text: #e7ebef;
+  --text-dim: rgba(231, 235, 239, 0.6);
+  --text-dimmer: rgba(231, 235, 239, 0.34);
+  --line: rgba(231, 235, 239, 0.14);
+  --line-thin: rgba(231, 235, 239, 0.07);
+  --accent: #5fb7c4;
+  --accent-dim: rgba(95, 183, 196, 0.12);
+  --accent-border: rgba(95, 183, 196, 0.5);
+  --shim: #7fb585;
+  --shim-dim: rgba(127, 181, 133, 0.12);
+  --shim-border: rgba(127, 181, 133, 0.5);
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: "IBM Plex Sans", -apple-system, system-ui, "Segoe UI", sans-serif;
+  --fs-xs: 11px;
+  --fs-sm: 12px;
+  --fs-base: 13px;
+  --fs-md: 15px;
+  --fs-xl: 22px;
+  --fs-xxl: 30px;
 }
 
 * {
@@ -25,7 +31,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: var(--fs-md);
   line-height: 1.6;
 }
 
@@ -39,18 +45,22 @@ code {
 }
 
 header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: baseline;
   gap: 32px;
   flex-wrap: wrap;
   padding: 22px 32px;
+  background: var(--bg);
   border-bottom: 1px solid var(--line-thin);
 }
 
 .wordmark {
   font-family: var(--mono);
   font-weight: 600;
-  font-size: 15px;
+  font-size: var(--fs-md);
   letter-spacing: -0.01em;
 }
 
@@ -65,7 +75,7 @@ nav.main {
 
 nav.main a {
   color: var(--text-dim);
-  font-size: 14px;
+  font-size: var(--fs-base);
 }
 
 nav.main a.active {
@@ -86,7 +96,7 @@ nav.main a.active {
 .lang-toggle button {
   font: inherit;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-sm);
   color: var(--text-dim);
   background: none;
   border: none;
@@ -109,7 +119,7 @@ main {
 
 .kicker {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-dimmer);
@@ -119,7 +129,7 @@ main {
 h1 {
   font-family: var(--mono);
   font-weight: 600;
-  font-size: 30px;
+  font-size: var(--fs-xxl);
   letter-spacing: -0.01em;
   margin: 0 0 10px;
 }
@@ -128,6 +138,20 @@ h1 {
   color: var(--text-dim);
   max-width: 62ch;
   margin: 0 0 40px;
+}
+
+h2 {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: var(--fs-xl);
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+}
+
+.page-section + .page-section {
+  margin-top: 56px;
+  padding-top: 56px;
+  border-top: 1px solid var(--line-thin);
 }
 
 /* configs: narrow sticky filter rail + wide list */
@@ -147,7 +171,7 @@ h1 {
 
 .filter-group h4 {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-dimmer);
@@ -165,7 +189,7 @@ h1 {
   align-items: center;
   gap: 8px;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-base);
   color: var(--text-dim);
   cursor: pointer;
 }
@@ -180,28 +204,6 @@ h1 {
 
 .check-opt:has(input:checked) {
   color: var(--text);
-}
-
-.pill {
-  font-family: var(--mono);
-  font-size: 12.5px;
-  border: 1px solid var(--line);
-  color: var(--text-dim);
-  border-radius: 999px;
-  padding: 4px 11px;
-  background: none;
-  cursor: pointer;
-}
-
-.pill:hover {
-  border-color: var(--text-dimmer);
-  color: var(--text);
-}
-
-.pill[aria-pressed="true"] {
-  border-color: var(--accent-border);
-  color: var(--accent);
-  background: var(--accent-dim);
 }
 
 .resource-list {
@@ -228,7 +230,7 @@ h1 {
 
 .resource .type {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   color: var(--text-dimmer);
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -236,13 +238,13 @@ h1 {
 
 .resource .main b {
   font-family: var(--mono);
-  font-size: 14.5px;
+  font-size: var(--fs-md);
 }
 
 .resource .main p {
   margin: 4px 0 0;
   color: var(--text-dim);
-  font-size: 13.5px;
+  font-size: var(--fs-base);
   max-width: 64ch;
 }
 
@@ -250,7 +252,7 @@ h1 {
   display: block;
   margin-top: 6px;
   font-family: var(--mono);
-  font-size: 11.5px;
+  font-size: var(--fs-xs);
   color: var(--text-dimmer);
 }
 
@@ -270,7 +272,7 @@ h1 {
   margin: 0;
   flex: 1;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   color: var(--text-dim);
   white-space: pre-wrap;
   word-break: break-all;
@@ -279,7 +281,7 @@ h1 {
 .cmd-copy {
   flex: none;
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: var(--fs-xs);
   color: var(--text-dimmer);
   background: none;
   border: 1px solid var(--line);
@@ -302,7 +304,7 @@ h1 {
 
 .badge {
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: var(--fs-xs);
   border-radius: 999px;
   padding: 2px 8px;
   border: 1px solid var(--line);
@@ -326,43 +328,20 @@ h1 {
   padding: 28px 20px;
   color: var(--text-dimmer);
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-base);
 }
 
-/* stack picker: horizontal filter bar + table */
-.axis-bar {
-  display: grid;
-  gap: 18px;
-  margin-bottom: 36px;
-}
-
-.axis {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: baseline;
-}
-
-.axis .label {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-dimmer);
-  width: 110px;
-  flex: none;
-}
-
+/* stack picker: shares .configs-layout / .filters / .filter-group with the config library */
 .stack-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13.5px;
+  font-size: var(--fs-base);
 }
 
 .stack-table th {
   text-align: left;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-dimmer);
