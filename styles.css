@@ -254,6 +254,45 @@ h1 {
   color: var(--text-dimmer);
 }
 
+.cmd {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--line-thin);
+  border-radius: 6px;
+  max-width: 64ch;
+}
+
+.cmd pre {
+  margin: 0;
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.cmd-copy {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text-dimmer);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.cmd-copy:hover {
+  color: var(--text);
+  border-color: var(--text-dimmer);
+}
+
 .badges {
   display: flex;
   flex-wrap: wrap;

@@ -48,6 +48,40 @@ document.addEventListener('DOMContentLoaded', async () => {
     return span;
   }
 
+  const TYPE_DIR = { skill: 'skills', agent: 'agents', hook: 'hooks', mcp: 'mcp' };
+
+  function installCommands(r) {
+    const dir = TYPE_DIR[r.type];
+    const isDir = r.type === 'skill' || r.type === 'hook';
+    const local = `${isDir ? 'cp -r' : 'cp'} ${r.path} /path/to/project/.claude/${dir}/`;
+    if (r.type === 'skill') {
+      return [local, `npx skills add <owner>/harness-resource-manager --skill ${r.name}  # once published`];
+    }
+    return [local];
+  }
+
+  function commandBlock(r) {
+    const box = document.createElement('div');
+    box.className = 'cmd';
+    const pre = document.createElement('pre');
+    pre.textContent = installCommands(r).join('\n');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cmd-copy';
+    btn.textContent = HRM.t('configs.copy');
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(pre.textContent);
+        btn.textContent = HRM.t('configs.copied');
+      } catch {
+        btn.textContent = HRM.t('configs.copyFailed');
+      }
+      setTimeout(() => { btn.textContent = HRM.t('configs.copy'); }, 1400);
+    });
+    box.append(pre, btn);
+    return box;
+  }
+
   function renderList() {
     const filtered = resources.filter(
       (r) =>
@@ -75,6 +109,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const mainEl = document.createElement('div');
       mainEl.className = 'main';
       mainEl.innerHTML = `<b>${r.name}</b><p>${r.description}</p><span class="path">${r.path}</span>`;
+
+      mainEl.appendChild(commandBlock(r));
 
       const badges = document.createElement('div');
       badges.className = 'badges';
