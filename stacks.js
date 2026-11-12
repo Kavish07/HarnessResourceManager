@@ -5,48 +5,44 @@ document.addEventListener('DOMContentLoaded', async () => {
   const stacks = await res.json();
 
   const AXES = ['frontend', 'backend', 'database', 'hosting', 'auth'];
-  const state = Object.fromEntries(AXES.map((a) => [a, 'all']));
+  const state = Object.fromEntries(AXES.map((a) => [a, new Set()]));
 
   const bar = document.getElementById('axis-bar');
   const table = document.getElementById('stack-table');
 
-  function pill(value, active, onClick) {
-    const btn = document.createElement('button');
-    btn.className = 'pill';
-    btn.textContent = value;
-    btn.setAttribute('aria-pressed', String(active));
-    btn.addEventListener('click', onClick);
-    return btn;
+  function checkbox(value, checked, onChange) {
+    const row = document.createElement('label');
+    row.className = 'check-opt';
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.checked = checked;
+    input.addEventListener('change', () => onChange(input.checked));
+    row.append(input, document.createTextNode(value));
+    return row;
   }
 
   function renderBar() {
     bar.innerHTML = '';
     AXES.forEach((axis) => {
-      const row = document.createElement('div');
-      row.className = 'axis';
-      const label = document.createElement('span');
-      label.className = 'label';
-      label.textContent = HRM.t(`stacks.axis.${axis}`);
-      row.appendChild(label);
-
-      row.appendChild(pill(HRM.t('stacks.filter.all'), state[axis] === 'all', () => {
-        state[axis] = 'all';
-        render();
-      }));
-
+      const group = document.createElement('div');
+      group.className = 'filter-group';
+      const h4 = document.createElement('h4');
+      h4.textContent = HRM.t(`stacks.axis.${axis}`);
+      const opts = document.createElement('div');
+      opts.className = 'opts';
       [...new Set(stacks.map((s) => s[axis]))].forEach((value) => {
-        row.appendChild(pill(value, state[axis] === value, () => {
-          state[axis] = value;
+        opts.appendChild(checkbox(value, state[axis].has(value), (checked) => {
+          checked ? state[axis].add(value) : state[axis].delete(value);
           render();
         }));
       });
-
-      bar.appendChild(row);
+      group.append(h4, opts);
+      bar.appendChild(group);
     });
   }
 
   function renderTable() {
-    const filtered = stacks.filter((s) => AXES.every((axis) => state[axis] === 'all' || s[axis] === state[axis]));
+    const filtered = stacks.filter((s) => AXES.every((axis) => state[axis].size === 0 || state[axis].has(s[axis])));
 
     if (!filtered.length) {
       table.innerHTML = `<tr><td class="empty">${HRM.t('stacks.empty')}</td></tr>`;

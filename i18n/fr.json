@@ -1,7 +1,6 @@
 {
   "site.title": "Harness Resource Manager",
   "nav.configs": "Configs",
-  "nav.stacks": "Choix de stack",
   "nav.guide": "Guide du harnais",
   "configs.kicker": "skills · agents · hooks · mcp",
   "configs.title": "Bibliothèque de configs",
@@ -28,6 +27,5 @@
   "stacks.axis.database": "Base de données",
   "stacks.axis.hosting": "Hébergement",
   "stacks.axis.auth": "Auth",
-  "stacks.filter.all": "Tous",
   "stacks.empty": "Aucune stack ne correspond à ces filtres pour l'instant."
 }

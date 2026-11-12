@@ -12,12 +12,12 @@ hand-written per harness instead (see `hooks/README.md`, `mcp/README.md`).
 
 - `skills/`, `agents/`, `hooks/`, `mcp/` — the actual resources, one folder/file per entry.
 - `bundles.json` — named groups of resources (e.g. `planning`) installed together.
-- `stack-picker/stacks.json` — the stack profiles shown on the stack-picker page.
+- `stack-picker/stacks.json` — the stack profiles shown on the stack picker section of `index.html`.
 - `manifest.json` — generated from the four resource folders; don't hand-edit it.
 - `scripts/generate-manifest.js` — rebuilds `manifest.json`. Run after adding/editing a resource.
 - `scripts/validate.js` — fails loudly on malformed frontmatter/JSON. Runs in CI.
 - `scripts/bootstrap.js` — installs a bundle into another project: `node scripts/bootstrap.js <target-dir> --bundle planning --harness claude-code`.
-- `index.html` / `stack-picker.html` — the two pages of the static site (plain HTML/CSS/JS, no build step, no framework).
+- `index.html` (stack picker + config library) / `harness.html` (guide) — the two pages of the static site (plain HTML/CSS/JS, no build step, no framework).
 
 ## Using a single skill elsewhere
 

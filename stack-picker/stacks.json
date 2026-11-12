@@ -8,5 +8,25 @@
     "hosting": "Vercel",
     "auth": "Clerk",
     "notes": "Default go-to for a full-stack app with real auth and a relational schema."
+  },
+  {
+    "id": "angular-spring-postgres",
+    "name": "Angular + Spring Boot + Postgres",
+    "frontend": "Angular",
+    "backend": "Java / Spring Boot",
+    "database": "Postgres",
+    "hosting": "Render",
+    "auth": "Auth0",
+    "notes": "Enterprise-friendly combo when the backend team is already on the JVM."
+  },
+  {
+    "id": "vue-dotnet-postgres",
+    "name": "Vue.js + ASP.NET Core + Postgres",
+    "frontend": "Vue.js",
+    "backend": ".NET / ASP.NET Core",
+    "database": "Postgres",
+    "hosting": "Azure",
+    "auth": "Microsoft Entra ID",
+    "notes": "Lightweight Vue frontend on a .NET API, common when the backend already runs on Azure."
   }
 ]
