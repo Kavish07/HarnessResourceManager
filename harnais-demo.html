@@ -318,14 +318,18 @@ body.present .harness{grid-template-columns:minmax(260px,360px) minmax(0,1fr)}
 
 <header>
   <div class="views" role="group" aria-label="Vue">
-    <button data-view="harnais" aria-pressed="true">Le harnais</button>
-    <button data-view="commandes" aria-pressed="false">Les commandes</button>
-    <button data-view="demarrer" aria-pressed="false">Mise en route</button>
+    <button data-view="harnais" aria-pressed="true" data-ui="viewHarnais">Le harnais</button>
+    <button data-view="commandes" aria-pressed="false" data-ui="viewCommandes">Les commandes</button>
+    <button data-view="demarrer" aria-pressed="false" data-ui="viewDemarrer">Mise en route</button>
   </div>
   <div class="tools">
-    <button id="smaller" class="hide-small" title="Texte plus petit (−)">A−</button>
-    <button id="bigger" class="hide-small" title="Texte plus grand (+)">A+</button>
-    <button id="present" aria-pressed="false" title="Mode présentation (P)">Présenter</button>
+    <button id="smaller" class="hide-small" title="Texte plus petit (−)" data-ui-title="smallerTitle">A−</button>
+    <button id="bigger" class="hide-small" title="Texte plus grand (+)" data-ui-title="biggerTitle">A+</button>
+    <button id="present" aria-pressed="false" title="Mode présentation (P)" data-ui-title="presentTitle" data-ui="presentLabel">Présenter</button>
+    <div class="views" role="group" aria-label="Language" style="margin-left:6px">
+      <button data-lang="fr" aria-pressed="true">FR</button>
+      <button data-lang="en" aria-pressed="false">EN</button>
+    </div>
   </div>
 </header>
 
@@ -334,8 +338,8 @@ body.present .harness{grid-template-columns:minmax(260px,360px) minmax(0,1fr)}
     <div class="harness">
       <div class="starcol">
         <div class="intro">
-          <h1>Le harnais Claude Code</h1>
-          <p>Un modèle au centre, sept faces autour. Cliquez une face, ou utilisez ← →.</p>
+          <h1 data-ui="harnaisH1">Le harnais Claude Code</h1>
+          <p data-ui="harnaisP">Un modèle au centre, sept faces autour. Cliquez une face, ou utilisez ← →.</p>
         </div>
         <div class="facelist" id="facelist"></div>
         <div class="star" id="star">
@@ -348,8 +352,8 @@ body.present .harness{grid-template-columns:minmax(260px,360px) minmax(0,1fr)}
 
   <section class="view" id="v-commandes" hidden>
     <div class="cmdhead">
-      <h1>Les commandes à connaître</h1>
-      <p>Onze commandes pour mesurer le contexte, gérer ses sessions et vérifier ce qui est branché. Chacune se tape au début d'un message, dans une session Claude Code.</p>
+      <h1 data-ui="commandesH1">Les commandes à connaître</h1>
+      <p data-ui="commandesP">Onze commandes pour mesurer le contexte, gérer ses sessions et vérifier ce qui est branché. Chacune se tape au début d'un message, dans une session Claude Code.</p>
     </div>
     <div class="cmdgrid">
       <nav class="cmdnav" id="cmdnav" aria-label="Commandes"></nav>
@@ -357,22 +361,22 @@ body.present .harness{grid-template-columns:minmax(260px,360px) minmax(0,1fr)}
     </div>
 
     <div class="section-gap">
-      <h3 class="sub">Que devient la conversation ?</h3>
-      <p class="sublead">Six commandes touchent à la conversation en cours, et aucune ne fait la même chose.</p>
+      <h3 class="sub" data-ui="compareH3">Que devient la conversation ?</h3>
+      <p class="sublead" data-ui="compareP">Six commandes touchent à la conversation en cours, et aucune ne fait la même chose.</p>
       <div class="tablewrap"><table id="compare"></table></div>
     </div>
 
     <div class="section-gap">
-      <h3 class="sub">Une session type, de bout en bout</h3>
-      <p class="sublead">Les commandes dans l'ordre où on les rencontre sur une vraie tâche.</p>
+      <h3 class="sub" data-ui="flowH3">Une session type, de bout en bout</h3>
+      <p class="sublead" data-ui="flowP">Les commandes dans l'ordre où on les rencontre sur une vraie tâche.</p>
       <ol class="flow" id="flow"></ol>
     </div>
   </section>
 
   <section class="view" id="v-demarrer" hidden>
     <div class="cmdhead">
-      <h1>Mise en route</h1>
-      <p>De l'installation sur votre portable jusqu'au commit : où taper quoi, dans quel ordre, et pourquoi.</p>
+      <h1 data-ui="demarrerH1">Mise en route</h1>
+      <p data-ui="demarrerP">De l'installation sur votre portable jusqu'au commit : où taper quoi, dans quel ordre, et pourquoi.</p>
     </div>
     <div class="setupgrid">
       <nav class="setupnav" id="setupnav" aria-label="Sections"></nav>
@@ -2150,7 +2154,7 @@ const codeBlock = c => `<figure class="code"><figcaption><span class="file">${es
 /* ─── étoile ─── */
 function buildStar(){
   const star = $('#star'); let lines = '';
-  star.innerHTML = '';
+  star.querySelectorAll('.node').forEach(el => el.remove());
   const core = document.createElement('button');
   core.className = 'node core'; core.dataset.face = CORE.id;
   core.innerHTML = `<i>${UI.theCenter}</i><b>${UI.coreCardHtml}</b>`;
@@ -2231,12 +2235,12 @@ function renderCmd(){
   const face = ALL.find(f => f.id === c.face);
   $('#cmdcard').innerHTML = `
     <p class="sig">${c.cmd}${c.args ? ` <span>${esc(c.args)}</span>` : ''}</p>
-    <p class="alias">${c.alias ? 'alias '+esc(c.alias) : '&nbsp;'}</p>
+    <p class="alias">${c.alias ? UI.aliasPrefix+esc(c.alias) : '&nbsp;'}</p>
     <p class="what">${esc(c.quoi)}</p>
-    <dl><dt>en détail</dt><dd>${esc(c.detail)}</dd>
-        <dt>quand</dt><dd>${esc(c.quand)}</dd>
-        <dt>face</dt><dd><button class="chip plain" data-goface="${face.id}">${face.n} · ${esc(face.titre)}</button></dd></dl>
-    ${codeBlock({file:'session Claude Code', lang:'cmd', src:c.ex})}`;
+    <dl><dt>${UI.detailLabel}</dt><dd>${esc(c.detail)}</dd>
+        <dt>${UI.whenLabel}</dt><dd>${esc(c.quand)}</dd>
+        <dt>${UI.faceLabel}</dt><dd><button class="chip plain" data-goface="${face.id}">${face.n} · ${esc(face.titre)}</button></dd></dl>
+    ${codeBlock({file:UI.claudeSession, lang:'cmd', src:c.ex})}`;
   wireCommon($('#cmdcard'));
 }
 function selectCmd(cmd){ S.cmd = cmd; store.set('cmd', cmd); renderCmdNav(); renderCmd(); }
@@ -2252,16 +2256,16 @@ function stepCard(){
   const s = STEPS.find(x => x.n === S.step);
   return `<div class="stepcard">
     <h3><span>${s.n}</span>${esc(s.t)}</h3>
-    <dl><dt>le but</dt><dd>${esc(s.but)}</dd>
-        <dt>ce qui sort</dt><dd>${esc(s.sortie)}</dd>
-        <dt>le piège</dt><dd class="trap">${esc(s.piege)}</dd></dl>
-    ${codeBlock({file:'session Claude Code', lang:'cmd', src:s.faire})}</div>`;
+    <dl><dt>${UI.goalLabel}</dt><dd>${esc(s.but)}</dd>
+        <dt>${UI.outputLabel}</dt><dd>${esc(s.sortie)}</dd>
+        <dt>${UI.trapLabel}</dt><dd class="trap">${esc(s.piege)}</dd></dl>
+    ${codeBlock({file:UI.claudeSession, lang:'cmd', src:s.faire})}</div>`;
 }
 function renderSetup(){
   SETUP.forEach((s,i) => s.n = String(i+1).padStart(2,'0'));   /* numérotation automatique */
   $('#setupnav').innerHTML = SETUP.map(s => `<a href="#s-${s.id}" data-sec="${s.id}"><i>${s.n}</i>${esc(s.titre)}</a>`).join('');
   $('#setupbody').innerHTML = SETUP.map(s => `<section class="sblock" id="s-${s.id}">
-    <p class="kicker"><b>${s.n}</b> · mise en route</p><h2>${esc(s.titre)}</h2>
+    <p class="kicker"><b>${s.n}</b> · ${UI.setupKicker}</p><h2>${esc(s.titre)}</h2>
     <p class="lead">${esc(s.lead)}</p>${s.html()}</section>`).join('');
   $('#setupnav').querySelectorAll('a').forEach(a => a.onclick = e => {
     e.preventDefault(); document.getElementById('s-'+a.dataset.sec).scrollIntoView({behavior:'smooth', block:'start'});
@@ -2299,8 +2303,8 @@ function wireCommon(root){
   root.querySelectorAll('[data-goface]').forEach(b => b.onclick = () => { selectFace(b.dataset.goface); setView('harnais'); });
   root.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => {
     const txt = b.closest('figure').querySelector('pre').innerText;
-    try { await navigator.clipboard.writeText(txt); b.textContent = 'copié'; } catch { b.textContent = 'copie impossible'; }
-    setTimeout(() => b.textContent = 'copier', 1400);
+    try { await navigator.clipboard.writeText(txt); b.textContent = UI.copied; } catch { b.textContent = UI.copyFailed; }
+    setTimeout(() => b.textContent = UI.copy, 1400);
   });
 }
 
@@ -2333,6 +2337,21 @@ function togglePresent(){
 }
 $('#present').onclick = togglePresent;
 
+/* ─── langue ─── */
+function applyStaticText(){
+  document.querySelectorAll('[data-ui]').forEach(el => { el.textContent = UI[el.dataset.ui]; });
+  document.querySelectorAll('[data-ui-title]').forEach(el => { el.title = UI[el.dataset.uiTitle]; });
+  document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === LANG)));
+}
+function setLang(lang){
+  if (lang === LANG) return;
+  applyLang(lang);
+  try { localStorage.setItem('hrm-lang', lang); } catch {}
+  applyStaticText();
+  buildStar(); renderPanel(); renderCmdNav(); renderCmd(); renderStatic(); renderSetup();
+}
+document.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => setLang(b.dataset.lang));
+
 document.addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input,textarea')) return;
   const k = e.key;
@@ -2355,6 +2374,7 @@ document.addEventListener('keydown', e => {
 /* ─── démarrage ─── */
 setScale(S.scale);
 if (!['harnais','commandes','demarrer'].includes(S.view)) S.view = 'harnais';
+applyStaticText();
 buildStar(); renderPanel(); renderCmdNav(); renderCmd(); renderStatic(); renderSetup(); setView(S.view);
 </script>
 </body>
