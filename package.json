@@ -1,0 +1,13 @@
+{
+  "name": "harness-resource-manager",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build:manifest": "node scripts/generate-manifest.js",
+    "validate": "node scripts/validate.js",
+    "bootstrap": "node scripts/bootstrap.js"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}

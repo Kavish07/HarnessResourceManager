@@ -1,0 +1,5 @@
+node_modules/
+
+# Installed via the skills CLI — regenerate with `npx skills experimental_install`
+.agents/
+.claude/

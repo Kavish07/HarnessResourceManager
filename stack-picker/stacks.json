@@ -1,0 +1,12 @@
+[
+  {
+    "id": "react-express-postgres",
+    "name": "React + Express + Postgres",
+    "frontend": "React",
+    "backend": "Node / Express",
+    "database": "Postgres",
+    "hosting": "Vercel",
+    "auth": "Clerk",
+    "notes": "Default go-to for a full-stack app with real auth and a relational schema."
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "planning": {
+    "description": "Everything needed to grill a new plan before building it.",
+    "skills": ["grill-me", "grilling"],
+    "agents": [],
+    "hooks": [],
+    "mcp": []
+  }
+}

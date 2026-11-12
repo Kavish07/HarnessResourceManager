@@ -1,0 +1,32 @@
+[
+  {
+    "type": "skill",
+    "name": "grill-me",
+    "description": "A relentless interview to sharpen a plan or design.",
+    "path": "skills/grill-me",
+    "tags": [
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "grilling",
+    "description": "Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.",
+    "path": "skills/grilling",
+    "tags": [
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native",
+      "antigravity": "unknown"
+    }
+  }
+]

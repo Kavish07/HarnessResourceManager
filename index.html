@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harness Resource Manager — Configs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="configs">
+<header>
+  <div class="wordmark">harness<span>.</span>resources</div>
+  <nav class="main">
+    <a href="index.html" data-page="configs" data-i18n="nav.configs"></a>
+    <a href="stack-picker.html" data-page="stacks" data-i18n="nav.stacks"></a>
+  </nav>
+  <div class="lang-toggle">
+    <button data-lang="en">EN</button>
+    <button data-lang="fr">FR</button>
+  </div>
+</header>
+<main>
+  <p class="kicker" data-i18n="configs.kicker"></p>
+  <h1 data-i18n="configs.title"></h1>
+  <p class="subtitle" data-i18n="configs.subtitle"></p>
+
+  <div class="configs-layout">
+    <div class="filters">
+      <div class="filter-group">
+        <h4 data-i18n="configs.filter.type"></h4>
+        <div class="opts" id="type-filter"></div>
+      </div>
+      <div class="filter-group">
+        <h4 data-i18n="configs.filter.tag"></h4>
+        <div class="opts" id="tag-filter"></div>
+      </div>
+    </div>
+    <div class="resource-list" id="resource-list"></div>
+  </div>
+</main>
+<script src="app.js"></script>
+<script src="configs.js"></script>
+</body>
+</html>

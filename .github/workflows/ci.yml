@@ -1,0 +1,17 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run validate
+      - run: npm run build:manifest
+      - name: Check manifest.json is up to date
+        run: git diff --exit-code manifest.json || (echo "::error::manifest.json is stale — run 'npm run build:manifest' and commit it" && exit 1)
