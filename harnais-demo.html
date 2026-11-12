@@ -387,7 +387,7 @@ body.present .harness{grid-template-columns:minmax(260px,360px) minmax(0,1fr)}
    ═══════════════════════════════════════════════════════════════════ */
 
 /* Schéma de la boucle harnais ↔ modèle (face 01, onglet Fonctionnement) */
-const SCHEMA_HARNAIS = `<svg viewBox="0 0 680 640" role="img" aria-labelledby="sch-t sch-d">
+const SCHEMA_HARNAIS_FR = `<svg viewBox="0 0 680 640" role="img" aria-labelledby="sch-t sch-d">
 <title id="sch-t">La boucle entre le harnais et le modèle</title>
 <desc id="sch-d">Le harnais local envoie le message et la liste des outils au modèle. Le modèle répond par un appel d'outil, le harnais l'exécute et renvoie le résultat, en boucle, jusqu'à la réponse finale. En dessous : ce que contient la fenêtre de contexte, et la liste des outils.</desc>
 <defs><marker id="sch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,255,255,.56)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
@@ -433,7 +433,53 @@ const SCHEMA_HARNAIS = `<svg viewBox="0 0 680 640" role="img" aria-labelledby="s
 <text class="s" x="504" y="514" dominant-baseline="central">· WebFetch</text>
 </svg>`;
 
-const CORE = {
+const SCHEMA_HARNAIS_EN = `<svg viewBox="0 0 680 640" role="img" aria-labelledby="sch-t sch-d">
+<title id="sch-t">The loop between the harness and the model</title>
+<desc id="sch-d">The local harness sends the message and the list of tools to the model. The model replies with a tool call, the harness runs it and returns the result, in a loop, until the final response. Below: what the context window holds, and the list of tools.</desc>
+<defs><marker id="sch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,255,255,.56)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect class="ha" x="40" y="30" width="240" height="56" rx="8"/>
+<text class="h ha-t" x="160" y="52" text-anchor="middle" dominant-baseline="central">Harness</text>
+<text class="s" x="160" y="72" text-anchor="middle" dominant-baseline="central">Runs locally</text>
+<rect class="pr" x="400" y="30" width="240" height="56" rx="8"/>
+<text class="h pr-t" x="520" y="52" text-anchor="middle" dominant-baseline="central">Provider</text>
+<text class="s" x="520" y="72" text-anchor="middle" dominant-baseline="central">The model</text>
+<line class="life" x1="160" y1="86" x2="160" y2="205"/>
+<line class="life" x1="160" y1="241" x2="160" y2="385"/>
+<line class="life" x1="520" y1="86" x2="520" y2="385"/>
+<text class="s" x="340" y="113" text-anchor="middle">message + list[tools]</text>
+<line class="arr" x1="164" y1="125" x2="514" y2="125" marker-end="url(#sch-arrow)"/>
+<text class="s" x="340" y="158" text-anchor="middle">tool_use + input</text>
+<line class="arr" x1="516" y1="170" x2="166" y2="170" marker-end="url(#sch-arrow)"/>
+<rect class="loopbox" x="60" y="190" width="560" height="140" rx="8"/>
+<text class="s" x="604" y="212" text-anchor="end">↻ Loop</text>
+<rect class="ha" x="90" y="205" width="140" height="36" rx="6"/>
+<text class="h ha-t" x="160" y="223" text-anchor="middle" dominant-baseline="central">Run the tool</text>
+<text class="s" x="340" y="258" text-anchor="middle">tool_result</text>
+<line class="arr" x1="164" y1="270" x2="514" y2="270" marker-end="url(#sch-arrow)"/>
+<text class="s" x="340" y="300" text-anchor="middle">next tool_use + input</text>
+<line class="arr" x1="516" y1="312" x2="166" y2="312" marker-end="url(#sch-arrow)"/>
+<text class="s" x="340" y="353" text-anchor="middle">final response</text>
+<line class="arr" x1="516" y1="365" x2="166" y2="365" marker-end="url(#sch-arrow)"/>
+<rect class="ha" x="40" y="410" width="290" height="200" rx="12"/>
+<text class="h ha-t" x="64" y="438" dominant-baseline="central">Context window</text>
+<text class="s" x="64" y="470" dominant-baseline="central">· Tools</text>
+<text class="s" x="64" y="492" dominant-baseline="central">· Skills</text>
+<text class="s" x="64" y="514" dominant-baseline="central">· Agents</text>
+<text class="s" x="64" y="536" dominant-baseline="central">· System prompt</text>
+<text class="s" x="64" y="558" dominant-baseline="central">· Loop results</text>
+<text class="s" x="64" y="580" dominant-baseline="central">· CLAUDE.md</text>
+<rect class="pr" x="350" y="410" width="290" height="200" rx="12"/>
+<text class="h pr-t" x="374" y="438" dominant-baseline="central">Tools</text>
+<text class="s" x="374" y="470" dominant-baseline="central">· Write</text>
+<text class="s" x="374" y="492" dominant-baseline="central">· Read</text>
+<text class="s" x="374" y="514" dominant-baseline="central">· Edit</text>
+<text class="s" x="374" y="536" dominant-baseline="central">· Bash</text>
+<text class="s" x="504" y="470" dominant-baseline="central">· Glob</text>
+<text class="s" x="504" y="492" dominant-baseline="central">· Grep</text>
+<text class="s" x="504" y="514" dominant-baseline="central">· WebFetch</text>
+</svg>`;
+
+const CORE_FR = {
   id:'modele', n:'00', titre:'Le modèle', sub:'le centre',
   punch:'Un consultant brillant que vous joignez par téléphone.',
   def:'Il raisonne, propose des actions et attend les résultats. Claude Code, le harnais, exécute et reporte : il fournit les outils, la gestion du contexte et l\'environnement d\'exécution qui transforment un modèle de langage en agent de code.',
@@ -490,7 +536,64 @@ const CORE = {
   ]
 };
 
-const FACES = [
+const CORE_EN = {
+  id:'modele', n:'00', titre:'The model', sub:'the center',
+  punch:'A brilliant consultant you reach by phone.',
+  def:'It reasons, proposes actions and waits for results. Claude Code, the harness, executes and reports back: it supplies the tools, the context management and the execution environment that turn a language model into a coding agent.',
+  description:{
+    texte:'The model never touches your machine. Everything it does goes through the harness, which loops over three phases until the task is done or you interrupt it.',
+    boucle:['gather context','call a tool','check the result'],
+    numbers:[
+      {n:'59%', t:'An agent that gets 5 actions right 9 times out of 10 is only right 6 times out of 10 overall.', l:'You verify after each step, not just at the end.'},
+      {n:'−98.7%', t:'150,000 tokens brought down to 2,000 by running code instead of loading tool definitions.', l:'Context is a resource, not a comfort.'},
+      {n:'93%', t:'The share of permission requests approved by the user.', l:'What protects you is written in advance: settings.json, then hooks.'}
+    ]
+  },
+  ou:{
+    texte:'The model doesn\'t live in the repo. It\'s chosen per session, and the seven faces around it live almost entirely in the project\'s .claude folder.',
+    tree:[
+      ['CLAUDE.md','The project\'s framing · face 02'],
+      ['.claude/settings.json','Permissions, hooks, MCP, caps · faces 02, 04, 05, 06'],
+      ['.claude/skills/','The procedures · face 03'],
+      ['.claude/hooks/','The hooks\' scripts · face 04'],
+      ['.claude/agents/','The sub-agents · face 06'],
+      ['.mcp.json','MCP server addresses · face 05'],
+      ['~/.claude/','The same thing, under your name, for all your projects']
+    ],
+    code:[]
+  },
+  cles:{
+    items:[
+      {t:'claude.ai', d:'The browser. No access to your machine: you copy-paste.'},
+      {t:'Claude Code', d:'The terminal. Your files, your shell, your repo: the harness acts.'},
+      {t:'The API', d:'Your code. No tools supplied: you write the harness yourself.'}
+    ],
+    note:'The model is the same in all three cases. What changes is what surrounds it, and therefore what it can do.'
+  },
+  pratique:{
+    titre:'Predict, observe, explain', duree:'30 min · driver/navigator pairs',
+    etapes:[
+      [['msg','"This repo has N files, Claude will read ___ of them to answer: where is ______ handled?"'],['obs','Write the prediction in NOTES.md, before running anything.']],
+      [['cmd','claude'],['cmd','/status'],['msg','Where is ______ handled in this repo?'],['obs','Paste the list of files read into NOTES.md, not the answer.']],
+      [['cmd','/clear'],['obs','Same question. Then /clear and a third time. Without clearing the context, the runs converge and the exercise shows nothing.']],
+      [['obs','The three lists side by side, and a sentence on the gap with the prediction.']]
+    ],
+    critere:'The three outputs explained without invoking chance.'
+  },
+  cmds:['/status','/clear','/voice'],
+  liens:[
+    {g:'Choose and compare models', items:[
+      {t:'Artificial Analysis', u:'https://artificialanalysis.ai/', d:'Independent model rankings: intelligence, speed, price. For knowing what the engine is worth before choosing the harness.'},
+      {t:'Hugging Face', u:'https://huggingface.co/', d:'The hub for open models, datasets and demos. A reminder that Claude is only one model among others.'}
+    ]},
+    {g:'The same model, another harness', items:[
+      {t:'opencode-antigravity-auth', u:'https://github.com/NoeFabris/opencode-antigravity-auth', d:'A plugin for the OpenCode harness that goes through a Google account to reach models like Claude or Gemini. Useful for showing that the harness is separable from the model.',
+       warn:'Counter-example: its README states it violates Google\'s terms of service, and accounts have been suspended. Show it, don\'t install it.'}
+    ]}
+  ]
+};
+
+const FACES_FR = [
   {id:'contexte', n:'01', titre:'Contexte', sub:'la mémoire de travail',
    punch:'Un plan de travail, pas un tiroir.',
    def:'Ce qui n\'y tient plus est résumé, et un résumé ne dit jamais ce qu\'il a laissé tomber. La seule compaction qui garde ce qui compte est celle que vous déclenchez vous-même, avec une consigne.',
@@ -538,7 +641,7 @@ Toute compaction garde :
    },
    comment_cela_fonctionne:{
      titre:'Le fonctionnement du contexte',
-     schema:SCHEMA_HARNAIS,
+     schema:SCHEMA_HARNAIS_FR,
      legende:'À chaque tour, le harnais renvoie au modèle toute la fenêtre de contexte, résultats de la boucle compris.',
      etapes:[
        [['obs','Échange avec le binôme. Chaque ligne du voisin passe au test : « la retirer causerait-elle une erreur ? » Si non, elle saute.']]
@@ -864,8 +967,381 @@ Tu rends une liste d'écarts, avec le fichier et la ligne.`}
    ]}
 ];
 
-/* ─── les commandes — vérifiées sur code.claude.com/docs/en/commands ─ */
-const CMDS = [
+const FACES_EN = [
+  {id:'contexte', n:'01', titre:'Context', sub:'working memory',
+   punch:'A work plan, not a drawer.',
+   def:'What no longer fits gets summarized, and a summary never says what it dropped. The only compaction that keeps what matters is the one you trigger yourself, with an instruction.',
+   ou:{
+     texte:'Context isn\'t a file: it\'s what the model has in front of it during the session. It fills up from several sources, and a setting decides when it compacts.',
+     tree:[
+       ['(the session)','Context lives in memory, for the length of the conversation'],
+       ['~/.claude/projects/','Session history, which /resume reads back'],
+       ['CLAUDE.md','Reloaded from disk after every compaction'],
+       ['~/.claude/settings.json','The env block: window size and the compaction threshold']
+     ],
+     code:[
+       {file:'~/.claude/settings.json', lang:'json', todo:true, src:`{
+  "env": {
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1"
+  }
+}`},
+       {file:'CLAUDE.md', lang:'md', todo:true, src:`# Compact instructions
+Every compaction keeps:
+- constraints on forbidden files
+- the acceptance criteria of the current task`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'≈8,000 tokens before the first word', d:'System prompt, memory, environment, tool names, skill descriptions, CLAUDE.md.', c:'/context'},
+       {t:'Compaction you didn\'t choose', d:'It triggers itself when the window fills, and keeps what it judges important. Nobody asks you.'},
+       {t:'Compaction you steer', d:'You choose the moment and what survives, by naming it after the command.', c:'/compact keep the rounding rules'},
+       {t:'What survives', d:'The root CLAUDE.md and memory are re-injected from disk. An instruction left in the thread is paraphrased.'},
+       {t:'/clear over /compact', d:'No loss, because no summary. Prefer it as soon as the task changes.', c:'/rename · /clear · /resume'},
+       {t:'The compaction threshold', d:'/autocompact sets how full the window gets before auto-compaction fires.', c:'/autocompact 500k'}
+     ],
+     note:'Two rules to keep: persistent instructions go in CLAUDE.md, never in the thread. And you compact by hand, with an instruction, before the machine does it for you.'
+   },
+   pratique:{
+     titre:'Make the window fall, then measure it', duree:'30 min · alone, on your own repo',
+     etapes:[
+       [['cmd','/rename context-exercise'],['cmd','/context'],['obs','Note the percentage of a fresh session. It isn\'t zero.'],['cmd','@file1 @file2 @file3'],['cmd','/context'],['obs','The gap is the cost of three files.']],
+       [['msg','Never touch ______ .'],['obs','The constraint is stated once, in the second message.']],
+       [['msg','Read every file in ______ and summarize each in one line.'],['obs','Keep going until compaction is announced. Then a request that violates the constraint. Refused or modified?']],
+       [['cmd','/clear'],['obs','Replay, fill halfway, then:'],['cmd','/compact keep the constraint on ______ word for word'],['obs','Same request. Compare against the previous trace.']],
+       [['obs','Write the constraint into CLAUDE.md, replay without stating it in the thread. It holds: the file is re-injected after compaction.'],['cmd','/recap']]
+     ],
+     critere:'The three traces written to NOTES.md, and the difference between imposed and steered compaction explained.'
+   },
+   comment_cela_fonctionne:{
+     titre:'How context works',
+     schema:SCHEMA_HARNAIS_EN,
+     legende:'On every turn, the harness sends the model the whole context window back, loop results included.',
+     etapes:[
+       [['obs','Exchange with your partner. Each of their lines gets tested: "would removing it cause an error?" If not, it goes.']]
+     ],
+     critere:'At least 30% of lines removed in the cross-review, and the deny rule caught blocking something.'
+   },
+   cmds:['/context','/compact','/clear','/rename','/branch','/resume','/recap']},
+
+  {id:'claudemd', n:'02', titre:'CLAUDE.md', sub:'the frame',
+   punch:'House rules nothing forces anyone to follow.',
+   def:'CLAUDE.md steers what Claude attempts. settings.json\'s permission rules decide what Claude Code allows, whatever the model decides. The first is context, the second is configuration.',
+   ou:{
+     texte:'Four locations for CLAUDE.md, and they don\'t override each other: they add up, from the root to the launch directory. Permissions live alongside, in settings.json.',
+     tree:[
+       ['./CLAUDE.md','The project. Committed, shared with the team'],
+       ['./CLAUDE.local.md','You, on this project. Goes in .gitignore'],
+       ['~/.claude/CLAUDE.md','You, on all your projects'],
+       ['managed policy','The whole organization. Nobody can exclude it'],
+       ['.claude/settings.json','The project\'s permissions. Committed'],
+       ['.claude/settings.local.json','Your "yes, don\'t ask again", for this repo']
+     ],
+     code:[
+       {file:'CLAUDE.md', lang:'md', todo:true, src:`# Project
+- Build: \`npm run build\` · Tests: \`npm test\`
+- Never modify src/types/db.ts. The schema comes from the database.
+- Amounts are integers in cents.`},
+       {file:'.claude/settings.json', lang:'json', todo:true, src:`{
+  "permissions": {
+    "deny":  ["Read(./.env)", "Bash(rm *)"],
+    "ask":   ["Bash(git push *)"],
+    "allow": ["Bash(npm test)"]
+  }
+}`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'Facts, not procedures', d:'Build commands, conventions, locations. A procedure goes in a skill instead.'},
+       {t:'Forty lines at most', d:'Loaded on every turn, even when useless. Anything derivable from the repo doesn\'t belong here.'},
+       {t:'deny → ask → allow', d:'The first matching rule decides. A more specific rule never loses to a broader one.'},
+       {t:'Protected paths', d:'.git, .claude, .env, .mcp.json: never auto-approved, even with an allow.'},
+       {t:'Six permission modes', d:'default, acceptEdits and plan cycle with Shift+Tab. auto, dontAsk and bypassPermissions are set at launch.', c:'claude --permission-mode plan'},
+       {t:'Imports', d:'@path imports another file, four hops deep at most. Also loaded at startup: it organizes without saving anything.'}
+     ],
+     note:'A deny rule that has never blocked anything is a belief. You test it.'
+   },
+   pratique:{
+     titre:'Write it, then have your partner cut it', duree:'25 min · alone, then in pairs',
+     etapes:[
+       [['cmd','/init'],['obs','Claude generates a starting CLAUDE.md. Read it before keeping it.']],
+       [['cmd','/memory'],['msg','Bring the file down to forty lines at most, facts only.']],
+       [['cmd','.claude/settings.json'],['obs','Three rules, including a deny on a sensitive path.']],
+       [['msg','Read the .env file and tell me what\'s in it.'],['obs','Refused? Otherwise check the path syntax: with no prefix it\'s relative to the current directory.'],['cmd','git commit']],
+       [['obs','Exchange with your partner. Each of their lines gets tested: "would removing it cause an error?" If not, it goes.']]
+     ],
+     critere:'At least 30% of lines removed in the cross-review, and the deny rule caught blocking something.'
+   },
+   cmds:['/init','/status','/context']},
+
+  {id:'skills', n:'03', titre:'Skills', sub:'the procedures',
+   punch:'An onboarding guide, not a custom-built agent.',
+   def:'A folder with a SKILL.md, loaded in three stages: the description is always there, the body loads if the skill is relevant, files related to the request load last. A skill can also be called like a command.',
+   ou:{
+     texte:'The folder name becomes the command name. On a name clash, enterprise overrides personal, and personal overrides project.',
+     tree:[
+       ['.claude/skills/<name>/SKILL.md','The project. Committed, shared with the team'],
+       ['.claude/skills/<name>/references/','Anything long. Read only if the skill consults it'],
+       ['~/.claude/skills/<name>/SKILL.md','You, on all your projects'],
+       ['plugin','Namespaced plugin:skill, never conflicts']
+     ],
+     code:[
+       {file:'.claude/skills/verif/SKILL.md', lang:'md', todo:true, src:`---
+description: Checks that a change respects CLAUDE.md's contract before commit. Use before every commit, or when a review is requested.
+allowed-tools: Read Grep Bash(npm test)
+---
+1. Read the current diff.
+2. Check each change against references/checklist.md.
+3. Run \`npm test\` and report failures.`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'description', d:'The only field Claude reads to decide whether to trigger the skill. State what it does and when.'},
+       {t:'disable-model-invocation', d:'Removes automatic triggering. Only you call it. For skills with side effects.', c:'disable-model-invocation: true'},
+       {t:'allowed-tools', d:'Approves these tools without asking, during the turn that calls the skill.', c:'allowed-tools: Read Grep'},
+       {t:'paths', d:'Limits automatic triggering to matching files.', c:'paths: src/lib/**'},
+       {t:'model · effort', d:'Run a mechanical task on a cheaper model, just for that turn.', c:'model: haiku'},
+       {t:'context: fork', d:'The skill runs in a separate context and returns only a summary.'}
+     ],
+     note:'description and when_to_use are truncated together at 1,536 characters: write the main use case first. After compaction, the body is re-injected capped at 5,000 tokens, so put what matters at the top of the file.'
+   },
+   pratique:{
+     titre:'Write a skill, trigger it twice', duree:'42 min · alone, then cross-demo',
+     etapes:[
+       [['msg','A task I redo at least once a week on this project.'],['obs','Already done twice by hand, not imagined.']],
+       [['cmd','mkdir -p .claude/skills/verif'],['cmd','.claude/skills/verif/SKILL.md'],['obs','Two lines of frontmatter are enough.']],
+       [['cmd','/clear'],['msg','I just changed ______, can you review before I commit?'],['obs','The request doesn\'t name the skill. If it fires, the description decided.']],
+       [['cmd','/verif'],['obs','The name comes from the folder, not the name field: the most common mistake.']],
+       [['cmd','/skills'],['obs','Check it\'s listed, and its token cost (press t).'],['cmd','/context']]
+     ],
+     critere:'The skill fires on its own and on command, or its non-trigger is explained.'
+   },
+   cmds:['/context','/clear'],
+   liens:[
+     {g:'Find and install skills', items:[
+       {t:'skill-creator · Anthropic', u:'https://github.com/anthropics/skills/tree/main/skills/skill-creator', d:'The skill that creates and improves skills, and tests them with and without. In the example-skills plugin: /plugin marketplace add anthropics/skills.'},
+       {t:'skills.sh', u:'https://www.skills.sh/', d:'A directory of skills for agents. One-line install: npx skills add <owner/repo>.'},
+       {t:'autoskills', u:'https://www.autoskills.sh/', d:'npx autoskills reads the project\'s dependencies, detects the stack and installs matching skills from a verified registry.'},
+       {t:'Build with Claude', u:'https://buildwithclaude.com/skill/anti-ui-slop', d:'A community directory of Claude Code skills. The anti-ui-slop entry: designing and reviewing an interface with a design contract and a pre-delivery check.'}
+     ]},
+     {g:'Skills worth reading before writing your own', items:[
+       {t:'unslop · Cursor', u:'https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md', d:'A short skill that strips AI writing tics. A good example of minimal frontmatter: a name, a description.'},
+       {t:'/tdd · AI Hero', u:'https://www.aihero.dev/skills-tdd', d:'A test-driven-development skill: the red, green, then refactor loop, written as a procedure.'},
+       {t:'anti-slop · README', u:'https://github.com/miqdadbadjuber/anti-slop/blob/main/README.md', d:'Design and writing rules against generic interfaces. Installed via a pointer in CLAUDE.md: the boundary between face 02 and face 03.'},
+       {t:'anti-slop · antislop-ui', u:'https://github.com/miqdadbadjuber/anti-slop/tree/main/skills/antislop-ui', d:'That same repo\'s UI skill folder. See how a SKILL.md is organized with its supporting files.'}
+     ]},
+     {g:'Check what a skill produced', items:[
+       {t:'SEOptimer', u:'https://www.seoptimer.com/', d:'SEO audit of a live page. For checking a page a front-end or content skill generated.'},
+       {t:'OpenGraph.xyz', u:'https://www.opengraph.xyz/', d:'Preview of Open Graph tags: what the shared link looks like on LinkedIn, Slack or X.'}
+     ]}
+   ]},
+
+  {id:'hooks', n:'04', titre:'Hooks', sub:'determinism',
+   punch:'The security gate.',
+   def:'A "forbidden" sign asks to be read; a gate doesn\'t. A hook is a command of yours that Claude Code runs on its own, at a precise moment, every single time.',
+   ou:{
+     texte:'The declaration lives in settings.json, indexed by event name. The script lives alongside it, in .claude/hooks, and must be executable.',
+     tree:[
+       ['.claude/settings.json','The hooks block: event, matcher, command'],
+       ['.claude/hooks/<name>.sh','The script. chmod +x required'],
+       ['~/.claude/settings.json','Your hooks, across all your projects'],
+       ['SKILL.md · agent .md','Hooks active only during that skill or agent']
+     ],
+     code:[
+       {file:'.claude/settings.json', lang:'json', todo:true, src:`{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Bash",
+      "hooks": [{
+        "type": "command",
+        "command": "\${CLAUDE_PROJECT_DIR}/.claude/hooks/guard.sh"
+      }]
+    }]
+  }
+}`},
+       {file:'.claude/hooks/guard.sh', lang:'bash', todo:true, src:`#!/usr/bin/env bash
+cmd=$(jq -r '.tool_input.command')
+if [[ "$cmd" == *"rm -rf"* ]]; then
+  echo "rm -rf is forbidden in this repo" >&2
+  exit 2
+fi
+exit 0`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'PreToolUse', d:'Before a tool call. The only one that can refuse the call.'},
+       {t:'PostToolUse', d:'After the tool. Run the formatter after every file write.', c:'"matcher": "Edit|Write"'},
+       {t:'UserPromptSubmit', d:'On every message sent. Can refuse a message that contains an API key.'},
+       {t:'SessionStart · PreCompact · SubagentStop', d:'Session opening, before a summary, end of a sub-agent.'},
+       {t:'exit 0 · exit 2 · other', d:'0 lets it through. 2 refuses, and stderr goes back to Claude as the reason. Any other code is an error: the call goes through anyway.'},
+       {t:'The matcher', d:'An exact name, a list, or a regular expression. Misspelled, it produces no error and never fires.'}
+     ],
+     note:'A hook protects a tool, not a piece of data. If it watches Bash, Claude can go through another tool instead.'
+   },
+   pratique:{
+     titre:'Write a guard rail, then get around it', duree:'22 min · pairs',
+     etapes:[
+       [['msg','I want ______ to happen every time ______ .'],['obs','Translate into an event (when) and a matcher (on what).']],
+       [['cmd','.claude/hooks/my-hook.sh'],['obs','One line that prints a message, then exit 0. It blocks nothing yet.'],['cmd','chmod +x .claude/hooks/my-hook.sh']],
+       [['cmd','/hooks'],['obs','Missing from the list: the JSON is invalid. Present but silent: the matcher or execute permission.']],
+       [['obs','Move to refusal: echo the reason to >&2, then exit 2. Replay the request.']],
+       [['cmd','/clear'],['msg','The same thing, explicitly asking for a different tool.'],['obs','Write the class of flaw in one sentence.']]
+     ],
+     critere:'The guard rail refuses, then gets bypassed, and the flaw is named.'
+   },
+   cmds:['/status','/clear']},
+
+  {id:'mcp', n:'05', titre:'MCP', sub:'reach',
+   punch:'A standard plug between an agent and the tools it doesn\'t have.',
+   def:'Without a standard, five agents and ten tools make fifty integrations. With MCP, each side writes its own half: fifteen. An MCP server is an adapter between the protocol and an API that already existed.',
+   ou:{
+     texte:'What lives in the repo is the server\'s address, not the server. It runs at the vendor, and settings.json only says which ones are approved.',
+     tree:[
+       ['.mcp.json','Addresses, at the repo root. Committed'],
+       ['~/.claude.json','The same addresses, private. Never committed'],
+       ['.claude/settings.json','The agreement: approved servers, forbidden tools']
+     ],
+     code:[
+       {file:'.mcp.json', lang:'json', todo:true, src:`{
+  "mcpServers": {
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
+    }
+  }
+}`},
+       {file:'.claude/settings.json', lang:'json', todo:true, src:`{
+  "enabledMcpjsonServers": ["notion"],
+  "permissions": {
+    "deny": ["mcp__notion__delete_page"]
+  }
+}`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'HTTP transport', d:'The server runs elsewhere. stdio launches an executable on your machine: avoid it in a workshop setting.'},
+       {t:'Names only, at first', d:'At startup, only tool names are loaded. Definitions arrive when a tool is actually used.'},
+       {t:'enabledMcpjsonServers', d:'Approves .mcp.json\'s servers by name. Without agreement, a cloned server waits.'},
+       {t:'mcp__server__tool', d:'The name to use in a deny rule. The server segment is the one you gave it.'},
+       {t:'Connected ≠ usable', d:'The token\'s scope decides what actually works. You call a tool before concluding anything.'},
+       {t:'A CLI is often better', d:'gh, aws, sentry-cli add no tool listing to the context.'}
+     ],
+     note:'Searching settings.json for mcpServers turns up nothing, and that\'s normal: settings.json governs servers it never declares.'
+   },
+   pratique:{
+     titre:'Connect, call, find what\'s missing', duree:'30 min · alone, help allowed',
+     etapes:[
+       [['cmd','/context'],['msg','I\'d like Claude to be able to ______ on its own on this project.'],['obs','The need is written before knowing what the server exposes.']],
+       [['cmd','claude mcp add --transport http <name> <url>'],['cmd','/mcp'],['obs','Authenticate from the list if the server asks.']],
+       [['obs','Written inventory of exposed tools.'],['cmd','/context'],['obs','The gap is tiny: only names are loaded.']],
+       [['msg','A concrete call to one of the tools.'],['obs','Connected doesn\'t mean authorized. On failure:'],['cmd','/mcp reconnect all']],
+       [['obs','Compare the need against the inventory. Name the missing action.']]
+     ],
+     critere:'A tool called successfully, and the missing action named.'
+   },
+   cmds:['/mcp','/context']},
+
+  {id:'subagents', n:'06', titre:'Sub-agents', sub:'delegation',
+   punch:'A team, with job descriptions.',
+   def:'A sub-agent works in its own context and returns only a summary. A fresh context gives an unbiased second opinion, and keeps yours clean.',
+   ou:{
+     texte:'One Markdown file per agent. On a name clash, project overrides personal: the exact opposite of skills.',
+     tree:[
+       ['.claude/agents/<name>.md','The project. Committed, shared'],
+       ['~/.claude/agents/<name>.md','You, on all your projects'],
+       ['claude --agents \'{…}\'','This session only'],
+       ['.claude/settings.json','The env block: depth, total, concurrency']
+     ],
+     code:[
+       {file:'.claude/agents/verif.md', lang:'md', todo:true, src:`---
+name: verif
+description: Reviews a diff against the checklist. Use before every commit.
+tools: Read, Grep, Bash(npm test)
+model: haiku
+maxTurns: 15
+---
+You review the current diff against references/checklist.md.
+You return a list of gaps, with file and line.`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'name · description', d:'The only two required fields. The description decides when to delegate.'},
+       {t:'tools', d:'Omitted, the agent inherits everything. At minimum: an unscoped Bash cancels the rest.', c:'tools: Read, Grep'},
+       {t:'model', d:'Defaults to inherit, not haiku. The simplest cost lever.', c:'model: haiku'},
+       {t:'maxTurns', d:'The only hard guard against a loop.', c:'maxTurns: 15'},
+       {t:'isolation: worktree', d:'The agent works on an isolated copy of the repo.'},
+       {t:'The caps', d:'3 layers of delegation, 200 agents per session, 20 at once. Tunable in env.'}
+     ],
+     note:'What comes back is a summary, never the trace. For a copy that inherits the whole conversation and runs alongside you, that\'s /fork.'
+   },
+   pratique:{
+     titre:'Delegate to the cheapest model that suffices', duree:'18 min · pairs',
+     etapes:[
+       [['msg','A task I redo often that requires no judgment call.'],['obs','Would two people get the same result? If not, not for a small model.']],
+       [['msg','haiku is enough because ______ .'],['obs','If the sentence doesn\'t finish, go up a tier.']],
+       [['cmd','.claude/agents/verif.md'],['obs','name, description, tools, model. Four lines.']],
+       [['cmd','/clear'],['msg','Use the verif agent on ______ .'],['cmd','/context'],['obs','Compare with what the same read would have cost in the thread.']],
+       [['cmd','/fork write the tests for ______'],['obs','The copy heads off in the background with the full context. You continue here.']]
+     ],
+     critere:'The model choice justified in one line, and the summary read instead of the trace.'
+   },
+   cmds:['/fork','/context']},
+
+  {id:'cout', n:'07', titre:'Cost', sub:'the economics',
+   punch:'A meter, not a flat rate.',
+   def:'Every turn sends the whole conversation back to the model. The price of a question comes down to what it drags behind it: a one-line question in a session open since this morning costs the whole morning.',
+   ou:{
+     texte:'Nothing in the repo bills you. Cost is set by the model, the effort, and what you leave in the context.',
+     tree:[
+       ['~/.claude/settings.json','The default model, and the env block'],
+       ['model: in an agent or a skill','A cheaper model for a specific task'],
+       ['CLAUDE.md','Loaded every turn: its size is paid on every message']
+     ],
+     code:[
+       {file:'~/.claude/settings.json', lang:'json', todo:true, src:`{
+  "model": "sonnet",
+  "env": {
+    "MAX_THINKING_TOKENS": "8000"
+  }
+}`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'Output = 5 × input', d:'Across all models. Reasoning is billed as output.'},
+       {t:'Cache = 1/10 of input', d:'Change nothing at the top of the prompt during a session.'},
+       {t:'The model', d:'Five times cheaper going from Opus down to Haiku.', c:'/model haiku'},
+       {t:'Effort', d:'Less reasoning, less billed output.', c:'/effort low'},
+       {t:'/clear between tasks', d:'Free. A stale context gets paid for again on every following message.'},
+       {t:'A precise request', d:'"Improve this repo" sweeps everything. "Add validation in auth.ts" reads one file.'}
+     ],
+     note:'Order of magnitude published by Anthropic: around $13 per active developer per day, under $30 for 90% of users. /usage (alias /cost) gives yours.'
+   },
+   pratique:{
+     titre:'Measure a task, then redo it cheaper', duree:'20 min · alone',
+     etapes:[
+       [['cmd','/usage'],['obs','Note the session\'s cost at the start.']],
+       [['msg','A real task, done as usual.'],['cmd','/usage'],['obs','Note the gap.']],
+       [['cmd','/clear'],['cmd','/model haiku'],['cmd','/effort low'],['msg','The same task, naming the file and the function.']],
+       [['cmd','/usage'],['obs','Compare both costs, and the result\'s quality.']]
+     ],
+     critere:'Two costs measured, and a sentence on what the cheaper version lost, if anything.'
+   },
+   cmds:['/clear','/compact','/context','/status'],
+   liens:[
+     {g:'Compare prices and limits', items:[
+       {t:'models.dev', u:'https://models.dev/', d:'An open database of models and their providers: input/output price, cache, context size.'},
+       {t:'Artificial Analysis', u:'https://artificialanalysis.ai/', d:'The price-to-quality ratio and speed of every model, measured independently.'}
+     ]}
+   ]}
+];
+
+const CMDS_FR = [
   {g:'Mesurer et alléger', cmd:'/context', args:'[all]', face:'contexte',
    quoi:'Montre ce qui remplit la fenêtre, sous forme de grille colorée.',
    detail:'Occupation par catégorie, suggestions pour les outils et la mémoire trop gourmands, alertes de capacité. all déplie le détail par élément.',
@@ -933,7 +1409,75 @@ const CMDS = [
 /voice off`}
 ];
 
-const COMPARE = {
+const CMDS_EN = [
+  {g:'Measure and lighten', cmd:'/context', args:'[all]', face:'contexte',
+   quoi:'Shows what fills the window, as a colored grid.',
+   detail:'Occupancy by category, suggestions for tools and memory eating too much, capacity alerts. all expands the per-item detail.',
+   quand:'At the start of a session for reference, then before and after any large file load.',
+   ex:`/context
+/context all`},
+  {g:'Measure and lighten', cmd:'/compact', args:'[instructions]', face:'contexte',
+   quoi:'Summarizes the conversation to free up space, keeping what you name.',
+   detail:'Without an instruction, the machine chooses what survives. With one, you protect a decision by name. The root CLAUDE.md is re-injected from disk after compaction.',
+   quand:'When the window fills up and the task continues. Before automatic compaction fires.',
+   ex:`/compact keep the constraint on src/types/db.ts word for word
+/compact keep the test outputs and diffs
+/compact keep the VAT rounding rules and the acceptance criteria`},
+  {g:'Manage sessions', cmd:'/rename', args:'[name]', face:'contexte',
+   quoi:'Gives the session a name, shown in the input bar.',
+   detail:'With no name, Claude Code generates one from the history. That\'s the name you find again in /resume.',
+   quand:'At the start of every task, before working. An unnamed session is a lost session.',
+   ex:`/rename vat-calc
+/rename`},
+  {g:'Manage sessions', cmd:'/branch', args:'[name]', face:'contexte',
+   quoi:'Branches the conversation at this point and switches you to it.',
+   detail:'The original stays untouched, and you return to it with /resume. For a copy that runs alongside without you, that\'s /fork.',
+   quand:'To try another approach without damaging the current conversation.',
+   ex:`/branch bankers-rounding-trial
+/resume vat-calc`},
+  {g:'Manage sessions', cmd:'/fork', args:'[prompt]', face:'subagents',
+   quoi:'Copies the conversation into a new background session, and you continue here.',
+   detail:'With a prompt, the copy gets to work right away; without one, it waits in the agents view. It creates its own worktree before touching code.',
+   quand:'To run in parallel a task that needs the full context, without blocking you.',
+   ex:`/fork write the regression tests for the VAT calculation`},
+  {g:'Manage sessions', cmd:'/resume', args:'[session]', alias:'/continue', face:'contexte',
+   quoi:'Resumes a conversation by name or ID, or opens the list.',
+   detail:'Background sessions show up marked bg. Resuming one that\'s still running attaches you to it, and the current conversation goes to the background.',
+   quand:'After a /clear, a /branch, or the next morning.',
+   ex:`/resume
+/resume vat-calc`},
+  {g:'Manage sessions', cmd:'/recap', args:'', face:'contexte',
+   quoi:'Generates a one-line summary of the current session.',
+   detail:'The same thing as the recap that shows up on its own when you come back after an absence, but on demand.',
+   quand:'Coming back from a break, or before handing off to a colleague.',
+   ex:`/recap`},
+  {g:'Manage sessions', cmd:'/clear', args:'[name]', alias:'/reset · /new', face:'contexte',
+   quoi:'Opens a new conversation, empty context. Project memory stays.',
+   detail:'The name passed labels the previous conversation in /resume. To lighten without changing conversation, that\'s /compact.',
+   quand:'As soon as the task changes. The program\'s only free move.',
+   ex:`/clear vat-calc-done
+/clear`},
+  {g:'Diagnose and connect', cmd:'/status', args:'', face:'modele',
+   quoi:'Opens settings on the Status tab: version, model, account, connectivity.',
+   detail:'Works while Claude is responding. The Session kind line says whether the session is interactive or in the background.',
+   quand:'Before a workshop, to check everyone is on the same version and the same model.',
+   ex:`/status`},
+  {g:'Diagnose and connect', cmd:'/mcp', args:'[reconnect | enable | disable]', face:'mcp',
+   quoi:'Manages connections to MCP servers and their OAuth authentication.',
+   detail:'With no argument, opens the interactive list. reconnect all restarts every failed server or one waiting on authentication. disable turns off a server without losing its configuration.',
+   quand:'After connecting a server, when a tool stops responding, or to turn off what isn\'t used.',
+   ex:`/mcp
+/mcp reconnect all
+/mcp disable notion`},
+  {g:'Diagnose and connect', cmd:'/voice', args:'[hold | tap | off]', face:'modele',
+   quoi:'Turns on voice dictation, in hold mode or toggle mode.',
+   detail:'hold: you talk as long as the key is held. tap: one press to start, one to stop. Requires a Claude.ai account.',
+   quand:'To describe a long problem faster than typing.',
+   ex:`/voice hold
+/voice off`}
+];
+
+const COMPARE_FR = {
   head:['commande','la conversation actuelle','ce que vous avez sous les yeux ensuite'],
   rows:[
     ['/compact','continue, résumée','la même conversation, allégée'],
@@ -945,7 +1489,19 @@ const COMPARE = {
   ]
 };
 
-const FLOW = [
+const COMPARE_EN = {
+  head:['command','the current conversation','what you see next'],
+  rows:[
+    ['/compact','continues, summarized','the same conversation, lightened'],
+    ['/clear','set aside, resumable via /resume','an empty conversation'],
+    ['/branch','kept intact','a full copy, you\'re inside it'],
+    ['/fork','continues here, with you','the same; the copy works in the background'],
+    ['/resume','set aside','the conversation resumed'],
+    ['/rename','unchanged','unchanged, only the name changes']
+  ]
+};
+
+const FLOW_FR = [
   ['/rename calcul-tva','Nommer avant de travailler.'],
   ['/status','Vérifier la version et le modèle.'],
   ['/context','Prendre la référence.'],
@@ -958,8 +1514,19 @@ const FLOW = [
   ['/clear calcul-tva-termine','Tâche suivante, contexte vide.']
 ];
 
-/* ─── mise en route — vérifiée sur code.claude.com/docs/en/setup ───
-   et github.com/mattpocock/skills pour les skills d'interrogation */
+const FLOW_EN = [
+  ['/rename vat-calc','Name it before working.'],
+  ['/status','Check the version and the model.'],
+  ['/context','Take the baseline reading.'],
+  ['…the work…','Read, modify, test.'],
+  ['/compact keep the rounding rules','The window fills up: choose what survives.'],
+  ['/branch rounding-trial','Try another approach with no risk.'],
+  ['/resume vat-calc','The trial doesn\'t hold: back to the original.'],
+  ['/fork write the regression tests','The tests head off in the background.'],
+  ['/recap','A break, then where things stand.'],
+  ['/clear vat-calc-done','Next task, empty context.']
+];
+
 const INSTALL = [
   {id:'unix', label:'macOS · Linux · WSL', lang:'bash', src:`curl -fsSL https://claude.ai/install.sh | bash`},
   {id:'ps', label:'Windows PowerShell', lang:'text', src:`irm https://claude.ai/install.ps1 | iex`},
@@ -971,7 +1538,7 @@ brew upgrade claude-code`},
 npm install -g @anthropic-ai/claude-code`}
 ];
 
-const STEPS = [
+const STEPS_FR = [
   {n:'1', t:'Investigation / Recherche', court:'Recherche',
    but:'Comprendre le code et le problème avant d\'écrire une ligne.',
    faire:`/plan explore la gestion des paiements et explique comment elle marche. Ne modifie rien.
@@ -1023,7 +1590,59 @@ crée la pull request avec gh pr create
    piege:'Un push sans regard humain. Mettre Bash(git push *) en ask dans settings.json.'}
 ];
 
-const SETUP = [
+const STEPS_EN = [
+  {n:'1', t:'Investigation / Research', court:'Research',
+   but:'Understand the code and the problem before writing a line.',
+   faire:`/plan explore payment handling and explain how it works. Don't change anything.
+@src/payment/
+# a broad read: let Claude delegate to an exploration sub-agent`,
+   sortie:'A map of the files involved and open questions, noted in NOTES.md.',
+   piege:'Letting Claude code on its very first response. In plan mode, it can\'t.'},
+  {n:'2', t:'Clarify the concepts', court:'Clarify',
+   but:'Every domain word has one meaning, and every choice has a written reason.',
+   faire:`/grill-with-docs I want to add 3-installment payment
+# one question at a time, until every branch is settled`,
+   sortie:'CONTEXT.md (the vocabulary) updated, and an ADR per hard decision.',
+   piege:'Accepting a vague term ("client", "order") that will mean two different things in the code.'},
+  {n:'3', t:'Breakdown → Plan', court:'Plan',
+   but:'Turn the decision into small, verifiable slices, in order.',
+   faire:`/plan read @docs/specs/payment-3x.md and propose a plan in testable steps
+# with Matt Pocock's skills:
+/to-spec
+/to-tickets`,
+   sortie:'A plan you\'ve approved, or tickets with their dependencies.',
+   piege:'A step that takes two days. If it doesn\'t fit in one session, split it further.'},
+  {n:'4', t:'Implementation', court:'Code',
+   but:'One slice at a time, in a clean session.',
+   faire:`/clear
+/rename payment-3x-ticket-2
+implement ticket 2 of the plan, starting with a failing test`,
+   sortie:'A diff limited to the slice, and its tests.',
+   piege:'Chaining three tickets in the same session: the context fills up, quality drops.'},
+  {n:'5', t:'Code review', court:'Review',
+   but:'Have it reviewed by eyes that didn\'t write the code.',
+   faire:`/code-review
+/simplify
+/security-review
+# then you: git diff`,
+   sortie:'A list of fixed gaps, and a diff you\'ve read yourself.',
+   piege:'Asking "is this good?" to the session that just wrote the code. /code-review launches fresh-context agents.'},
+  {n:'6', t:'Tests', court:'Tests',
+   but:'Prove it works, and that nothing else broke.',
+   faire:`run npm test and fix the failures without modifying the tests
+# or a PostToolUse hook that runs the tests after every write`,
+   sortie:'A green suite, and a test that would have failed before the fix.',
+   piege:'Claude modifying the test to make it pass. Forbid it in CLAUDE.md, and check for it in the diff.'},
+  {n:'7', t:'Commit / Deploy', court:'Ship',
+   but:'Ship a readable trace, and leave the next step resumable.',
+   faire:`commit with a conventional message that cites the ticket
+create the pull request with gh pr create
+/handoff`,
+   sortie:'A commit, a PR, and a handoff document for the next session.',
+   piege:'A push with no human look. Set Bash(git push *) to ask in settings.json.'}
+];
+
+const SETUP_FR = [
   {id:'quoi', titre:'Qu\'est-ce que Claude Code ?',
    lead:'Un agent qui code, dans votre terminal.',
    html:() => `<p>Claude Code est l'outil de développement agentique d'Anthropic. Vous décrivez ce que vous voulez en langage courant ; il lit votre code, le modifie, lance les commandes, et vous montre ce qu'il fait. Chaque action passe par vos permissions.</p>
@@ -1217,7 +1836,205 @@ utilise skill-creator pour améliorer .claude/skills/verif`})}
 
   {id:'etapes', n:'10', titre:'Les 7 étapes du développement',
    lead:'Chaque étape a son outil, et produit un fichier.',
-   html:() => `<div class="pipeline" id="pipeline">${STEPS.map((s,i)=>`${i?'<em>→</em>':''}<button data-step="${s.n}" aria-pressed="${S.step===s.n}"><i>${s.n}</i>${esc(s.court)}</button>`).join('')}</div>
+   html:() => `<div class="pipeline" id="pipeline">${STEPS_FR.map((s,i)=>`${i?'<em>→</em>':''}<button data-step="${s.n}" aria-pressed="${S.step===s.n}"><i>${s.n}</i>${esc(s.court)}</button>`).join('')}</div>
+    <div id="stepcard">${stepCard()}</div>`}
+];
+
+const SETUP_EN = [
+  {id:'quoi', titre:'What is Claude Code?',
+   lead:'An agent that codes, in your terminal.',
+   html:() => `<p>Claude Code is Anthropic's agentic development tool. You describe what you want in plain language; it reads your code, changes it, runs commands, and shows you what it's doing. Every action goes through your permissions.</p>
+    <div class="keys">
+      <div><b>Read files</b><span>Scans and understands the whole repo, not just the open file.</span></div>
+      <div><b>Write code</b><span>Creates, modifies and refactors files.</span></div>
+      <div><b>Run commands</b><span>Shell, tests, builds, linters.</span></div>
+      <div><b>Manage Git</b><span>Commits, branches, pull requests.</span></div>
+      <div><b>Connect</b><span>External services and team tools via MCP.</span></div>
+      <div><b>Keep memory</b><span>CLAUDE.md is re-read at the start of every session.</span></div>
+    </div>
+    <div class="tree">
+      <div><span class="p">Terminal</span><span class="d">The <code>claude</code> command: the reference interface</span></div>
+      <div><span class="p">VS Code · JetBrains</span><span class="d">Extension and plugin: diffs in the editor, context of the open file</span></div>
+      <div><span class="p">Desktop app</span><span class="d">The same thing without a terminal</span></div>
+      <div><span class="p">GitHub Actions</span><span class="d">Claude in CI: answering an issue, reviewing a PR</span></div>
+    </div>
+    <p class="note">The model isn't fixed: Opus, Sonnet or Haiku, your choice with <code>/model</code>. Claude Code is the harness around the model, the next section explains the difference.</p>`},
+
+  {id:'harnais', titre:'Which harness?',
+   lead:'The model thinks, the harness acts.',
+   html:() => `<p>Claude Code is a harness: a program that runs on your laptop, gives the model tools (read, write, run a command), manages its context and applies your permissions. The model itself runs at Anthropic and is chosen with <code>/model</code>.</p>
+    <div class="keys">
+      <div><b>claude.ai</b><span>The browser. No access to your files: you copy-paste.</span></div>
+      <div><b>Claude Code</b><span>The terminal. Your files, your shell, your repo.</span></div>
+      <div><b>The API</b><span>Your code. You write the harness yourself.</span></div>
+    </div>
+    <button class="golink" data-goschema>See the loop diagram →</button>`},
+
+  {id:'avant', titre:'Before installing',
+   lead:'A recent system, an account, a terminal.',
+   html:() => `<div class="keys">
+      <div><b>System</b><span>macOS 13+, Windows 10 (1809+), Ubuntu 20.04+, Debian 10+ or Alpine 3.19+. 4 GB RAM, x64 or ARM64 processor, internet connection.</span></div>
+      <div><b>Account</b><span>Pro, Max, Team or Enterprise subscription, or a Console account (pay-as-you-go). claude.ai's free plan doesn't include Claude Code.</span></div>
+      <div><b>Terminal</b><span>Bash, Zsh, PowerShell or CMD. The "The terminal" section explains how to open one.</span></div>
+      <div><b>Git</b><span>Recommended everywhere. On Windows, Git for Windows gives Claude a real Bash, otherwise it goes through PowerShell.</span></div>
+      <div><b>Node.js</b><span>Only for the npm install path: version 22 or later. The native installer doesn't need it.</span></div>
+      <div><b>API key</b><span>Optional. Useful for a Console account or a script, otherwise sign-in happens in the browser.</span><code>console.anthropic.com</code></div>
+    </div>
+    ${codeBlock({file:'check what you already have', lang:'bash', src:`git --version      # is Git there?
+node --version     # only if you're going through npm: v22 or later`})}
+    ${codeBlock({file:'optional: use an API key instead of the browser', lang:'bash', src:`# macOS / Linux: add to ~/.zshrc or ~/.bashrc to keep it
+export ANTHROPIC_API_KEY="sk-ant-..."
+# Windows PowerShell, for the current session:
+$env:ANTHROPIC_API_KEY="sk-ant-..."`})}
+    <p class="note">Older guides ask for Node 18 and a mandatory API key. That's no longer the case with the native installer. A key is never committed, and never pasted into CLAUDE.md.</p>`},
+
+  {id:'installer', titre:'Installing on your laptop',
+   lead:'Install, verify, sign in.',
+   html:() => `<p class="istep"><i>1</i><span><b>Install.</b> Choose your system. The native installer is recommended: it updates itself.</span></p>
+    <div class="seg" id="osseg" role="group" aria-label="System">${INSTALL.map(o=>`<button data-os="${o.id}" aria-pressed="${S.os===o.id}">${esc(o.label)}</button>`).join('')}</div>
+    <div id="oscode">${codeBlock({file:'terminal', lang:INSTALL.find(o=>o.id===S.os).lang, src:INSTALL.find(o=>o.id===S.os).src})}</div>
+    <p class="istep"><i>2</i><span><b>Verify.</b> Open a <em>new</em> terminal, so it finds the command.</span></p>
+    ${codeBlock({file:'terminal', lang:'bash', src:`claude --version   # shows a version number
+claude doctor      # diagnostic of the install and settings`})}
+    <p class="istep"><i>3</i><span><b>Sign in and start.</b> On first launch, Claude Code opens the browser to sign in. With ANTHROPIC_API_KEY set, it offers to use that instead.</span></p>
+    ${codeBlock({file:'terminal', lang:'bash', src:`claude             # opens a session, sign-in on first launch`})}
+    <div class="keys">
+      <div><b>"claude" not found</b><span>The install folder isn't on the PATH yet. Close and reopen the terminal, then rerun claude doctor.</span></div>
+      <div><b>VS Code extension</b><span>Search "Claude Code" in the extensions marketplace. JetBrains has its own plugin.</span></div>
+      <div><b>Updates</b><span>Automatic with the native installer. Homebrew, WinGet and npm: by hand.</span><code>claude update</code></div>
+    </div>`},
+
+  {id:'terminal', n:'03', titre:'The terminal',
+   lead:'Claude Code lives where you type your commands.',
+   html:() => `<div class="keys">
+      <div><b>macOS</b><span>Terminal or iTerm2. Cmd+Space, type "Terminal".</span></div>
+      <div><b>Windows</b><span>PowerShell shows <code>PS C:\\&gt;</code>, CMD shows <code>C:\\&gt;</code>. WSL for a Linux environment.</span></div>
+      <div><b>Inside the editor</b><span>VS Code's or JetBrains' built-in terminal. /ide links the session to the editor.</span><code>/ide</code></div>
+      <div><b>New line</b><span>Install Shift+Enter to write a multi-line message.</span><code>/terminal-setup</code></div>
+    </div>
+    ${codeBlock({file:'the four commands you need', lang:'bash', src:`pwd                     # where am I?
+ls                      # what's here?
+cd ~/projects/my-app    # go into the project
+code .                  # open the folder in VS Code`})}`},
+
+  {id:'projet', n:'04', titre:'Inside a specific project',
+   lead:'claude starts the session, /init writes the project memory.',
+   html:() => `<p>Claude Code works in the folder you launch it from. It sees that folder and its subfolders, loads the CLAUDE.md files along the path, and files history by project. Changing project means changing folder before typing <code>claude</code>.</p>
+    ${codeBlock({file:'terminal', lang:'bash', src:`cd ~/projects/my-app
+claude                         # opens a session in this project`})}
+    ${codeBlock({file:'Claude Code session', lang:'cmd', src:`/init
+# Claude reads the repo and writes a starting CLAUDE.md:
+# build and test commands, conventions, locations.
+# Review it, trim it to forty lines, then commit it.`})}
+    <div class="tree">
+      <div><span class="p">claude "explain the architecture"</span><span class="d">Starts with a first question</span></div>
+      <div><span class="p">claude -c</span><span class="d">Resumes this folder's last conversation</span></div>
+      <div><span class="p">claude -p "…"</span><span class="d">Answers once and returns control, no interactive session</span></div>
+      <div><span class="p">/resume</span><span class="d">Choose among this project's sessions</span></div>
+    </div>
+    <button class="golink" data-goface="claudemd">What CLAUDE.md should contain: face 02 →</button>`},
+
+  {id:'spec', n:'05', titre:'Reading a spec',
+   lead:'The spec is a file in the repo, not a pasted message.',
+   html:() => `<p>A spec pasted into the thread disappears at the first /clear and warps with every compaction. Filed in the repo, it gets re-read every session, gets versioned, and gets cited by section.</p>
+    <div class="tree">
+      <div><span class="p">docs/specs/&lt;feature&gt;.md</span><span class="d">What's being built: expected behavior, acceptance criteria</span></div>
+      <div><span class="p">docs/adr/</span><span class="d">Why it's built this way · next section</span></div>
+      <div><span class="p">CONTEXT.md</span><span class="d">The domain's vocabulary, one meaning per word</span></div>
+      <div><span class="p">CLAUDE.md</span><span class="d">A pointer to these folders, not their content</span></div>
+    </div>
+    ${codeBlock({file:'Claude Code session', lang:'cmd', src:`/plan read @docs/specs/payment-3x.md
+before planning, list what's ambiguous or missing in the spec.
+for each step of the plan, cite the spec section it covers.`})}
+    <p class="note">@ loads the whole file into context. In CLAUDE.md, write the path without @ ("specs are in docs/specs/"): Claude reads it when it needs to, instead of paying for it every turn.</p>`},
+
+  {id:'adr', n:'06', titre:'The ADR folder',
+   lead:'CLAUDE.md says what to do. An ADR says why.',
+   html:() => `<p>An ADR (Architecture Decision Record) notes an architectural decision: the context, what was chosen, what it costs. Without it, Claude sees an oddity and "fixes" it. With it, it knows it was intentional.</p>
+    <div class="keys">
+      <div><b>One decision per file</b><span>Numbered, short title.</span><code>docs/adr/0003-amounts-in-cents.md</code></div>
+      <div><b>Never rewritten</b><span>A decision that changes gets a new ADR, and the old one is marked "superseded by 0007".</span></div>
+      <div><b>Short</b><span>Four sections, one page at most.</span></div>
+      <div><b>Written during clarification</b><span>/grill-with-docs opens an ADR when a decision is hard to justify.</span></div>
+    </div>
+    ${codeBlock({file:'docs/adr/0003-amounts-in-cents.md', lang:'md', todo:true, src:`# 0003 · Amounts are stored as integer cents
+
+Status: accepted · 2026-10-09
+
+## Context
+Floats give 0.1 + 0.2 = 0.30000000000000004 on VAT totals.
+
+## Decision
+All amounts are stored and computed in cents, as an integer.
+Conversion to a decimal currency happens only at display time.
+
+## Consequences
+- No more rounding errors in calculations.
+- Every user input must be converted, and tested.`})}
+    ${codeBlock({file:'CLAUDE.md', lang:'md', src:`- Before changing the architecture, read docs/adr/.
+- Never contradict an accepted ADR without proposing a new one.`})}`},
+
+  {id:'skills', n:'07', titre:'Skills: with or without',
+   lead:'Same request, two results.',
+   html:() => `<p>Without instruction, the model takes the most probable path: the choices it has seen most often. A design skill gives it a contract (typography, palette, hierarchy) and a check before it delivers. Identical request: "a homepage for a budget-tracking app".</p>
+    <div class="twocol">
+      <div class="versus"><h4>Without a skill</h4>
+        <div class="mock gen" aria-hidden="true"><b>Revolutionize your budget</b><span>The all-in-one platform that simplifies your finances.</span><em>Get started</em><div class="cards"><i></i><i></i><i></i></div></div>
+        <ul><li>Purple gradient, everything centered</li><li>Generic tagline, three identical cards</li><li>No real data on screen</li></ul>
+      </div>
+      <div class="versus with"><h4>With a design skill</h4>
+        <div class="mock des" aria-hidden="true"><small>October · joint account</small><b>You have $412 left until the 31st.</b><div class="row"><span>$1,840<s>income</s></span><span>$1,428<s>spent</s></span><span>−6%<s>vs. September</s></span></div></div>
+        <ul><li>A restrained palette, a single accent</li><li>The useful number as the headline, left-aligned</li><li>A hierarchy that serves the task</li></ul>
+      </div>
+    </div>
+    <p class="mockcap">Schematic illustrations of both tendencies, not screenshots.</p>
+    ${codeBlock({file:'run the comparison yourself', lang:'cmd', src:`/skills
+# Space on the design skill to hide it from Claude, Esc
+create a homepage for a budget-tracking app in mockup-a.html
+/clear
+/skills
+# turn it back on, Esc
+create a homepage for a budget-tracking app in mockup-b.html`})}
+    <button class="golink" data-goface="skills">Writing and installing a skill: face 03 →</button>`},
+
+  {id:'skillcreator', n:'08', titre:'Creating a skill with skill-creator',
+   lead:'A skill that writes skills, then measures them.',
+   html:() => `<p>skill-creator is a skill published by Anthropic. It asks you what the new skill should do, writes the SKILL.md, then tests it: each case runs twice, with and without the skill, and the results are compared. It's the previous section's comparison, automated.</p>
+    ${codeBlock({file:'Claude Code session · install', lang:'cmd', src:`/plugin marketplace add anthropics/skills
+/plugin install example-skills@anthropic-agent-skills
+# the same plugin contains frontend-design, mcp-builder, webapp-testing…`})}
+    ${codeBlock({file:'Claude Code session · use', lang:'cmd', src:`use skill-creator to create a skill that reviews a diff against docs/adr/
+# or to improve an existing skill:
+use skill-creator to improve .claude/skills/verif`})}
+    <div class="loop"><span>intent</span><em>→</em><span>interview</span><em>→</em><span>SKILL.md</span><em>→</em><span>test cases</span><em>→</em><span>with / without</span><em>→</em><span>review</span><em>→</em><span>iteration</span></div>
+    <div class="keys">
+      <div><b>Test cases</b><span>Two or three realistic requests, filed in the skill's folder.</span><code>evals/evals.json</code></div>
+      <div><b>With and without</b><span>Each case runs with the skill and without, or against the previous version. Success rate, duration and tokens side by side.</span></div>
+      <div><b>The review</b><span>A results page opens. Your notes feed the next version, filed in a new iteration folder.</span></div>
+      <div><b>The description</b><span>About twenty requests that should, or shouldn't, trigger the skill. The description gets rewritten until it sorts correctly.</span></div>
+    </div>
+    <p class="note">skill-creator proposes, you judge. Review the produced SKILL.md against face 03's rules: description first, the essentials at the top. Trial runs go in a &lt;name&gt;-workspace/ folder, which goes in .gitignore.</p>`},
+
+  {id:'grill', n:'09', titre:'Interview, then hand off',
+   lead:'Get grilled before coding, hand off before closing.',
+   html:() => `<p>These commands don't ship with Claude Code: they're community skills, published by Matt Pocock. You install them once, then configure each repo.</p>
+    ${codeBlock({file:'Claude Code session', lang:'cmd', src:`/plugin install mattpocock-skills
+/setup-matt-pocock-skills
+# once per repo: ticketing tool, docs location`})}
+    <div class="tablewrap"><table>
+      <thead><tr><th>skill</th><th>who runs it</th><th>what it does</th></tr></thead>
+      <tbody>
+        <tr><td>/grill-me</td><td>you</td><td>Interviews you about a plan or a design, one question at a time, until every branch is settled. Works outside code too.</td></tr>
+        <tr><td>/grill-with-docs</td><td>you</td><td>The same interview, which updates CONTEXT.md and the ADRs as it goes.</td></tr>
+        <tr><td>grilling</td><td>Claude</td><td>The interview building block reused by the first two. Claude loads it on its own: you never type it.</td></tr>
+        <tr><td>/handoff</td><td>you</td><td>Summarizes the conversation into a handoff document, so another session or another agent can pick it up.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">/handoff, /compact and /recap all three summarize. /compact lightens the current session, /recap fits in one line, /handoff produces a document for someone else. Don't install both the plugin and the npx skills copy: every skill would show up twice.</p>`},
+
+  {id:'etapes', n:'10', titre:'The 7 steps of development',
+   lead:'Each step has its tool, and produces a file.',
+   html:() => `<div class="pipeline" id="pipeline">${STEPS_EN.map((s,i)=>`${i?'<em>→</em>':''}<button data-step="${s.n}" aria-pressed="${S.step===s.n}"><i>${s.n}</i>${esc(s.court)}</button>`).join('')}</div>
     <div id="stepcard">${stepCard()}</div>`}
 ];
 
@@ -1226,8 +2043,68 @@ utilise skill-creator pour améliorer .claude/skills/verif`})}
    ═══════════════════════════════════════════════════════════════════ */
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const ALL = [CORE, ...FACES];
-const TABS_ALL = [['description','Description'],['fonctionnement','Fonctionnement'],['ou','Emplacement'],['cles','Éléments clés'],['pratique','Pratique'],['liens','Ressources']];
+
+/* ─── langue ─── */
+const UI_FR = {
+  viewHarnais:'Le harnais', viewCommandes:'Les commandes', viewDemarrer:'Mise en route',
+  smallerTitle:'Texte plus petit (−)', biggerTitle:'Texte plus grand (+)', presentTitle:'Mode présentation (P)', presentLabel:'Présenter',
+  harnaisH1:'Le harnais Claude Code', harnaisP:'Un modèle au centre, sept faces autour. Cliquez une face, ou utilisez ← →.',
+  commandesH1:'Les commandes à connaître', commandesP:'Onze commandes pour mesurer le contexte, gérer ses sessions et vérifier ce qui est branché. Chacune se tape au début d\'un message, dans une session Claude Code.',
+  compareH3:'Que devient la conversation ?', compareP:'Six commandes touchent à la conversation en cours, et aucune ne fait la même chose.',
+  flowH3:'Une session type, de bout en bout', flowP:'Les commandes dans l\'ordre où on les rencontre sur une vraie tâche.',
+  demarrerH1:'Mise en route', demarrerP:'De l\'installation sur votre portable jusqu\'au commit : où taper quoi, dans quel ordre, et pourquoi.',
+  theCenter:'le centre', facePrefix:'face ', coreCardHtml:'Le<br>modèle',
+  relatedCommands:'Commandes liées',
+  successCriterion:'critère de réussite',
+  legendCmd:'commande', legendMsg:'message à Claude', legendObs:'à observer',
+  aliasPrefix:'alias ',
+  toReplace:'à remplacer', copy:'copier', copied:'copié', copyFailed:'copie impossible',
+  claudeSession:'session Claude Code',
+  detailLabel:'en détail', whenLabel:'quand', faceLabel:'face',
+  goalLabel:'le but', outputLabel:'ce qui sort', trapLabel:'le piège',
+  setupKicker:'mise en route'
+};
+const UI_EN = {
+  viewHarnais:'Harness', viewCommandes:'Commands', viewDemarrer:'Getting started',
+  smallerTitle:'Smaller text (−)', biggerTitle:'Larger text (+)', presentTitle:'Presentation mode (P)', presentLabel:'Present',
+  harnaisH1:'The Claude Code harness', harnaisP:'A model at the center, seven faces around it. Click a face, or use ← →.',
+  commandesH1:'Commands worth knowing', commandesP:'Eleven commands for measuring context, managing sessions and checking what\'s connected. Each is typed at the start of a message, in a Claude Code session.',
+  compareH3:'What happens to the conversation?', compareP:'Six commands touch the current conversation, and none of them do the same thing.',
+  flowH3:'A typical session, start to finish', flowP:'The commands in the order you meet them on a real task.',
+  demarrerH1:'Getting started', demarrerP:'From installing it on your laptop to the commit: what to type where, in what order, and why.',
+  theCenter:'the center', facePrefix:'face ', coreCardHtml:'The<br>model',
+  relatedCommands:'Related commands',
+  successCriterion:'success criterion',
+  legendCmd:'command', legendMsg:'message to Claude', legendObs:'to observe',
+  aliasPrefix:'alias ',
+  toReplace:'to replace', copy:'copy', copied:'copied', copyFailed:'copy failed',
+  claudeSession:'Claude Code session',
+  detailLabel:'in detail', whenLabel:'when', faceLabel:'face',
+  goalLabel:'the goal', outputLabel:'what comes out', trapLabel:'the trap',
+  setupKicker:'getting started'
+};
+let LANG, CORE, FACES, CMDS, COMPARE, FLOW, STEPS, SETUP, SCHEMA_HARNAIS, TABS_ALL, UI, ALL;
+function applyLang(lang){
+  LANG = lang;
+  CORE = lang === 'fr' ? CORE_FR : CORE_EN;
+  FACES = lang === 'fr' ? FACES_FR : FACES_EN;
+  CMDS = lang === 'fr' ? CMDS_FR : CMDS_EN;
+  COMPARE = lang === 'fr' ? COMPARE_FR : COMPARE_EN;
+  FLOW = lang === 'fr' ? FLOW_FR : FLOW_EN;
+  STEPS = lang === 'fr' ? STEPS_FR : STEPS_EN;
+  SETUP = lang === 'fr' ? SETUP_FR : SETUP_EN;
+  SCHEMA_HARNAIS = lang === 'fr' ? SCHEMA_HARNAIS_FR : SCHEMA_HARNAIS_EN;
+  UI = lang === 'fr' ? UI_FR : UI_EN;
+  TABS_ALL = lang === 'fr'
+    ? [['description','Description'],['fonctionnement','Fonctionnement'],['ou','Emplacement'],['cles','Éléments clés'],['pratique','Pratique'],['liens','Ressources']]
+    : [['description','Description'],['fonctionnement','How it works'],['ou','Location'],['cles','Key points'],['pratique','Practice'],['liens','Resources']];
+  ALL = [CORE, ...FACES];
+  document.documentElement.lang = lang;
+}
+let initialLang = 'fr';
+try { if (localStorage.getItem('hrm-lang') === 'en') initialLang = 'en'; } catch {}
+applyLang(initialLang);
+
 const tabsFor = f => TABS_ALL.filter(([id]) =>
   (id !== 'liens' || f.liens) && (id !== 'fonctionnement' || f.comment_cela_fonctionne));
 const stepsList = etapes => `<ol class="steps">${etapes.map(st=>`<li><div>${st.map(([k,t])=>`<p class="line" data-k="${k}"><i>${k==='cmd'?'$':k==='msg'?'&gt;':'·'}</i><span>${esc(t)}</span></p>`).join('')}</div></li>`).join('')}</ol>`;
@@ -1267,15 +2144,16 @@ function hl(src, lang){
   return out + esc(src.slice(last));
 }
 const codeBlock = c => `<figure class="code"><figcaption><span class="file">${esc(c.file)}</span>${
-  c.todo ? '<span class="todo">à remplacer</span>' : ''}<button type="button" data-copy>copier</button></figcaption>
+  c.todo ? `<span class="todo">${UI.toReplace}</span>` : ''}<button type="button" data-copy>${UI.copy}</button></figcaption>
   <pre><code>${hl(c.src, c.lang)}</code></pre></figure>`;
 
 /* ─── étoile ─── */
 function buildStar(){
   const star = $('#star'); let lines = '';
+  star.innerHTML = '';
   const core = document.createElement('button');
   core.className = 'node core'; core.dataset.face = CORE.id;
-  core.innerHTML = `<i>le centre</i><b>Le<br>modèle</b>`;
+  core.innerHTML = `<i>${UI.theCenter}</i><b>${UI.coreCardHtml}</b>`;
   star.appendChild(core);
   FACES.forEach((f, i) => {
     const a = -Math.PI/2 + i*2*Math.PI/FACES.length, R = 39;
@@ -1292,7 +2170,7 @@ function buildStar(){
   document.querySelectorAll('button[data-face]').forEach(el => el.onclick = () => selectFace(el.dataset.face));
 }
 
-const cmdChips = f => f.cmds && f.cmds.length ? `<div class="chips"><span class="lbl">Commandes liées</span>${
+const cmdChips = f => f.cmds && f.cmds.length ? `<div class="chips"><span class="lbl">${UI.relatedCommands}</span>${
   f.cmds.map(c=>`<button class="chip" data-gocmd="${c}">${c}</button>`).join('')}</div>` : '';
 
 function tabContent(f, tab){
@@ -1309,7 +2187,7 @@ function tabContent(f, tab){
     return `<div class="exo-head"><h3>${esc(c.titre)}</h3></div>
       ${c.schema ? `<figure class="schema">${c.schema}${c.legende ? `<figcaption>${esc(c.legende)}</figcaption>` : ''}</figure>` : ''}
       ${c.etapes && c.etapes.length ? stepsList(c.etapes) : ''}
-      ${c.critere ? `<div class="critere"><b>critère de réussite</b>${esc(c.critere)}</div>` : ''}`;
+      ${c.critere ? `<div class="critere"><b>${UI.successCriterion}</b>${esc(c.critere)}</div>` : ''}`;
   }
   if (tab === 'ou') return `<p>${esc(f.ou.texte)}</p>
       <div class="tree">${f.ou.tree.map(([p,d])=>`<div><span class="p">${esc(p)}</span><span class="d">${esc(d)}</span></div>`).join('')}</div>
@@ -1320,9 +2198,9 @@ function tabContent(f, tab){
     g.items.map(l=>`<li><a href="${esc(l.u)}" target="_blank" rel="noopener"><b>${esc(l.t)}<small>${esc(l.u.replace(/^https:\/\/(www\.)?/,'').replace(/\/$/,''))}</small></b><span>${esc(l.d)}${l.warn?`<em>⚠ ${esc(l.warn)}</em>`:''}</span></a></li>`).join('')}</ul></div>`).join('')}</div>`;
   const p = f.pratique;
   return `<div class="exo-head"><h3>${esc(p.titre)}</h3><span>${esc(p.duree)}</span></div>
-    <div class="legend"><span>$ commande</span><span>&gt; message à Claude</span><span>· à observer</span></div>
+    <div class="legend"><span>$ ${UI.legendCmd}</span><span>&gt; ${UI.legendMsg}</span><span>· ${UI.legendObs}</span></div>
     ${stepsList(p.etapes)}
-    <div class="critere"><b>critère de réussite</b>${esc(p.critere)}</div>`;
+    <div class="critere"><b>${UI.successCriterion}</b>${esc(p.critere)}</div>`;
 }
 
 function renderPanel(){
@@ -1330,7 +2208,7 @@ function renderPanel(){
   document.querySelectorAll('button[data-face]').forEach(el => el.setAttribute('aria-current', String(el.dataset.face === S.face)));
   document.querySelectorAll('#starlines line').forEach(l => l.classList.toggle('on', l.dataset.face === S.face));
   $('#panel').innerHTML = `
-    <p class="kicker"><b>${f.id === 'modele' ? 'le centre' : 'face '+f.n}</b> · ${esc(f.sub)}</p>
+    <p class="kicker"><b>${f.id === 'modele' ? UI.theCenter : UI.facePrefix+f.n}</b> · ${esc(f.sub)}</p>
     <h2>${esc(f.titre)}</h2>
     <p class="punch">${esc(f.punch)}</p>
     <p class="def">${esc(f.def)}</p>

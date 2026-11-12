@@ -6,42 +6,36 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const types = [...new Set(resources.map((r) => r.type))];
   const tags = [...new Set(resources.flatMap((r) => r.tags))];
-  const state = { type: 'all', tag: 'all' };
+  const state = { types: new Set(), tags: new Set() };
 
   const typeFilter = document.getElementById('type-filter');
   const tagFilter = document.getElementById('tag-filter');
   const list = document.getElementById('resource-list');
 
-  function pill(value, label, active, onClick) {
-    const btn = document.createElement('button');
-    btn.className = 'pill';
-    btn.textContent = label;
-    btn.setAttribute('aria-pressed', String(active));
-    btn.addEventListener('click', onClick);
-    return btn;
+  function checkbox(value, label, checked, onChange) {
+    const row = document.createElement('label');
+    row.className = 'check-opt';
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.checked = checked;
+    input.addEventListener('change', () => onChange(input.checked));
+    row.append(input, document.createTextNode(label));
+    return row;
   }
 
   function renderFilters() {
     typeFilter.innerHTML = '';
-    typeFilter.appendChild(pill('all', HRM.t('configs.filter.all'), state.type === 'all', () => {
-      state.type = 'all';
-      render();
-    }));
     types.forEach((type) => {
-      typeFilter.appendChild(pill(type, HRM.t(`configs.type.${type}`), state.type === type, () => {
-        state.type = type;
+      typeFilter.appendChild(checkbox(type, HRM.t(`configs.type.${type}`), state.types.has(type), (checked) => {
+        checked ? state.types.add(type) : state.types.delete(type);
         render();
       }));
     });
 
     tagFilter.innerHTML = '';
-    tagFilter.appendChild(pill('all', HRM.t('configs.filter.all'), state.tag === 'all', () => {
-      state.tag = 'all';
-      render();
-    }));
     tags.forEach((tag) => {
-      tagFilter.appendChild(pill(tag, tag, state.tag === tag, () => {
-        state.tag = tag;
+      tagFilter.appendChild(checkbox(tag, tag, state.tags.has(tag), (checked) => {
+        checked ? state.tags.add(tag) : state.tags.delete(tag);
         render();
       }));
     });
@@ -57,8 +51,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   function renderList() {
     const filtered = resources.filter(
       (r) =>
-        (state.type === 'all' || r.type === state.type) &&
-        (state.tag === 'all' || r.tags.includes(state.tag))
+        (state.types.size === 0 || state.types.has(r.type)) &&
+        (state.tags.size === 0 || r.tags.some((t) => state.tags.has(t)))
     );
 
     list.innerHTML = '';

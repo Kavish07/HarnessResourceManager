@@ -8,7 +8,6 @@
   "configs.subtitle": "La source de vérité pour chaque skill, agent, hook et serveur MCP réutilisable. Exportez-en un avec le CLI skills, ou tout un bundle avec scripts/bootstrap.js.",
   "configs.filter.type": "Type",
   "configs.filter.tag": "Étiquette",
-  "configs.filter.all": "Tous",
   "configs.empty": "Rien ne correspond à ces filtres pour l'instant.",
   "configs.type.skill": "Skill",
   "configs.type.agent": "Agent",
