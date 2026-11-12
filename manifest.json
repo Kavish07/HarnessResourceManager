@@ -17,6 +17,22 @@
   },
   {
     "type": "skill",
+    "name": "designer",
+    "description": "Checklist for producing an implementable UI spec (screens, flows, dashboards, forms, charts) with wireframes, every component state, role-based visibility and WCAG 2.1 AA accessibility. Use when asked to design, wireframe, lay out or improve the UX of a screen, dashboard, form or component, or before a frontend task whose screen has no spec.",
+    "path": "skills/designer",
+    "tags": [
+      "design",
+      "ui"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "skill",
     "name": "grill-me",
     "description": "A relentless interview to sharpen a plan or design.",
     "path": "skills/grill-me",
