@@ -55,6 +55,9 @@ header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:28px
 .views{display:flex;gap:4px;border:1px solid var(--line);border-radius:999px;padding:3px}
 .views button{padding:6px 16px;border-radius:999px;font-size:14px;color:var(--fg50)}
 .views button[aria-pressed="true"]{background:var(--teal);color:var(--ink);font-weight:600}
+.lang-toggle{display:flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px}
+.lang-toggle button{font-family:var(--mono);font-size:var(--fs-sm);color:var(--fg50);background:none;border:none;border-radius:999px;padding:4px 11px}
+.lang-toggle button[aria-pressed="true"]{background:var(--teal);color:var(--ink);font-weight:600}
 .tools{margin-left:auto;display:flex;gap:6px;align-items:center}
 .tools button{border:1px solid var(--line);border-radius:6px;padding:5px 11px;font-size:13px;color:var(--fg50)}
 .tools button:hover{color:var(--white);border-color:var(--fg30)}
@@ -298,7 +301,6 @@ body.present .harness{grid-template-columns:minmax(260px,360px) minmax(0,1fr)}
 @media (max-width:640px){
   header{padding:12px 16px;gap:12px}
   main{padding:24px 16px 56px}
-  .tools .hide-small{display:none}
   .tree div,.links a{grid-template-columns:1fr;gap:4px}
   .cmdcard dl{grid-template-columns:1fr;gap:4px}
   .cmdcard dd{margin-bottom:10px}
@@ -324,10 +326,8 @@ body.present .harness{grid-template-columns:minmax(260px,360px) minmax(0,1fr)}
     <button data-view="demarrer" aria-pressed="false" data-ui="viewDemarrer">Mise en route</button>
   </div>
   <div class="tools">
-    <button id="smaller" class="hide-small" title="Texte plus petit (−)" data-ui-title="smallerTitle">A−</button>
-    <button id="bigger" class="hide-small" title="Texte plus grand (+)" data-ui-title="biggerTitle">A+</button>
     <button id="present" aria-pressed="false" title="Mode présentation (P)" data-ui-title="presentTitle" data-ui="presentLabel">Présenter</button>
-    <div class="views" role="group" aria-label="Language" style="margin-left:6px">
+    <div class="lang-toggle" role="group" aria-label="Language" style="margin-left:6px">
       <button data-lang="fr" aria-pressed="true">FR</button>
       <button data-lang="en" aria-pressed="false">EN</button>
     </div>
@@ -2052,7 +2052,7 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 /* ─── langue ─── */
 const UI_FR = {
   viewHarnais:'Le harnais', viewCommandes:'Les commandes', viewDemarrer:'Mise en route',
-  smallerTitle:'Texte plus petit (−)', biggerTitle:'Texte plus grand (+)', presentTitle:'Mode présentation (P)', presentLabel:'Présenter',
+  presentTitle:'Mode présentation (P)', presentLabel:'Présenter',
   harnaisH1:'Le harnais Claude Code', harnaisP:'Un modèle au centre, sept faces autour. Cliquez une face, ou utilisez ← →.',
   commandesH1:'Les commandes à connaître', commandesP:'Onze commandes pour mesurer le contexte, gérer ses sessions et vérifier ce qui est branché. Chacune se tape au début d\'un message, dans une session Claude Code.',
   compareH3:'Que devient la conversation ?', compareP:'Six commandes touchent à la conversation en cours, et aucune ne fait la même chose.',
@@ -2071,7 +2071,7 @@ const UI_FR = {
 };
 const UI_EN = {
   viewHarnais:'Harness', viewCommandes:'Commands', viewDemarrer:'Getting started',
-  smallerTitle:'Smaller text (−)', biggerTitle:'Larger text (+)', presentTitle:'Presentation mode (P)', presentLabel:'Present',
+  presentTitle:'Presentation mode (P)', presentLabel:'Present',
   harnaisH1:'The Claude Code harness', harnaisP:'A model at the center, seven faces around it. Click a face, or use ← →.',
   commandesH1:'Commands worth knowing', commandesP:'Eleven commands for measuring context, managing sessions and checking what\'s connected. Each is typed at the start of a message, in a Claude Code session.',
   compareH3:'What happens to the conversation?', compareP:'Six commands touch the current conversation, and none of them do the same thing.',
@@ -2322,9 +2322,6 @@ function setScale(s){
   S.scale = Math.min(1.5, Math.max(.85, Math.round(s*100)/100));
   document.documentElement.style.setProperty('--scale', S.scale); store.set('scale', S.scale);
 }
-$('#bigger').onclick = () => setScale(S.scale + .08);
-$('#smaller').onclick = () => setScale(S.scale - .08);
-
 function togglePresent(){
   const on = !document.body.classList.contains('present');
   document.body.classList.toggle('present', on);
@@ -2368,8 +2365,6 @@ document.addEventListener('keydown', e => {
   else if (k === 'c' || k === 'C') setView('commandes');
   else if (k === 'm' || k === 'M') setView('demarrer');
   else if (k === 'p' || k === 'P') togglePresent();
-  else if (k === '+' || k === '=') setScale(S.scale + .08);
-  else if (k === '-') setScale(S.scale - .08);
 });
 
 /* ─── démarrage ─── */
