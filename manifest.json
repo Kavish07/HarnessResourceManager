@@ -1,11 +1,43 @@
 [
   {
     "type": "skill",
+    "name": "accessibility",
+    "description": "Audit and improve web accessibility following WCAG 2.2 guidelines. Use when asked to \"improve accessibility\", \"a11y audit\", \"WCAG compliance\", \"screen reader support\", \"keyboard navigation\", or \"make accessible\".",
+    "path": "skills/accessibility",
+    "tags": [
+      "design",
+      "accessibility"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "skill",
     "name": "grill-me",
     "description": "A relentless interview to sharpen a plan or design.",
     "path": "skills/grill-me",
     "tags": [
       "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "grill-with-docs",
+    "description": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.",
+    "path": "skills/grill-with-docs",
+    "tags": [
+      "planning",
+      "docs"
     ],
     "harnesses": {
       "claude-code": "native",
@@ -26,6 +58,244 @@
       "claude-code": "native",
       "cursor": "native",
       "codex": "native",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "security-audit",
+    "description": "Security guidance and vulnerability review for codebases, APIs, services, CLI tools, libraries, and daemons. Use for security questions, focused reviews, vulnerability research, security audits, or pen tests. Run the complete workflow only for explicit codebase audit or pen-test requests, full/comprehensive/end-to-end reviews, or requested report artifacts.",
+    "path": "skills/security-audit",
+    "tags": [
+      "security"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "seo",
+    "description": "Optimize for search engine visibility and ranking. Use when asked to \"improve SEO\", \"optimize for search\", \"fix meta tags\", \"add structured data\", \"sitemap optimization\", or \"search engine optimization\".",
+    "path": "skills/seo",
+    "tags": [
+      "seo"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "tdd",
+    "description": "Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests.",
+    "path": "skills/tdd",
+    "tags": [
+      "testing"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "ui-slop",
+    "description": "UI and visual skill for avoiding AI-slop interfaces. Use when building or editing any interface: color, layout, components, motion, and page performance.",
+    "path": "skills/ui-slop",
+    "tags": [
+      "design",
+      "ui"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "architect",
+    "description": "Technical architect. Designs a feature or spec area before code is written (data model, migrations, API contract, auth rules, module structure, test strategy) and records significant decisions as ADRs. Use proactively before implementing any area that has no design doc, or when asked \"how should we build X\".",
+    "path": "agents/architect.md",
+    "tags": [
+      "sdlc",
+      "architecture"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "backend-developer",
+    "description": "Backend developer. Implements data migrations, models, services, API endpoints, validation, authorization and audit logging for this project's backend stack, with tests. Use for any backend implementation task.",
+    "path": "agents/backend-developer.md",
+    "tags": [
+      "sdlc",
+      "backend"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "code-reviewer",
+    "description": "Senior code reviewer. Reviews changed files or a named feature for correctness bugs, security and data-protection issues, violations of the project's own stated rules, performance (N+1, missing pagination), readability and test gaps, and reports prioritized, verified findings with concrete fixes. Read-only. Use proactively after any implementation task, or when asked to review code.",
+    "path": "agents/code-reviewer.md",
+    "tags": [
+      "sdlc",
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "designer",
+    "description": "UI/UX designer. Designs screens, flows, dashboards, forms and components as implementable specs with wireframes, all component states, role-based visibility and WCAG 2.1 AA accessibility, and maintains the design system. Use when asked to design, wireframe, lay out or improve the UX of a screen, or before a frontend task whose screen has no spec.",
+    "path": "agents/designer.md",
+    "tags": [
+      "sdlc",
+      "design"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "devops-engineer",
+    "description": "DevOps and platform engineer. Sets up and maintains local and CI infrastructure, environment configuration, CI pipelines, deployment config, health checks and logging config. Use for foundation/setup work, build or CI problems, and deployment configuration.",
+    "path": "agents/devops-engineer.md",
+    "tags": [
+      "sdlc",
+      "devops"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "explorer",
+    "description": "Fast, read-only explorer for this repository. Finds where things live and answers \"where is / how does / what exists\" questions across the codebase and docs, returning concise conclusions with file:line references instead of file dumps. Use before implementing or designing to locate existing code, patterns, requirements, or conventions, or when a search may need several attempts.",
+    "path": "agents/explorer.md",
+    "tags": [
+      "sdlc",
+      "exploration"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "frontend-developer",
+    "description": "Frontend developer. Builds screens from UI specs, typed API calls, route guards, forms, tables and dashboards for this project's frontend stack, with tests and lint. Use for any frontend implementation or scaffolding task.",
+    "path": "agents/frontend-developer.md",
+    "tags": [
+      "sdlc",
+      "frontend"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "planner",
+    "description": "Delivery planner. Turns a goal, PRD, or design doc into an ordered, dependency-aware implementation plan of small, independently testable tasks, each with acceptance criteria, files to touch, and the agent best suited to do it. Use when asked to plan, break down, sequence, or estimate work, \"what should we build next\", or before starting a multi-step feature.",
+    "path": "agents/planner.md",
+    "tags": [
+      "sdlc",
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "qa-analyst",
+    "description": "QA analyst for end-to-end testing. Derives user-journey test scenarios from requirements and UI specs, writes and maintains E2E tests that drive the real app end to end, covers role-based access and accessibility, and diagnoses failing or flaky E2E runs. Use when asked for E2E, acceptance, smoke, regression or user-journey tests, a test plan for a feature, or to verify a feature works for each role.",
+    "path": "agents/qa-analyst.md",
+    "tags": [
+      "sdlc",
+      "testing",
+      "qa"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "security-reviewer",
+    "description": "Security and data-protection reviewer. Audits authentication and authorization, OWASP Top 10 risks, sensitive-data handling (logging, masking, export, retention), file uploads, secrets, CORS and dependency risks. Read-only. Use after every `code-reviewer` pass, for any change touching auth/data/uploads, and before a release.",
+    "path": "agents/security-reviewer.md",
+    "tags": [
+      "sdlc",
+      "security"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
+      "antigravity": "unknown"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "test-engineer",
+    "description": "Test engineer. Writes and fixes unit, integration and component tests and test infrastructure, finds coverage gaps against requirements, and diagnoses failing or flaky tests. Use when asked to add tests, improve coverage, test a feature, or investigate a failing test.",
+    "path": "agents/test-engineer.md",
+    "tags": [
+      "sdlc",
+      "testing"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim",
       "antigravity": "unknown"
     }
   }

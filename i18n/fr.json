@@ -2,6 +2,7 @@
   "site.title": "Harness Resource Manager",
   "nav.configs": "Configs",
   "nav.stacks": "Choix de stack",
+  "nav.guide": "Guide du harnais",
   "configs.kicker": "skills · agents · hooks · mcp",
   "configs.title": "Bibliothèque de configs",
   "configs.subtitle": "La source de vérité pour chaque skill, agent, hook et serveur MCP réutilisable. Exportez-en un avec le CLI skills, ou tout un bundle avec scripts/bootstrap.js.",

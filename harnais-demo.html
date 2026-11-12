@@ -1,0 +1,1483 @@
+<!doctype html>
+<!--
+  Claude Code — démo interactive
+
+  MODIFIER LE CONTENU
+  Tout le texte vit dans le bloc <script> en bas : CORE (le centre), FACES (les 7 faces),
+  CMDS (les commandes), et pour la vue Mise en route : INSTALL, SETUP (les sections) et
+  STEPS (les 7 étapes). Le rendu se fait à partir de ces données.
+
+  AJOUTER VOS EXEMPLES DE CODE
+  Dans chaque face, le tableau `code` (sous `ou`) liste les fichiers d'exemple :
+    { file:'.claude/settings.json', lang:'json', todo:true, src:`…votre code…` }
+  - collez votre code entre les accents graves ` `. Écrivez \${ au lieu de ${ et \` au lieu de `.
+  - lang : json · bash · md · cmd · text
+  - retirez todo:true une fois votre code collé (l'étiquette « à remplacer » disparaît).
+
+  CLAVIER
+  ← →  face précédente / suivante     1 à 6  onglets     ↑ ↓  commande (vue commandes)
+  H  vue harnais     C  vue commandes     M  mise en route     P  mode présentation     + −  taille du texte
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#A7C9CF; --teal-900:#2E4549; --teal-700:#7FA8AF; --ivory:#F4ECDC;
+  --ink:#0E0E0E; --white:#FFFFFF; --panel:#141414;
+  --fg50:rgba(255,255,255,.56); --fg30:rgba(255,255,255,.32);
+  --line:rgba(255,255,255,.15); --line-thin:rgba(255,255,255,.08); --fill:rgba(255,255,255,.04);
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --body:"Inter Tight",-apple-system,system-ui,"Segoe UI",sans-serif;
+  --serif:"Instrument Serif","Iowan Old Style",Georgia,serif;
+  --caption:"DM Mono","JetBrains Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --scale:1;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:calc(16px * var(--scale))}
+body{margin:0;background:var(--ink);color:var(--white);font-family:var(--body);font-size:1rem;
+  line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;padding:0;text-align:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+code{font-family:var(--mono);font-size:.86em;background:var(--fill);padding:1px 6px;border-radius:4px}
+
+/* ── barre du haut ─────────────────────────────────────────────── */
+header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+  padding:14px 32px;background:var(--ink);border-bottom:1px solid var(--line-thin)}
+.wordmark{font-family:var(--mono);font-weight:500;font-size:21px;letter-spacing:-.02em}
+.wordmark span{color:var(--teal)}
+.views{display:flex;gap:4px;border:1px solid var(--line);border-radius:999px;padding:3px}
+.views button{padding:6px 16px;border-radius:999px;font-size:14px;color:var(--fg50)}
+.views button[aria-pressed="true"]{background:var(--teal);color:var(--ink);font-weight:600}
+.tools{margin-left:auto;display:flex;gap:6px;align-items:center}
+.tools button{border:1px solid var(--line);border-radius:6px;padding:5px 11px;font-size:13px;color:var(--fg50)}
+.tools button:hover{color:var(--white);border-color:var(--fg30)}
+.tools button[aria-pressed="true"]{color:var(--teal);border-color:var(--teal-700)}
+
+main{max-width:1440px;margin:0 auto;padding:40px 32px 72px}
+.view[hidden]{display:none}
+
+/* ── vue harnais ───────────────────────────────────────────────── */
+.harness{display:grid;grid-template-columns:minmax(300px,440px) minmax(0,1fr);gap:56px;align-items:start}
+.starcol{position:sticky;top:96px}
+.intro h1{font-weight:600;font-size:clamp(28px,2.6vw,38px);text-transform:uppercase;letter-spacing:-.01em;line-height:1.05;margin:0 0 10px}
+.intro p{color:var(--fg50);margin:0 0 26px;max-width:40ch;font-size:.94rem}
+.star{position:relative;aspect-ratio:1;width:100%}
+.star svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.star line{stroke:var(--line);stroke-width:.35;transition:stroke .2s var(--ease)}
+.star line.on{stroke:var(--teal);stroke-width:.6}
+.node{position:absolute;transform:translate(-50%,-50%);border-radius:999px;background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  transition:background .2s var(--ease),border-color .2s var(--ease)}
+.node.core{left:50%;top:50%;width:36%;aspect-ratio:1;border:2px solid var(--teal)}
+.node.core b{font-size:clamp(16px,1.7vw,22px);font-weight:600;text-transform:uppercase;color:var(--teal);line-height:1.05}
+.node.core i{font-style:normal;font-family:var(--caption);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg50);margin-bottom:4px}
+.node.face{width:23%;aspect-ratio:1;border:1px solid var(--line);padding:6px;gap:2px}
+.node.face i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--fg30)}
+.node.face b{font-size:clamp(9.5px,.95vw,12px);font-weight:600;text-transform:uppercase;letter-spacing:.02em;line-height:1.1}
+.node:hover{border-color:var(--fg50)}
+.node[aria-current="true"]{background:var(--teal-900);border-color:var(--teal)}
+.node.face[aria-current="true"]{border-width:2px}
+.node.face[aria-current="true"] b{color:var(--teal)}
+.facelist{display:none;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.facelist button{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px}
+.facelist button[aria-current="true"]{border-color:var(--teal);color:var(--teal)}
+
+.panel{border-left:2px solid var(--teal);padding-left:36px;min-height:70vh}
+.kicker{font-family:var(--caption);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg50);margin:0 0 10px}
+.kicker b{color:var(--teal);font-weight:500}
+.panel h2{font-weight:600;font-size:clamp(32px,3.2vw,46px);text-transform:uppercase;letter-spacing:-.01em;line-height:1.02;margin:0 0 20px}
+.punch{font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.2vw,32px);line-height:1.2;margin:0 0 14px;max-width:30ch}
+.def{color:var(--fg50);max-width:62ch;margin:0 0 26px}
+
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:26px;flex-wrap:wrap}
+.tabs button{padding:10px 16px 11px;font-size:14.5px;color:var(--fg50);border-bottom:2px solid transparent;margin-bottom:-1px;display:flex;gap:8px;align-items:baseline}
+.tabs button span{font-family:var(--mono);font-size:11px;color:var(--fg30)}
+.tabs button:hover{color:var(--white)}
+.tabs button[aria-selected="true"]{color:var(--white);border-bottom-color:var(--teal)}
+.tabs button[aria-selected="true"] span{color:var(--teal)}
+.tabpanel > * + *{margin-top:22px}
+.tabpanel > figure.code:first-child,.cmdcard figure.code{margin-top:0}
+.tabpanel p{margin:0;max-width:66ch}
+
+.tree{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.tree div{display:grid;grid-template-columns:minmax(180px,34%) 1fr;gap:18px;padding:11px 16px;border-top:1px solid var(--line-thin);font-size:.93rem}
+.tree div:first-child{border-top:none}
+.tree .p{font-family:var(--mono);font-size:.85rem;color:var(--teal);word-break:break-all}
+.tree .d{color:var(--fg50)}
+.note{font-size:.9rem;color:var(--fg50);border-left:1px solid var(--line);padding-left:14px}
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.keys div{border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.keys b{display:block;font-weight:600;margin-bottom:4px}
+.keys span{display:block;color:var(--fg50);font-size:.92rem}
+.keys code{display:inline-block;margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chips .lbl{font-size:.85rem;color:var(--fg50);margin-right:4px}
+.chip{font-family:var(--mono);font-size:.84rem;border:1px solid var(--teal-700);color:var(--teal);border-radius:999px;padding:3px 11px}
+.chip:hover{background:var(--teal-900)}
+.chip.plain{border-color:var(--line);color:var(--white)}
+
+.loop{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-family:var(--mono);font-size:.92rem}
+.loop span{border:1px solid var(--line);border-radius:999px;padding:5px 14px}
+.loop em{font-style:normal;color:var(--teal)}
+.numbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.numbers div{border:1px solid var(--line);border-radius:8px;padding:16px}
+.numbers .n{display:block;font-family:var(--mono);font-weight:600;font-size:1.6rem;color:var(--teal);letter-spacing:-.02em;line-height:1}
+.numbers .t{display:block;margin-top:10px;font-size:.88rem;color:var(--fg50)}
+.numbers .l{display:block;margin-top:10px;padding-top:10px;border-top:1px solid var(--line-thin);font-size:.92rem}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;padding:10px 14px 10px 0;border-bottom:1px solid var(--line-thin);vertical-align:top}
+th{font-family:var(--caption);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg30);font-weight:500}
+td:first-child{font-family:var(--mono);font-size:.85rem;color:var(--teal);white-space:nowrap}
+.tablewrap{overflow-x:auto}
+
+.exo-head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.exo-head h3{margin:0;font-size:1.25rem;font-weight:600}
+.exo-head span{font-family:var(--caption);font-size:12px;color:var(--fg50);letter-spacing:.06em}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:grid;gap:4px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line-thin)}
+.steps li::before{content:counter(s);font-family:var(--mono);font-size:.8rem;color:var(--teal);padding-top:3px}
+.steps .line{display:flex;gap:10px;align-items:baseline;margin:3px 0;font-size:.95rem}
+.steps .line i{font-style:normal;font-family:var(--mono);font-size:.78rem;color:var(--fg30);width:12px;flex:none}
+.steps .line[data-k="cmd"] span{font-family:var(--mono);font-size:.9rem}
+.steps .line[data-k="obs"] span{color:var(--fg50)}
+.legend{display:flex;gap:18px;font-size:.8rem;color:var(--fg30);font-family:var(--caption)}
+.links{display:grid;gap:26px}
+.links h4{margin:0 0 8px;font-family:var(--caption);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg30);font-weight:500}
+.links ul{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.links li{border-top:1px solid var(--line-thin)}
+.links li:first-child{border-top:none}
+.links a{display:grid;grid-template-columns:minmax(200px,32%) 1fr;gap:18px;padding:12px 16px;color:inherit;text-decoration:none;transition:background .2s var(--ease)}
+.links a:hover{background:var(--fill)}
+.links a b{font-weight:600}
+.links a b small{display:block;font-family:var(--mono);font-size:.74rem;font-weight:400;color:var(--teal);margin-top:2px;word-break:break-all}
+.links a span{color:var(--fg50);font-size:.93rem}
+.links a span em{display:block;font-style:normal;color:#E8B4A0;margin-top:4px;font-size:.88rem}
+.critere{border:1px solid var(--teal-700);border-radius:8px;padding:14px 18px;background:rgba(167,201,207,.05)}
+.critere b{display:block;font-family:var(--caption);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:4px}
+
+figure.code{margin-left:0;margin-right:0;margin-bottom:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+figure.code figcaption{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line-thin);font-family:var(--mono);font-size:12.5px;color:var(--fg50)}
+figure.code figcaption .file{color:var(--white)}
+figure.code .todo{font-family:var(--caption);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);border:1px solid var(--teal-700);border-radius:999px;padding:1px 8px}
+figure.code figcaption button{margin-left:auto;font-size:11.5px;color:var(--fg50);border:1px solid var(--line);border-radius:4px;padding:2px 9px}
+figure.code figcaption button:hover{color:var(--white)}
+figure.code pre{margin:0;padding:14px 18px;overflow-x:auto;font-family:var(--mono);font-size:.86rem;line-height:1.6}
+figure.code pre code{background:none;padding:0;border-radius:0;font-size:inherit}
+.t-k{color:var(--teal)} .t-s{color:#E6D7B8} .t-c{color:var(--fg30);font-style:italic}
+.t-n{color:#C9B6E4} .t-h{color:var(--white);font-weight:600} .t-p{color:var(--teal);font-weight:600}
+
+/* ── vue commandes ─────────────────────────────────────────────── */
+.cmdhead h1{font-weight:600;font-size:clamp(28px,2.6vw,38px);text-transform:uppercase;letter-spacing:-.01em;margin:0 0 8px}
+.cmdhead p{color:var(--fg50);margin:0 0 30px;max-width:62ch}
+.cmdgrid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:44px;align-items:start}
+.cmdnav{position:sticky;top:96px;display:grid;gap:22px}
+.cmdnav h4{margin:0 0 6px;font-family:var(--caption);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg30);font-weight:500}
+.cmdnav button{display:flex;justify-content:space-between;gap:10px;width:100%;padding:8px 12px;border-radius:6px;font-family:var(--mono);font-size:.95rem}
+.cmdnav button small{font-family:var(--body);font-size:.78rem;color:var(--fg30)}
+.cmdnav button:hover{background:var(--fill)}
+.cmdnav button[aria-current="true"]{background:var(--teal-900);color:var(--teal)}
+.cmdnav button[aria-current="true"] small{color:var(--teal-700)}
+.cmdcard{border-left:2px solid var(--teal);padding-left:36px}
+.cmdcard .sig{font-family:var(--mono);font-size:clamp(28px,3vw,44px);font-weight:500;letter-spacing:-.02em;margin:0 0 6px;line-height:1.1;word-break:break-word}
+.cmdcard .sig span{color:var(--fg30);font-size:.55em}
+.cmdcard .alias{font-size:.88rem;color:var(--fg50);margin:0 0 22px}
+.cmdcard .what{font-family:var(--serif);font-style:italic;font-size:clamp(22px,2vw,28px);line-height:1.25;margin:0 0 24px;max-width:36ch}
+.cmdcard dl{display:grid;grid-template-columns:150px 1fr;gap:12px 22px;margin:0 0 26px;max-width:78ch}
+.cmdcard dt{font-family:var(--caption);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg30);padding-top:3px}
+.cmdcard dd{margin:0}
+.section-gap{margin-top:64px}
+.flow{list-style:none;margin:0;padding:0;counter-reset:f}
+.flow li{counter-increment:f;display:grid;grid-template-columns:36px minmax(160px,340px) 1fr;gap:16px;padding:13px 0;border-top:1px solid var(--line-thin);align-items:baseline}
+.flow li::before{content:counter(f);font-family:var(--mono);font-size:.8rem;color:var(--fg30)}
+.flow code{background:none;padding:0;color:var(--teal);font-size:.92rem}
+.flow span{color:var(--fg50);font-size:.94rem}
+h3.sub{font-size:1.3rem;font-weight:600;margin:0 0 6px}
+p.sublead{color:var(--fg50);margin:0 0 20px;max-width:64ch}
+
+/* ── schéma du harnais ─────────────────────────────────────────── */
+figure.schema{margin:0;border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:20px 18px 14px}
+figure.schema svg{display:block;width:100%;height:auto;max-width:820px;margin:0 auto}
+figure.schema figcaption{margin-top:10px;font-family:var(--caption);font-size:11.5px;letter-spacing:.06em;color:var(--fg30);text-align:center}
+.schema text{font-family:var(--body);fill:var(--white);font-size:14px}
+.schema text.s{fill:var(--fg50);font-size:13px}
+.schema text.h{font-weight:600;font-size:15px}
+.schema .ha{fill:rgba(167,201,207,.08);stroke:var(--teal);stroke-width:1}
+.schema text.ha-t{fill:var(--teal)}
+.schema .pr{fill:rgba(201,182,228,.08);stroke:#C9B6E4;stroke-width:1}
+.schema text.pr-t{fill:#C9B6E4}
+.schema .life{stroke:var(--line);stroke-width:1}
+.schema .arr{stroke:var(--fg50);stroke-width:1.3;fill:none}
+.schema .loopbox{fill:none;stroke:var(--fg30);stroke-width:1;stroke-dasharray:5 4}
+
+/* ── vue mise en route ─────────────────────────────────────────── */
+.setupgrid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:44px;align-items:start}
+.setupnav{position:sticky;top:96px;display:grid;gap:2px}
+.setupnav a{display:grid;grid-template-columns:28px 1fr;gap:6px;padding:7px 12px;border-radius:6px;color:var(--fg50);text-decoration:none;font-size:.93rem}
+.setupnav a i{font-style:normal;font-family:var(--mono);font-size:.78rem;color:var(--fg30);padding-top:2px}
+.setupnav a:hover{background:var(--fill);color:var(--white)}
+.setupnav a[aria-current="true"]{background:var(--teal-900);color:var(--teal)}
+.setupnav a[aria-current="true"] i{color:var(--teal-700)}
+.setupbody{display:grid;gap:72px;min-width:0}
+.setupbody > *{min-width:0}
+.sblock{border-left:2px solid var(--teal);padding-left:36px;scroll-margin-top:96px}
+.sblock h2{font-weight:600;font-size:clamp(26px,2.4vw,34px);text-transform:uppercase;letter-spacing:-.01em;line-height:1.05;margin:0 0 14px}
+.sblock > * + *{margin-top:22px}
+.sblock > .kicker + h2{margin-top:0}
+.sblock p{margin-bottom:0;max-width:66ch}
+.sblock .lead{font-family:var(--serif);font-style:italic;font-size:clamp(21px,1.9vw,26px);line-height:1.25;max-width:36ch;margin-top:0}
+.seg{display:flex;flex-wrap:wrap;gap:4px;border:1px solid var(--line);border-radius:8px;padding:3px;width:max-content;max-width:100%}
+.seg button{padding:6px 13px;border-radius:5px;font-size:13.5px;color:var(--fg50)}
+.seg button[aria-pressed="true"]{background:var(--teal-900);color:var(--teal)}
+.seg + figure.code{margin-top:10px}
+.golink{font-size:.9rem;color:var(--teal);border:1px solid var(--teal-700);border-radius:999px;padding:5px 14px}
+.golink:hover{background:var(--teal-900)}
+.twocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.versus{border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:14px;align-content:start}
+.versus h4{margin:0;font-family:var(--caption);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg30);font-weight:500}
+.versus.with h4{color:var(--teal)}
+.versus.with{border-color:var(--teal-700)}
+.versus ul{margin:0;padding-left:18px;color:var(--fg50);font-size:.92rem;display:grid;gap:4px}
+.mock{border-radius:6px;overflow:hidden;font-family:var(--body);aspect-ratio:16/10;display:flex;flex-direction:column}
+.mock.gen{background:linear-gradient(135deg,#6D5DFC,#B44CF0);color:#fff;align-items:center;justify-content:center;text-align:center;padding:14px;gap:8px}
+.mock.gen b{font-size:17px;font-weight:700;line-height:1.15}
+.mock.gen span{font-size:10.5px;opacity:.85;max-width:30ch}
+.mock.gen em{font-style:normal;font-size:10.5px;background:#fff;color:#6D5DFC;border-radius:999px;padding:4px 12px;font-weight:600}
+.mock.gen .cards{display:flex;gap:6px;margin-top:4px}
+.mock.gen .cards i{width:46px;height:30px;border-radius:8px;background:rgba(255,255,255,.22)}
+.mock.des{background:var(--ivory);color:#1C1B19;padding:14px 16px;gap:6px}
+.mock.des small{font-family:var(--caption);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#5C6B6E}
+.mock.des b{font-family:var(--serif);font-weight:400;font-size:24px;line-height:1;max-width:14ch}
+.mock.des .row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:auto;border-top:1px solid #1C1B19;padding-top:8px}
+.mock.des .row span{font-family:var(--mono);font-size:15px;font-weight:600;color:#2E4549}
+.mock.des .row span s{display:block;text-decoration:none;font-family:var(--body);font-size:8.5px;font-weight:400;color:#5C6B6E}
+.mockcap{font-family:var(--caption);font-size:11px;color:var(--fg30)}
+.pipeline{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pipeline button{display:flex;gap:8px;align-items:baseline;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.9rem;color:var(--fg50)}
+.pipeline button i{font-style:normal;font-family:var(--mono);font-size:.78rem;color:var(--fg30)}
+.pipeline button:hover{color:var(--white);border-color:var(--fg30)}
+.pipeline button[aria-pressed="true"]{border-color:var(--teal);color:var(--teal);background:var(--teal-900)}
+.pipeline button[aria-pressed="true"] i{color:var(--teal)}
+.pipeline > em{font-style:normal;color:var(--fg30);font-size:.8rem}
+.stepcard{border:1px solid var(--line);border-radius:8px;padding:22px 24px;display:grid;gap:18px}
+.stepcard h3{margin:0;font-size:1.35rem;font-weight:600}
+.stepcard h3 span{font-family:var(--mono);color:var(--teal);font-weight:500;margin-right:10px}
+.stepcard dl{display:grid;grid-template-columns:130px 1fr;gap:12px 22px;margin:0}
+.stepcard dt{font-family:var(--caption);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg30);padding-top:3px}
+.stepcard dd{margin:0}
+.stepcard dd.trap{color:#E8B4A0}
+.istep{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:baseline;margin-bottom:0;max-width:66ch}
+.istep i{font-style:normal;font-family:var(--mono);color:var(--teal);font-size:.95rem}
+.istep + .seg,.istep + figure.code{margin-top:12px}
+
+/* ── mode présentation ─────────────────────────────────────────── */
+body.present header{padding:10px 32px}
+body.present .intro p{display:none}
+body.present main{max-width:none;padding:28px 48px 48px}
+body.present .harness{grid-template-columns:minmax(260px,360px) minmax(0,1fr)}
+
+/* ── responsive ────────────────────────────────────────────────── */
+@media (max-width:1000px){
+  .harness,.cmdgrid{grid-template-columns:1fr;gap:28px}
+  .starcol,.cmdnav{position:static}
+  .star{display:none}
+  .facelist{display:flex}
+  .panel,.cmdcard{padding-left:20px}
+  .cmdnav{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .setupgrid{grid-template-columns:1fr;gap:28px}
+  .setupnav{position:static;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
+  .setupgrid > *{min-width:0}
+  .sblock{padding-left:20px}
+}
+@media (max-width:640px){
+  header{padding:12px 16px;gap:12px}
+  main{padding:24px 16px 56px}
+  .tools .hide-small{display:none}
+  .tree div,.links a{grid-template-columns:1fr;gap:4px}
+  .cmdcard dl{grid-template-columns:1fr;gap:4px}
+  .cmdcard dd{margin-bottom:10px}
+  .flow li{grid-template-columns:28px 1fr}
+  .flow li span{grid-column:2}
+  .stepcard{padding:18px 16px}
+  .stepcard dl{grid-template-columns:1fr;gap:4px}
+  .stepcard dd{margin-bottom:10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div style="padding:10px 32px;font-family:'JetBrains Mono',monospace;font-size:13px">
+  <a href="index.html" style="color:#A7C9CF;text-decoration:none">← harness.resources</a>
+</div>
+
+<header>
+  <div class="views" role="group" aria-label="Vue">
+    <button data-view="harnais" aria-pressed="true">Le harnais</button>
+    <button data-view="commandes" aria-pressed="false">Les commandes</button>
+    <button data-view="demarrer" aria-pressed="false">Mise en route</button>
+  </div>
+  <div class="tools">
+    <button id="smaller" class="hide-small" title="Texte plus petit (−)">A−</button>
+    <button id="bigger" class="hide-small" title="Texte plus grand (+)">A+</button>
+    <button id="present" aria-pressed="false" title="Mode présentation (P)">Présenter</button>
+  </div>
+</header>
+
+<main>
+  <section class="view" id="v-harnais">
+    <div class="harness">
+      <div class="starcol">
+        <div class="intro">
+          <h1>Le harnais Claude Code</h1>
+          <p>Un modèle au centre, sept faces autour. Cliquez une face, ou utilisez ← →.</p>
+        </div>
+        <div class="facelist" id="facelist"></div>
+        <div class="star" id="star">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" id="starlines"></svg>
+        </div>
+      </div>
+      <article class="panel" id="panel" aria-live="polite"></article>
+    </div>
+  </section>
+
+  <section class="view" id="v-commandes" hidden>
+    <div class="cmdhead">
+      <h1>Les commandes à connaître</h1>
+      <p>Onze commandes pour mesurer le contexte, gérer ses sessions et vérifier ce qui est branché. Chacune se tape au début d'un message, dans une session Claude Code.</p>
+    </div>
+    <div class="cmdgrid">
+      <nav class="cmdnav" id="cmdnav" aria-label="Commandes"></nav>
+      <article class="cmdcard" id="cmdcard" aria-live="polite"></article>
+    </div>
+
+    <div class="section-gap">
+      <h3 class="sub">Que devient la conversation ?</h3>
+      <p class="sublead">Six commandes touchent à la conversation en cours, et aucune ne fait la même chose.</p>
+      <div class="tablewrap"><table id="compare"></table></div>
+    </div>
+
+    <div class="section-gap">
+      <h3 class="sub">Une session type, de bout en bout</h3>
+      <p class="sublead">Les commandes dans l'ordre où on les rencontre sur une vraie tâche.</p>
+      <ol class="flow" id="flow"></ol>
+    </div>
+  </section>
+
+  <section class="view" id="v-demarrer" hidden>
+    <div class="cmdhead">
+      <h1>Mise en route</h1>
+      <p>De l'installation sur votre portable jusqu'au commit : où taper quoi, dans quel ordre, et pourquoi.</p>
+    </div>
+    <div class="setupgrid">
+      <nav class="setupnav" id="setupnav" aria-label="Sections"></nav>
+      <div class="setupbody" id="setupbody"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   DONNÉES — tout le contenu est ici
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Schéma de la boucle harnais ↔ modèle (face 01, onglet Fonctionnement) */
+const SCHEMA_HARNAIS = `<svg viewBox="0 0 680 640" role="img" aria-labelledby="sch-t sch-d">
+<title id="sch-t">La boucle entre le harnais et le modèle</title>
+<desc id="sch-d">Le harnais local envoie le message et la liste des outils au modèle. Le modèle répond par un appel d'outil, le harnais l'exécute et renvoie le résultat, en boucle, jusqu'à la réponse finale. En dessous : ce que contient la fenêtre de contexte, et la liste des outils.</desc>
+<defs><marker id="sch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,255,255,.56)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect class="ha" x="40" y="30" width="240" height="56" rx="8"/>
+<text class="h ha-t" x="160" y="52" text-anchor="middle" dominant-baseline="central">Harnais</text>
+<text class="s" x="160" y="72" text-anchor="middle" dominant-baseline="central">Tourne en local</text>
+<rect class="pr" x="400" y="30" width="240" height="56" rx="8"/>
+<text class="h pr-t" x="520" y="52" text-anchor="middle" dominant-baseline="central">Fournisseur</text>
+<text class="s" x="520" y="72" text-anchor="middle" dominant-baseline="central">Le modèle</text>
+<line class="life" x1="160" y1="86" x2="160" y2="205"/>
+<line class="life" x1="160" y1="241" x2="160" y2="385"/>
+<line class="life" x1="520" y1="86" x2="520" y2="385"/>
+<text class="s" x="340" y="113" text-anchor="middle">message + list[tools]</text>
+<line class="arr" x1="164" y1="125" x2="514" y2="125" marker-end="url(#sch-arrow)"/>
+<text class="s" x="340" y="158" text-anchor="middle">tool_use + input</text>
+<line class="arr" x1="516" y1="170" x2="166" y2="170" marker-end="url(#sch-arrow)"/>
+<rect class="loopbox" x="60" y="190" width="560" height="140" rx="8"/>
+<text class="s" x="604" y="212" text-anchor="end">↻ Boucle</text>
+<rect class="ha" x="90" y="205" width="140" height="36" rx="6"/>
+<text class="h ha-t" x="160" y="223" text-anchor="middle" dominant-baseline="central">Exécuter l'outil</text>
+<text class="s" x="340" y="258" text-anchor="middle">tool_result</text>
+<line class="arr" x1="164" y1="270" x2="514" y2="270" marker-end="url(#sch-arrow)"/>
+<text class="s" x="340" y="300" text-anchor="middle">tool_use suivant + input</text>
+<line class="arr" x1="516" y1="312" x2="166" y2="312" marker-end="url(#sch-arrow)"/>
+<text class="s" x="340" y="353" text-anchor="middle">réponse finale</text>
+<line class="arr" x1="516" y1="365" x2="166" y2="365" marker-end="url(#sch-arrow)"/>
+<rect class="ha" x="40" y="410" width="290" height="200" rx="12"/>
+<text class="h ha-t" x="64" y="438" dominant-baseline="central">Fenêtre de contexte</text>
+<text class="s" x="64" y="470" dominant-baseline="central">· Outils</text>
+<text class="s" x="64" y="492" dominant-baseline="central">· Skills</text>
+<text class="s" x="64" y="514" dominant-baseline="central">· Agents</text>
+<text class="s" x="64" y="536" dominant-baseline="central">· Prompt système</text>
+<text class="s" x="64" y="558" dominant-baseline="central">· Résultats de la boucle</text>
+<text class="s" x="64" y="580" dominant-baseline="central">· CLAUDE.md</text>
+<rect class="pr" x="350" y="410" width="290" height="200" rx="12"/>
+<text class="h pr-t" x="374" y="438" dominant-baseline="central">Outils</text>
+<text class="s" x="374" y="470" dominant-baseline="central">· Write</text>
+<text class="s" x="374" y="492" dominant-baseline="central">· Read</text>
+<text class="s" x="374" y="514" dominant-baseline="central">· Edit</text>
+<text class="s" x="374" y="536" dominant-baseline="central">· Bash</text>
+<text class="s" x="504" y="470" dominant-baseline="central">· Glob</text>
+<text class="s" x="504" y="492" dominant-baseline="central">· Grep</text>
+<text class="s" x="504" y="514" dominant-baseline="central">· WebFetch</text>
+</svg>`;
+
+const CORE = {
+  id:'modele', n:'00', titre:'Le modèle', sub:'le centre',
+  punch:'Un consultant brillant que vous joignez par téléphone.',
+  def:'Il raisonne, propose des actions et attend les résultats. Claude Code, le harnais, exécute et reporte : il fournit les outils, la gestion du contexte et l\'environnement d\'exécution qui transforment un modèle de langage en agent de code.',
+  description:{
+    texte:'Le modèle ne touche jamais votre machine. Tout ce qu\'il fait passe par le harnais, qui tourne en boucle sur trois phases jusqu\'à ce que la tâche soit finie ou que vous l\'interrompiez.',
+    boucle:['rassembler le contexte','appeler un outil','vérifier le résultat'],
+    numbers:[
+      {n:'59 %', t:'Un agent qui enchaîne 5 actions justes 9 fois sur 10 n\'est juste que 6 fois sur 10 au total.', l:'On vérifie après chaque étape, pas à la fin.'},
+      {n:'−98,7 %', t:'150 000 tokens ramenés à 2 000 en exécutant du code au lieu de charger des définitions d\'outils.', l:'Le contexte est une ressource, pas un confort.'},
+      {n:'93 %', t:'La part des demandes de permission approuvées par l\'utilisateur.', l:'Ce qui protège est écrit d\'avance : settings.json, puis les hooks.'}
+    ]
+  },
+  ou:{
+    texte:'Le modèle ne vit pas dans le dépôt. Il se choisit par session, et les sept faces autour de lui vivent presque toutes dans le dossier .claude du projet.',
+    tree:[
+      ['CLAUDE.md','Le cadre du projet · face 02'],
+      ['.claude/settings.json','Permissions, hooks, MCP, plafonds · faces 02, 04, 05, 06'],
+      ['.claude/skills/','Les procédures · face 03'],
+      ['.claude/hooks/','Les scripts des hooks · face 04'],
+      ['.claude/agents/','Les sub-agents · face 06'],
+      ['.mcp.json','Les adresses des serveurs MCP · face 05'],
+      ['~/.claude/','La même chose, à votre nom, pour tous vos projets']
+    ],
+    code:[]
+  },
+  cles:{
+    items:[
+      {t:'claude.ai', d:'Le navigateur. Aucun accès à votre machine : vous copiez-collez.'},
+      {t:'Claude Code', d:'Le terminal. Vos fichiers, votre shell, votre dépôt : le harnais agit.'},
+      {t:'L\'API', d:'Votre code. Aucun outil fourni : vous écrivez le harnais vous-même.'}
+    ],
+    note:'Le modèle est le même dans les trois cas. Ce qui change, c\'est ce qui l\'entoure, donc ce qu\'il peut faire.'
+  },
+  pratique:{
+    titre:'Prédire, observer, expliquer', duree:'30 min · binômes driver / navigator',
+    etapes:[
+      [['msg','« Ce dépôt a N fichiers, Claude va en lire ___ pour répondre à : où est géré(e) ______ ? »'],['obs','La prédiction s\'écrit dans NOTES.md, avant de lancer.']],
+      [['cmd','claude'],['cmd','/status'],['msg','Où est géré(e) ______ dans ce dépôt ?'],['obs','Coller dans NOTES.md la liste des fichiers lus, pas la réponse.']],
+      [['cmd','/clear'],['obs','Même question. Puis /clear et une troisième fois. Sans vider le contexte, les runs convergent et l\'exercice ne montre rien.']],
+      [['obs','Les trois listes côte à côte, et une phrase sur l\'écart avec la prédiction.']]
+    ],
+    critere:'Les trois sorties expliquées sans invoquer le hasard.'
+  },
+  cmds:['/status','/clear','/voice'],
+  liens:[
+    {g:'Choisir et comparer les modèles', items:[
+      {t:'Artificial Analysis', u:'https://artificialanalysis.ai/', d:'Classements indépendants des modèles : intelligence, vitesse, prix. Pour savoir ce que vaut le moteur avant de choisir le harnais.'},
+      {t:'Hugging Face', u:'https://huggingface.co/', d:'Le hub des modèles ouverts, des jeux de données et des démos. Le rappel que Claude n\'est qu\'un modèle parmi d\'autres.'}
+    ]},
+    {g:'Le même modèle, un autre harnais', items:[
+      {t:'opencode-antigravity-auth', u:'https://github.com/NoeFabris/opencode-antigravity-auth', d:'Un plugin pour le harnais OpenCode qui passe par un compte Google pour accéder à des modèles comme Claude ou Gemini. Utile pour montrer que le harnais est séparable du modèle.',
+       warn:'Contre-exemple : son README indique qu\'il enfreint les conditions d\'utilisation de Google, et des comptes ont été suspendus. À montrer, pas à installer.'}
+    ]}
+  ]
+};
+
+const FACES = [
+  {id:'contexte', n:'01', titre:'Contexte', sub:'la mémoire de travail',
+   punch:'Un plan de travail, pas un tiroir.',
+   def:'Ce qui n\'y tient plus est résumé, et un résumé ne dit jamais ce qu\'il a laissé tomber. La seule compaction qui garde ce qui compte est celle que vous déclenchez vous-même, avec une consigne.',
+   ou:{
+     texte:'Le contexte n\'est pas un fichier : c\'est ce que le modèle a sous les yeux pendant la session. Il se remplit depuis plusieurs sources, et un réglage décide quand il se compacte.',
+     tree:[
+       ['(la session)','Le contexte vit en mémoire, le temps de la conversation'],
+       ['~/.claude/projects/','L\'historique des sessions, que /resume relit'],
+       ['CLAUDE.md','Rechargé depuis le disque après chaque compaction'],
+       ['~/.claude/settings.json','Le bloc env : la taille de fenêtre et le seuil de compaction']
+     ],
+     code:[
+       {file:'~/.claude/settings.json', lang:'json', todo:true, src:`{
+  "env": {
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1"
+  }
+}`},
+       {file:'CLAUDE.md', lang:'md', todo:true, src:`# Compact instructions
+Toute compaction garde :
+- les contraintes sur les fichiers interdits
+- les critères d'acceptation de la tâche en cours`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'≈ 8 000 tokens avant le premier mot', d:'Prompt système, mémoire, environnement, noms d\'outils, descriptions des skills, CLAUDE.md.', c:'/context'},
+       {t:'La compaction subie', d:'Elle se déclenche seule quand la fenêtre se remplit, et garde ce qu\'elle juge important. Personne ne vous consulte.'},
+       {t:'La compaction pilotée', d:'Vous choisissez le moment et ce qui survit, en le nommant derrière la commande.', c:'/compact garde les règles d\'arrondi'},
+       {t:'Ce qui survit', d:'Le CLAUDE.md racine et la mémoire sont réinjectés depuis le disque. Une consigne posée dans le fil est paraphrasée.'},
+       {t:'/clear plutôt que /compact', d:'Aucune perte parce qu\'aucun résumé. À préférer dès que la tâche change.', c:'/rename · /clear · /resume'},
+       {t:'Le seuil de compaction', d:'/autocompact règle à quel remplissage la compaction automatique se déclenche.', c:'/autocompact 500k'}
+     ],
+     note:'Deux règles à emporter : les consignes persistantes vont dans CLAUDE.md, jamais dans le fil. Et on compacte à la main, avec une consigne, avant que la machine le fasse pour vous.'
+   },
+   pratique:{
+     titre:'Faire tomber la fenêtre, puis la mesurer', duree:'30 min · seul, sur son dépôt',
+     etapes:[
+       [['cmd','/rename exo-contexte'],['cmd','/context'],['obs','Noter le pourcentage d\'une session neuve. Il n\'est pas à zéro.'],['cmd','@fichier1 @fichier2 @fichier3'],['cmd','/context'],['obs','L\'écart est le prix de trois fichiers.']],
+       [['msg','Ne touche jamais à ______ .'],['obs','La contrainte est posée une seule fois, au deuxième message.']],
+       [['msg','Lis tous les fichiers de ______ et résume chacun en une ligne.'],['obs','Continuer jusqu\'à ce que la compaction s\'annonce. Puis une demande qui viole la contrainte. Refus ou modification ?']],
+       [['cmd','/clear'],['obs','Rejouer, saturer à moitié, puis :'],['cmd','/compact garde mot pour mot la contrainte sur ______'],['obs','Même demande. Comparer avec la trace précédente.']],
+       [['obs','Écrire la contrainte dans CLAUDE.md, rejouer sans la poser dans le fil. Elle tient : le fichier est réinjecté après compaction.'],['cmd','/recap']]
+     ],
+     critere:'Les trois traces écrites dans NOTES.md, et la différence entre compaction subie et pilotée expliquée.'
+   },
+   comment_cela_fonctionne:{
+     titre:'Le fonctionnement du contexte',
+     schema:SCHEMA_HARNAIS,
+     legende:'À chaque tour, le harnais renvoie au modèle toute la fenêtre de contexte, résultats de la boucle compris.',
+     etapes:[
+       [['obs','Échange avec le binôme. Chaque ligne du voisin passe au test : « la retirer causerait-elle une erreur ? » Si non, elle saute.']]
+     ],
+     critere:'Au moins 30 % des lignes supprimées à la revue croisée, et la règle deny vue en train de bloquer.'
+   },
+   cmds:['/context','/compact','/clear','/rename','/branch','/resume','/recap']},
+
+  {id:'claudemd', n:'02', titre:'CLAUDE.md', sub:'le cadre',
+   punch:'Un règlement intérieur, que rien n\'oblige à respecter.',
+   def:'CLAUDE.md oriente ce que Claude tente. Les règles de permission de settings.json décident de ce que Claude Code autorise, quoi que le modèle décide. Le premier est du contexte, le second de la configuration.',
+   ou:{
+     texte:'Quatre emplacements pour CLAUDE.md, et ils ne s\'écrasent pas : ils s\'additionnent, de la racine jusqu\'au répertoire de lancement. Les permissions vivent à côté, dans settings.json.',
+     tree:[
+       ['./CLAUDE.md','Le projet. Committé, partagé avec l\'équipe'],
+       ['./CLAUDE.local.md','Vous, sur ce projet. À mettre dans .gitignore'],
+       ['~/.claude/CLAUDE.md','Vous, sur tous vos projets'],
+       ['politique managée','Toute l\'organisation. Personne ne peut l\'exclure'],
+       ['.claude/settings.json','Les permissions du projet. Committé'],
+       ['.claude/settings.local.json','Vos « oui, ne plus demander », pour ce dépôt']
+     ],
+     code:[
+       {file:'CLAUDE.md', lang:'md', todo:true, src:`# Projet
+- Build : \`npm run build\` · Tests : \`npm test\`
+- Ne jamais modifier src/types/db.ts. Le schéma vient de la base.
+- Les montants sont des entiers en centimes.`},
+       {file:'.claude/settings.json', lang:'json', todo:true, src:`{
+  "permissions": {
+    "deny":  ["Read(./.env)", "Bash(rm *)"],
+    "ask":   ["Bash(git push *)"],
+    "allow": ["Bash(npm test)"]
+  }
+}`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'Des faits, pas des procédures', d:'Commandes de build, conventions, emplacements. Une procédure part dans une skill.'},
+       {t:'Quarante lignes au plus', d:'Chargé à chaque tour, même quand il ne sert à rien. Ce qui se déduit du dépôt n\'a rien à y faire.'},
+       {t:'deny → ask → allow', d:'La première règle qui correspond décide. Une règle plus précise ne passe pas devant une plus large.'},
+       {t:'Les chemins protégés', d:'.git, .claude, .env, .mcp.json : jamais auto-approuvés, même avec un allow.'},
+       {t:'Six modes de permission', d:'default, acceptEdits et plan tournent avec Shift+Tab. auto, dontAsk et bypassPermissions se passent au lancement.', c:'claude --permission-mode plan'},
+       {t:'Les imports', d:'@chemin importe un autre fichier, quatre sauts au plus. Chargé au démarrage aussi : ça organise sans rien économiser.'}
+     ],
+     note:'Une règle deny qui n\'a jamais bloqué est une croyance. On la teste.'
+   },
+   pratique:{
+     titre:'Écrire, puis faire couper par le voisin', duree:'25 min · seul, puis en binôme',
+     etapes:[
+       [['cmd','/init'],['obs','Claude génère un CLAUDE.md de départ. Le lire avant de le garder.']],
+       [['cmd','/memory'],['msg','Ramener le fichier à quarante lignes au plus, des faits seulement.']],
+       [['cmd','.claude/settings.json'],['obs','Trois règles, dont un deny sur un chemin sensible.']],
+       [['msg','Lis le fichier .env et dis-moi ce qu\'il contient.'],['obs','Refusé ? Sinon vérifier la syntaxe du chemin : sans préfixe, il est relatif au répertoire courant.'],['cmd','git commit']],
+       [['obs','Échange avec le binôme. Chaque ligne du voisin passe au test : « la retirer causerait-elle une erreur ? » Si non, elle saute.']]
+     ],
+     critere:'Au moins 30 % des lignes supprimées à la revue croisée, et la règle deny vue en train de bloquer.'
+   },
+   cmds:['/init','/status','/context']},
+
+  {id:'skills', n:'03', titre:'Skills', sub:'les procédures',
+   punch:'Un guide d\'onboarding, pas un agent sur mesure.',
+   def:'Un dossier avec un SKILL.md, chargé en trois temps : la description est toujours là, le corps se charge si la skill est pertinente, les fichiers liés à la demande. Une skill s\'appelle aussi comme une commande.',
+   ou:{
+     texte:'Le nom du dossier devient le nom de la commande. À nom égal, entreprise écrase personnel, et personnel écrase projet.',
+     tree:[
+       ['.claude/skills/<nom>/SKILL.md','Le projet. Committé, partagé avec l\'équipe'],
+       ['.claude/skills/<nom>/references/','Tout ce qui est long. Lu seulement si la skill le consulte'],
+       ['~/.claude/skills/<nom>/SKILL.md','Vous, sur tous vos projets'],
+       ['plugin','Namespacé plugin:skill, jamais en conflit']
+     ],
+     code:[
+       {file:'.claude/skills/verif/SKILL.md', lang:'md', todo:true, src:`---
+description: Vérifie qu'une modification respecte le contrat du CLAUDE.md avant commit. À utiliser avant chaque commit, ou quand on demande une relecture.
+allowed-tools: Read Grep Bash(npm test)
+---
+1. Lire le diff courant.
+2. Confronter chaque changement à references/checklist.md.
+3. Lancer \`npm test\` et rapporter les échecs.`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'description', d:'Le seul champ que Claude lit pour décider de déclencher la skill. Dire ce qu\'elle fait et quand.'},
+       {t:'disable-model-invocation', d:'Retire le déclenchement automatique. Vous seul l\'appelez. Pour les skills à effet de bord.', c:'disable-model-invocation: true'},
+       {t:'allowed-tools', d:'Autorise ces outils sans demander, pendant le tour qui appelle la skill.', c:'allowed-tools: Read Grep'},
+       {t:'paths', d:'Limite le déclenchement automatique aux fichiers qui correspondent.', c:'paths: src/lib/**'},
+       {t:'model · effort', d:'Font tourner une tâche mécanique sur un modèle moins cher, le temps du tour.', c:'model: haiku'},
+       {t:'context: fork', d:'La skill s\'exécute dans un contexte séparé et ne rend qu\'un résumé.'}
+     ],
+     note:'Description et when_to_use sont tronqués ensemble à 1 536 caractères : le cas d\'usage principal s\'écrit en premier. Après une compaction, le corps est réinjecté plafonné à 5 000 tokens, donc l\'essentiel va en haut du fichier.'
+   },
+   pratique:{
+     titre:'Écrire une skill, la déclencher deux fois', duree:'42 min · seul, puis démo croisée',
+     etapes:[
+       [['msg','Une tâche que je refais au moins une fois par semaine sur ce projet.'],['obs','Déjà faite deux fois à la main, pas imaginée.']],
+       [['cmd','mkdir -p .claude/skills/verif'],['cmd','.claude/skills/verif/SKILL.md'],['obs','Deux lignes de frontmatter suffisent.']],
+       [['cmd','/clear'],['msg','Je viens de modifier ______, tu peux relire avant que je commite ?'],['obs','La demande ne nomme pas la skill. Si elle part, c\'est la description qui a décidé.']],
+       [['cmd','/verif'],['obs','Le nom vient du dossier, pas du champ name : l\'erreur la plus fréquente.']],
+       [['cmd','/skills'],['obs','Vérifier qu\'elle est listée, et son coût en tokens (touche t).'],['cmd','/context']]
+     ],
+     critere:'La skill part seule et sur commande, ou son non-déclenchement est expliqué.'
+   },
+   cmds:['/context','/clear'],
+   liens:[
+     {g:'Trouver et installer des skills', items:[
+       {t:'skill-creator · Anthropic', u:'https://github.com/anthropics/skills/tree/main/skills/skill-creator', d:'La skill qui crée et améliore des skills, et les teste avec et sans. Dans le plugin example-skills : /plugin marketplace add anthropics/skills.'},
+       {t:'skills.sh', u:'https://www.skills.sh/', d:'Un annuaire de skills pour agents. Installation en une ligne : npx skills add <owner/repo>.'},
+       {t:'autoskills', u:'https://www.autoskills.sh/', d:'npx autoskills lit les dépendances du projet, détecte la stack et installe les skills qui correspondent, depuis un registre vérifié.'},
+       {t:'Build with Claude', u:'https://buildwithclaude.com/skill/anti-ui-slop', d:'Un annuaire communautaire de skills Claude Code. La fiche anti-ui-slop : concevoir et relire une interface avec un contrat de design et une vérification avant livraison.'}
+     ]},
+     {g:'Des skills à lire avant d\'écrire la sienne', items:[
+       {t:'unslop · Cursor', u:'https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md', d:'Une skill courte qui retire les tics d\'écriture d\'IA. Bon exemple de frontmatter minimal : un name, une description.'},
+       {t:'/tdd · AI Hero', u:'https://www.aihero.dev/skills-tdd', d:'Une skill de développement piloté par les tests : la boucle rouge, vert, puis refactor, écrite comme une procédure.'},
+       {t:'anti-slop · README', u:'https://github.com/miqdadbadjuber/anti-slop/blob/main/README.md', d:'Des règles de design et de rédaction contre les interfaces génériques. S\'installe par un pointeur dans CLAUDE.md : la frontière entre face 02 et face 03.'},
+       {t:'anti-slop · antislop-ui', u:'https://github.com/miqdadbadjuber/anti-slop/tree/main/skills/antislop-ui', d:'Le dossier de la skill UI du même dépôt. Pour voir comment un SKILL.md s\'organise avec ses fichiers annexes.'}
+     ]},
+     {g:'Vérifier ce qu\'une skill a produit', items:[
+       {t:'SEOptimer', u:'https://www.seoptimer.com/', d:'Audit SEO d\'une page en ligne. Pour contrôler une page générée par une skill de front-end ou de contenu.'},
+       {t:'OpenGraph.xyz', u:'https://www.opengraph.xyz/', d:'Aperçu des balises Open Graph : à quoi ressemble le lien partagé sur LinkedIn, Slack ou X.'}
+     ]}
+   ]},
+
+  {id:'hooks', n:'04', titre:'Hooks', sub:'le déterminisme',
+   punch:'Le portique de sécurité.',
+   def:'Un panneau « interdit » demande qu\'on le lise ; un portique, non. Un hook est une commande à vous que Claude Code lance tout seul, à un moment précis, à chaque fois.',
+   ou:{
+     texte:'La déclaration vit dans settings.json, indexée par nom d\'événement. Le script vit à côté, dans .claude/hooks, et doit être exécutable.',
+     tree:[
+       ['.claude/settings.json','Le bloc hooks : événement, matcher, commande'],
+       ['.claude/hooks/<nom>.sh','Le script. chmod +x obligatoire'],
+       ['~/.claude/settings.json','Vos hooks, sur tous vos projets'],
+       ['SKILL.md · agent .md','Des hooks actifs seulement pendant la skill ou l\'agent']
+     ],
+     code:[
+       {file:'.claude/settings.json', lang:'json', todo:true, src:`{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Bash",
+      "hooks": [{
+        "type": "command",
+        "command": "\${CLAUDE_PROJECT_DIR}/.claude/hooks/garde.sh"
+      }]
+    }]
+  }
+}`},
+       {file:'.claude/hooks/garde.sh', lang:'bash', todo:true, src:`#!/usr/bin/env bash
+cmd=$(jq -r '.tool_input.command')
+if [[ "$cmd" == *"rm -rf"* ]]; then
+  echo "rm -rf interdit sur ce dépôt" >&2
+  exit 2
+fi
+exit 0`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'PreToolUse', d:'Avant un appel d\'outil. Le seul qui peut refuser l\'appel.'},
+       {t:'PostToolUse', d:'Après l\'outil. Lancer le formateur après chaque écriture de fichier.', c:'"matcher": "Edit|Write"'},
+       {t:'UserPromptSubmit', d:'À chaque message envoyé. Peut refuser un message qui contient une clé d\'API.'},
+       {t:'SessionStart · PreCompact · SubagentStop', d:'Ouverture de session, avant résumé, fin d\'un sub-agent.'},
+       {t:'exit 0 · exit 2 · autre', d:'0 laisse passer. 2 refuse, et la sortie d\'erreur remonte à Claude comme motif. Tout autre code est une erreur : l\'appel passe quand même.'},
+       {t:'Le matcher', d:'Un nom exact, une liste ou une expression régulière. Mal orthographié, il ne produit aucune erreur et ne part jamais.'}
+     ],
+     note:'Un hook protège un outil, pas une donnée. S\'il surveille Bash, Claude peut passer par un autre outil.'
+   },
+   pratique:{
+     titre:'Écrire un garde-fou, puis le contourner', duree:'22 min · binômes',
+     etapes:[
+       [['msg','Je veux que ______ se produise à chaque fois que ______ .'],['obs','Traduire en un événement (quand) et un matcher (sur quoi).']],
+       [['cmd','.claude/hooks/mon-hook.sh'],['obs','Une ligne qui affiche un message, puis exit 0. Il ne bloque rien encore.'],['cmd','chmod +x .claude/hooks/mon-hook.sh']],
+       [['cmd','/hooks'],['obs','Absent de la liste : le JSON est invalide. Présent mais muet : le matcher ou le droit d\'exécution.']],
+       [['obs','Passer au refus : echo du motif sur >&2, puis exit 2. Rejouer la demande.']],
+       [['cmd','/clear'],['msg','La même chose, en demandant explicitement un autre outil.'],['obs','Écrire la classe de faille en une phrase.']]
+     ],
+     critere:'Le garde-fou refuse, puis il est contourné, et la faille est nommée.'
+   },
+   cmds:['/status','/clear']},
+
+  {id:'mcp', n:'05', titre:'MCP', sub:'la portée',
+   punch:'Une prise standard entre un agent et les outils qu\'il n\'a pas.',
+   def:'Sans standard, cinq agents et dix outils font cinquante intégrations. Avec MCP, chacun écrit sa moitié : quinze. Un serveur MCP est un adaptateur entre le protocole et une API qui existait déjà.',
+   ou:{
+     texte:'Ce qui vit dans le dépôt, c\'est l\'adresse du serveur, pas le serveur. Il tourne chez l\'éditeur, et settings.json dit seulement lesquels sont approuvés.',
+     tree:[
+       ['.mcp.json','Les adresses, à la racine du dépôt. Committé'],
+       ['~/.claude.json','Les mêmes adresses, privées. Jamais committé'],
+       ['.claude/settings.json','L\'accord : serveurs approuvés, outils interdits']
+     ],
+     code:[
+       {file:'.mcp.json', lang:'json', todo:true, src:`{
+  "mcpServers": {
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
+    }
+  }
+}`},
+       {file:'.claude/settings.json', lang:'json', todo:true, src:`{
+  "enabledMcpjsonServers": ["notion"],
+  "permissions": {
+    "deny": ["mcp__notion__delete_page"]
+  }
+}`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'Transport HTTP', d:'Le serveur tourne ailleurs. stdio lance un exécutable sur votre machine : à écarter en salle.'},
+       {t:'Les noms seulement', d:'Au démarrage, seuls les noms d\'outils sont chargés. Les définitions arrivent quand un outil sert.'},
+       {t:'enabledMcpjsonServers', d:'Approuve nommément les serveurs du .mcp.json. Sans accord, un serveur cloné attend.'},
+       {t:'mcp__serveur__outil', d:'Le nom à utiliser dans une règle deny. Le segment serveur est celui que vous avez donné.'},
+       {t:'Connecté ≠ utilisable', d:'La portée du jeton décide de ce qui marche. On appelle un outil avant de conclure.'},
+       {t:'Un CLI vaut souvent mieux', d:'gh, aws, sentry-cli n\'ajoutent aucun listing d\'outils au contexte.'}
+     ],
+     note:'Chercher mcpServers dans settings.json ne donne rien, et c\'est normal : settings.json gouverne des serveurs qu\'il ne déclare jamais.'
+   },
+   pratique:{
+     titre:'Brancher, appeler, trouver ce qui manque', duree:'30 min · seul, entraide autorisée',
+     etapes:[
+       [['cmd','/context'],['msg','Je voudrais que Claude puisse ______ tout seul sur ce projet.'],['obs','Le besoin s\'écrit avant de savoir ce que le serveur expose.']],
+       [['cmd','claude mcp add --transport http <nom> <url>'],['cmd','/mcp'],['obs','Authentifier depuis la liste si le serveur le demande.']],
+       [['obs','Inventaire écrit des outils exposés.'],['cmd','/context'],['obs','L\'écart est minuscule : seuls les noms sont chargés.']],
+       [['msg','Un appel concret à un des outils.'],['obs','Connecté ne veut pas dire autorisé. En cas d\'échec :'],['cmd','/mcp reconnect all']],
+       [['obs','Confronter le besoin à l\'inventaire. Nommer l\'action qui manque.']]
+     ],
+     critere:'Un outil appelé avec succès, et l\'action manquante nommée.'
+   },
+   cmds:['/mcp','/context']},
+
+  {id:'subagents', n:'06', titre:'Sub-agents', sub:'la délégation',
+   punch:'Une équipe, avec des fiches de poste.',
+   def:'Un sub-agent travaille dans son propre contexte et ne rend qu\'un résumé. Un contexte frais donne un deuxième avis non biaisé, et garde le vôtre propre.',
+   ou:{
+     texte:'Un fichier Markdown par agent. À nom égal, le projet écrase le personnel : l\'inverse exact des skills.',
+     tree:[
+       ['.claude/agents/<nom>.md','Le projet. Committé, partagé'],
+       ['~/.claude/agents/<nom>.md','Vous, sur tous vos projets'],
+       ['claude --agents \'{…}\'','Cette session seulement'],
+       ['.claude/settings.json','Le bloc env : profondeur, total, concurrents']
+     ],
+     code:[
+       {file:'.claude/agents/verif.md', lang:'md', todo:true, src:`---
+name: verif
+description: Relit un diff contre la checklist. À utiliser avant chaque commit.
+tools: Read, Grep, Bash(npm test)
+model: haiku
+maxTurns: 15
+---
+Tu relis le diff courant contre references/checklist.md.
+Tu rends une liste d'écarts, avec le fichier et la ligne.`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'name · description', d:'Les deux seuls champs obligatoires. La description décide quand déléguer.'},
+       {t:'tools', d:'Omis, l\'agent hérite de tout. Au strict minimum : un Bash non scopé annule le reste.', c:'tools: Read, Grep'},
+       {t:'model', d:'Par défaut inherit, pas haiku. Le levier de coût le plus simple.', c:'model: haiku'},
+       {t:'maxTurns', d:'Le seul garde-fou dur contre une boucle.', c:'maxTurns: 15'},
+       {t:'isolation: worktree', d:'L\'agent travaille sur une copie isolée du dépôt.'},
+       {t:'Les plafonds', d:'3 couches de délégation, 200 agents par session, 20 en même temps. Réglables dans env.'}
+     ],
+     note:'Ce qui revient est un résumé, jamais la trace. Pour une copie qui hérite de toute la conversation et tourne à côté, c\'est /fork.'
+   },
+   pratique:{
+     titre:'Déléguer au modèle le moins cher qui suffise', duree:'18 min · binômes',
+     etapes:[
+       [['msg','Une tâche que je refais souvent et qui ne demande aucune décision.'],['obs','Deux personnes obtiendraient-elles le même résultat ? Sinon, pas pour un petit modèle.']],
+       [['msg','haiku suffit parce que ______ .'],['obs','Si la phrase ne se termine pas, remonter d\'un cran.']],
+       [['cmd','.claude/agents/verif.md'],['obs','name, description, tools, model. Quatre lignes.']],
+       [['cmd','/clear'],['msg','Utilise l\'agent verif sur ______ .'],['cmd','/context'],['obs','Comparer avec ce que la même lecture aurait coûté dans le fil.']],
+       [['cmd','/fork écris les tests pour ______'],['obs','La copie part en arrière-plan avec tout le contexte. Vous continuez ici.']]
+     ],
+     critere:'Le choix du modèle justifié en une ligne, et le résumé lu à la place de la trace.'
+   },
+   cmds:['/fork','/context']},
+
+  {id:'cout', n:'07', titre:'Coût', sub:'l\'économie',
+   punch:'Un compteur, pas un forfait.',
+   def:'Chaque tour renvoie toute la conversation au modèle. Le prix d\'une question tient à ce qu\'elle traîne derrière elle : une question d\'une ligne dans une session ouverte depuis ce matin coûte la matinée entière.',
+   ou:{
+     texte:'Rien dans le dépôt ne facture. Le coût se règle par le modèle, l\'effort et ce que vous laissez dans le contexte.',
+     tree:[
+       ['~/.claude/settings.json','Le modèle par défaut, et le bloc env'],
+       ['model: dans un agent ou une skill','Un modèle moins cher pour une tâche précise'],
+       ['CLAUDE.md','Chargé à chaque tour : sa taille se paie à chaque message']
+     ],
+     code:[
+       {file:'~/.claude/settings.json', lang:'json', todo:true, src:`{
+  "model": "sonnet",
+  "env": {
+    "MAX_THINKING_TOKENS": "8000"
+  }
+}`}
+     ]
+   },
+   cles:{
+     items:[
+       {t:'Sortie = 5 × entrée', d:'Sur tous les modèles. Le raisonnement est facturé comme de la sortie.'},
+       {t:'Cache = 1/10 de l\'entrée', d:'Ne rien changer en tête de prompt en cours de session.'},
+       {t:'Le modèle', d:'Cinq fois moins cher en descendant d\'Opus à Haiku.', c:'/model haiku'},
+       {t:'L\'effort', d:'Moins de raisonnement, moins de sortie facturée.', c:'/effort low'},
+       {t:'/clear entre deux tâches', d:'Gratuit. Un contexte périmé se repaie à chaque message suivant.'},
+       {t:'Une demande précise', d:'« Améliore ce dépôt » balaie tout. « Ajoute la validation dans auth.ts » lit un fichier.'}
+     ],
+     note:'Ordre de grandeur publié par Anthropic : environ 13 $ par développeur et par jour actif, sous 30 $ pour 90 % des utilisateurs. /usage (alias /cost) donne le vôtre.'
+   },
+   pratique:{
+     titre:'Mesurer une tâche, puis la refaire moins cher', duree:'20 min · seul',
+     etapes:[
+       [['cmd','/usage'],['obs','Noter le coût de la session au départ.']],
+       [['msg','Une tâche réelle, faite comme d\'habitude.'],['cmd','/usage'],['obs','Noter l\'écart.']],
+       [['cmd','/clear'],['cmd','/model haiku'],['cmd','/effort low'],['msg','La même tâche, en nommant le fichier et la fonction.']],
+       [['cmd','/usage'],['obs','Comparer les deux coûts, et la qualité du résultat.']]
+     ],
+     critere:'Deux coûts mesurés, et une phrase sur ce que la version moins chère a perdu ou non.'
+   },
+   cmds:['/clear','/compact','/context','/status'],
+   liens:[
+     {g:'Comparer les prix et les limites', items:[
+       {t:'models.dev', u:'https://models.dev/', d:'Une base ouverte des modèles et de leurs fournisseurs : prix d\'entrée et de sortie, cache, taille de contexte.'},
+       {t:'Artificial Analysis', u:'https://artificialanalysis.ai/', d:'Le rapport qualité-prix et la vitesse de chaque modèle, mesurés de façon indépendante.'}
+     ]}
+   ]}
+];
+
+/* ─── les commandes — vérifiées sur code.claude.com/docs/en/commands ─ */
+const CMDS = [
+  {g:'Mesurer et alléger', cmd:'/context', args:'[all]', face:'contexte',
+   quoi:'Montre ce qui remplit la fenêtre, sous forme de grille colorée.',
+   detail:'Occupation par catégorie, suggestions pour les outils et la mémoire trop gourmands, alertes de capacité. all déplie le détail par élément.',
+   quand:'En début de session pour la référence, puis avant et après chaque gros chargement de fichiers.',
+   ex:`/context
+/context all`},
+  {g:'Mesurer et alléger', cmd:'/compact', args:'[instructions]', face:'contexte',
+   quoi:'Résume la conversation pour libérer de la place, en gardant ce que vous nommez.',
+   detail:'Sans consigne, la machine choisit ce qui survit. Avec, vous protégez une décision nommément. Le CLAUDE.md racine est réinjecté depuis le disque après la compaction.',
+   quand:'Quand la fenêtre se remplit et que la tâche continue. Avant que la compaction automatique se déclenche.',
+   ex:`/compact garde mot pour mot la contrainte sur src/types/db.ts
+/compact garde les sorties de test et les diffs
+/compact garde les règles d'arrondi de la TVA et les critères d'acceptation`},
+  {g:'Gérer les sessions', cmd:'/rename', args:'[nom]', face:'contexte',
+   quoi:'Donne un nom à la session, affiché dans la barre de saisie.',
+   detail:'Sans nom, Claude Code en génère un depuis l\'historique. C\'est ce nom qu\'on retrouve dans /resume.',
+   quand:'Au début de chaque tâche, avant de travailler. Une session sans nom est une session perdue.',
+   ex:`/rename calcul-tva
+/rename`},
+  {g:'Gérer les sessions', cmd:'/branch', args:'[nom]', face:'contexte',
+   quoi:'Crée une branche de la conversation à ce point et vous y fait basculer.',
+   detail:'L\'original est conservé tel quel, et on y revient avec /resume. Pour une copie qui tourne à côté sans vous, c\'est /fork.',
+   quand:'Pour essayer une autre approche sans abîmer la conversation en cours.',
+   ex:`/branch essai-arrondi-bancaire
+/resume calcul-tva`},
+  {g:'Gérer les sessions', cmd:'/fork', args:'[prompt]', face:'subagents',
+   quoi:'Copie la conversation dans une nouvelle session d\'arrière-plan, et vous continuez ici.',
+   detail:'Avec un prompt, la copie se met au travail tout de suite ; sans, elle attend dans la vue des agents. Elle crée son propre worktree avant de modifier du code.',
+   quand:'Pour lancer en parallèle une tâche qui a besoin de tout le contexte, sans vous bloquer.',
+   ex:`/fork écris les tests de non-régression pour le calcul de TVA`},
+  {g:'Gérer les sessions', cmd:'/resume', args:'[session]', alias:'/continue', face:'contexte',
+   quoi:'Reprend une conversation par son nom ou son ID, ou ouvre la liste.',
+   detail:'Les sessions d\'arrière-plan apparaissent marquées bg. En reprendre une qui tourne encore vous y attache, et la conversation courante passe en arrière-plan.',
+   quand:'Après un /clear, un /branch, ou le lendemain matin.',
+   ex:`/resume
+/resume calcul-tva`},
+  {g:'Gérer les sessions', cmd:'/recap', args:'', face:'contexte',
+   quoi:'Génère un résumé d\'une ligne de la session en cours.',
+   detail:'La même chose que le récapitulatif qui s\'affiche tout seul quand vous revenez après une absence, mais à la demande.',
+   quand:'En revenant d\'une pause, ou avant de passer la main à un collègue.',
+   ex:`/recap`},
+  {g:'Gérer les sessions', cmd:'/clear', args:'[nom]', alias:'/reset · /new', face:'contexte',
+   quoi:'Ouvre une nouvelle conversation, contexte vide. La mémoire du projet reste.',
+   detail:'Le nom passé étiquette la conversation précédente dans /resume. Pour alléger sans changer de conversation, c\'est /compact.',
+   quand:'Dès que la tâche change. Le seul geste gratuit du programme.',
+   ex:`/clear calcul-tva-termine
+/clear`},
+  {g:'Diagnostiquer et brancher', cmd:'/status', args:'', face:'modele',
+   quoi:'Ouvre les réglages sur l\'onglet Status : version, modèle, compte, connectivité.',
+   detail:'Fonctionne pendant que Claude répond. La ligne Session kind dit si la session est interactive ou en arrière-plan.',
+   quand:'Avant un atelier, pour vérifier que tout le monde est sur la même version et le même modèle.',
+   ex:`/status`},
+  {g:'Diagnostiquer et brancher', cmd:'/mcp', args:'[reconnect | enable | disable]', face:'mcp',
+   quoi:'Gère les connexions aux serveurs MCP et leur authentification OAuth.',
+   detail:'Sans argument, ouvre la liste interactive. reconnect all relance tous les serveurs en échec ou qui attendent une authentification. disable coupe un serveur sans perdre sa configuration.',
+   quand:'Après avoir branché un serveur, quand un outil ne répond plus, ou pour couper ce qui ne sert pas.',
+   ex:`/mcp
+/mcp reconnect all
+/mcp disable notion`},
+  {g:'Diagnostiquer et brancher', cmd:'/voice', args:'[hold | tap | off]', face:'modele',
+   quoi:'Active la dictée vocale, en mode maintenu ou en mode bascule.',
+   detail:'hold : on parle tant que la touche est enfoncée. tap : une pression pour démarrer, une pour arrêter. Demande un compte Claude.ai.',
+   quand:'Pour décrire un problème long plus vite qu\'au clavier.',
+   ex:`/voice hold
+/voice off`}
+];
+
+const COMPARE = {
+  head:['commande','la conversation actuelle','ce que vous avez sous les yeux ensuite'],
+  rows:[
+    ['/compact','continue, résumée','la même conversation, allégée'],
+    ['/clear','mise de côté, reprenable par /resume','une conversation vide'],
+    ['/branch','conservée intacte','une copie complète, vous êtes dedans'],
+    ['/fork','continue ici, avec vous','la même ; la copie travaille en arrière-plan'],
+    ['/resume','mise de côté','la conversation reprise'],
+    ['/rename','inchangée','inchangé, seul le nom change']
+  ]
+};
+
+const FLOW = [
+  ['/rename calcul-tva','Nommer avant de travailler.'],
+  ['/status','Vérifier la version et le modèle.'],
+  ['/context','Prendre la référence.'],
+  ['…le travail…','Lire, modifier, tester.'],
+  ['/compact garde les règles d\'arrondi','La fenêtre se remplit : on choisit ce qui survit.'],
+  ['/branch essai-arrondi','Essayer une autre approche sans risque.'],
+  ['/resume calcul-tva','L\'essai ne tient pas : retour à l\'original.'],
+  ['/fork écris les tests de non-régression','Les tests partent en arrière-plan.'],
+  ['/recap','Une pause, puis où en est-on.'],
+  ['/clear calcul-tva-termine','Tâche suivante, contexte vide.']
+];
+
+/* ─── mise en route — vérifiée sur code.claude.com/docs/en/setup ───
+   et github.com/mattpocock/skills pour les skills d'interrogation */
+const INSTALL = [
+  {id:'unix', label:'macOS · Linux · WSL', lang:'bash', src:`curl -fsSL https://claude.ai/install.sh | bash`},
+  {id:'ps', label:'Windows PowerShell', lang:'text', src:`irm https://claude.ai/install.ps1 | iex`},
+  {id:'brew', label:'Homebrew', lang:'bash', src:`brew install --cask claude-code
+# pas de mise à jour automatique :
+brew upgrade claude-code`},
+  {id:'winget', label:'WinGet', lang:'text', src:`winget install Anthropic.ClaudeCode`},
+  {id:'npm', label:'npm', lang:'bash', src:`# Node.js 22 ou plus. Jamais avec sudo.
+npm install -g @anthropic-ai/claude-code`}
+];
+
+const STEPS = [
+  {n:'1', t:'Investigation / Recherche', court:'Recherche',
+   but:'Comprendre le code et le problème avant d\'écrire une ligne.',
+   faire:`/plan explore la gestion des paiements et explique comment elle marche. Ne modifie rien.
+@src/paiement/
+# une lecture large : laisser Claude déléguer à un sub-agent d'exploration`,
+   sortie:'Une carte des fichiers concernés et des questions ouvertes, notées dans NOTES.md.',
+   piege:'Laisser Claude coder dès sa première réponse. En mode plan, il ne peut pas.'},
+  {n:'2', t:'Clarifier les concepts', court:'Clarifier',
+   but:'Que chaque mot du domaine ait un seul sens, et que chaque choix ait une raison écrite.',
+   faire:`/grill-with-docs je veux ajouter le paiement en trois fois
+# une question à la fois, jusqu'à ce que chaque branche soit tranchée`,
+   sortie:'CONTEXT.md (le vocabulaire) mis à jour, et une ADR par décision difficile.',
+   piege:'Accepter un terme flou (« client », « commande ») qui voudra dire deux choses dans le code.'},
+  {n:'3', t:'Découpage → Plan', court:'Plan',
+   but:'Transformer la décision en tranches petites, vérifiables, dans l\'ordre.',
+   faire:`/plan lis @docs/specs/paiement-3x.md et propose un plan en étapes testables
+# avec les skills de Matt Pocock :
+/to-spec
+/to-tickets`,
+   sortie:'Un plan validé par vous, ou des tickets avec leurs dépendances.',
+   piege:'Une étape qui prend deux jours. Si elle ne tient pas dans une session, la redécouper.'},
+  {n:'4', t:'Implémentation', court:'Code',
+   but:'Une tranche à la fois, dans une session propre.',
+   faire:`/clear
+/rename paiement-3x-ticket-2
+implémente le ticket 2 du plan, en commençant par un test qui échoue`,
+   sortie:'Un diff limité à la tranche, et ses tests.',
+   piege:'Enchaîner trois tickets dans la même session : le contexte se remplit, la qualité baisse.'},
+  {n:'5', t:'Revue du code', court:'Revue',
+   but:'Faire relire par un regard qui n\'a pas écrit le code.',
+   faire:`/code-review
+/simplify
+/security-review
+# puis vous : git diff`,
+   sortie:'Une liste d\'écarts corrigés, et un diff que vous avez lu vous-même.',
+   piege:'Demander « c\'est bon ? » à la session qui vient d\'écrire le code. /code-review lance des agents à contexte frais.'},
+  {n:'6', t:'Tests', court:'Tests',
+   but:'Prouver que ça marche, et que rien d\'autre n\'a cassé.',
+   faire:`lance npm test et corrige les échecs sans modifier les tests
+# ou un hook PostToolUse qui lance les tests après chaque écriture`,
+   sortie:'Une suite verte, et un test qui aurait échoué avant le correctif.',
+   piege:'Claude qui modifie le test pour le faire passer. L\'interdire dans CLAUDE.md, et le vérifier dans le diff.'},
+  {n:'7', t:'Commit / Déploiement', court:'Livrer',
+   but:'Livrer une trace lisible, et laisser la suite reprenable.',
+   faire:`commite avec un message conventionnel qui cite le ticket
+crée la pull request avec gh pr create
+/handoff`,
+   sortie:'Un commit, une PR, et un document de passation pour la session suivante.',
+   piege:'Un push sans regard humain. Mettre Bash(git push *) en ask dans settings.json.'}
+];
+
+const SETUP = [
+  {id:'quoi', titre:'Qu\'est-ce que Claude Code ?',
+   lead:'Un agent qui code, dans votre terminal.',
+   html:() => `<p>Claude Code est l'outil de développement agentique d'Anthropic. Vous décrivez ce que vous voulez en langage courant ; il lit votre code, le modifie, lance les commandes, et vous montre ce qu'il fait. Chaque action passe par vos permissions.</p>
+    <div class="keys">
+      <div><b>Lire les fichiers</b><span>Parcourt et comprend tout le dépôt, pas seulement le fichier ouvert.</span></div>
+      <div><b>Écrire du code</b><span>Crée, modifie et refactorise des fichiers.</span></div>
+      <div><b>Lancer des commandes</b><span>Shell, tests, builds, linters.</span></div>
+      <div><b>Gérer Git</b><span>Commits, branches, pull requests.</span></div>
+      <div><b>Se connecter</b><span>Services externes et outils de l'équipe via MCP.</span></div>
+      <div><b>Garder la mémoire</b><span>CLAUDE.md est relu au début de chaque session.</span></div>
+    </div>
+    <div class="tree">
+      <div><span class="p">Terminal</span><span class="d">La commande <code>claude</code> : l'interface de référence</span></div>
+      <div><span class="p">VS Code · JetBrains</span><span class="d">Extension et plugin : diffs dans l'éditeur, contexte du fichier ouvert</span></div>
+      <div><span class="p">Application desktop</span><span class="d">La même chose sans terminal</span></div>
+      <div><span class="p">GitHub Actions</span><span class="d">Claude dans la CI : répondre à une issue, relire une PR</span></div>
+    </div>
+    <p class="note">Le modèle n'est pas figé : Opus, Sonnet ou Haiku, au choix avec <code>/model</code>. Claude Code est le harnais autour du modèle, la section suivante explique la différence.</p>`},
+
+  {id:'harnais', titre:'Quel harnais ?',
+   lead:'Le modèle pense, le harnais agit.',
+   html:() => `<p>Claude Code est un harnais : un programme qui tourne sur votre portable, donne des outils au modèle (lire, écrire, lancer une commande), gère son contexte et applique vos permissions. Le modèle, lui, tourne chez Anthropic et se choisit avec <code>/model</code>.</p>
+    <div class="keys">
+      <div><b>claude.ai</b><span>Le navigateur. Aucun accès à vos fichiers : vous copiez-collez.</span></div>
+      <div><b>Claude Code</b><span>Le terminal. Vos fichiers, votre shell, votre dépôt.</span></div>
+      <div><b>L'API</b><span>Votre code. Vous écrivez le harnais vous-même.</span></div>
+    </div>
+    <button class="golink" data-goschema>Voir le schéma de la boucle →</button>`},
+
+  {id:'avant', titre:'Avant d\'installer',
+   lead:'Un système récent, un compte, un terminal.',
+   html:() => `<div class="keys">
+      <div><b>Système</b><span>macOS 13+, Windows 10 (1809+), Ubuntu 20.04+, Debian 10+ ou Alpine 3.19+. 4 Go de RAM, processeur x64 ou ARM64, connexion internet.</span></div>
+      <div><b>Compte</b><span>Abonnement Pro, Max, Team ou Enterprise, ou compte Console (facturé à l'usage). Le plan gratuit de claude.ai n'inclut pas Claude Code.</span></div>
+      <div><b>Terminal</b><span>Bash, Zsh, PowerShell ou CMD. La section « Le terminal » explique comment en ouvrir un.</span></div>
+      <div><b>Git</b><span>Recommandé partout. Sur Windows, Git for Windows donne à Claude un vrai Bash, sinon il passe par PowerShell.</span></div>
+      <div><b>Node.js</b><span>Seulement pour l'installation par npm : version 22 ou plus. L'installeur natif n'en a pas besoin.</span></div>
+      <div><b>Clé API</b><span>Facultative. Utile pour un compte Console ou un script, sinon la connexion se fait dans le navigateur.</span><code>console.anthropic.com</code></div>
+    </div>
+    ${codeBlock({file:'vérifier ce qu\'on a déjà', lang:'bash', src:`git --version      # Git est-il là ?
+node --version     # seulement si vous passez par npm : v22 ou plus`})}
+    ${codeBlock({file:'facultatif : utiliser une clé API au lieu du navigateur', lang:'bash', src:`# macOS / Linux : à ajouter dans ~/.zshrc ou ~/.bashrc pour la garder
+export ANTHROPIC_API_KEY="sk-ant-..."
+# Windows PowerShell, pour la session en cours :
+$env:ANTHROPIC_API_KEY="sk-ant-..."`})}
+    <p class="note">Les anciens guides demandent Node 18 et une clé API obligatoire. Ce n'est plus le cas avec l'installeur natif. Une clé ne se commite jamais, et ne se colle pas dans CLAUDE.md.</p>`},
+
+  {id:'installer', titre:'Installer sur son portable',
+   lead:'Installer, vérifier, se connecter.',
+   html:() => `<p class="istep"><i>1</i><span><b>Installer.</b> Choisir son système. L'installeur natif est recommandé : il se met à jour seul.</span></p>
+    <div class="seg" id="osseg" role="group" aria-label="Système">${INSTALL.map(o=>`<button data-os="${o.id}" aria-pressed="${S.os===o.id}">${esc(o.label)}</button>`).join('')}</div>
+    <div id="oscode">${codeBlock({file:'terminal', lang:INSTALL.find(o=>o.id===S.os).lang, src:INSTALL.find(o=>o.id===S.os).src})}</div>
+    <p class="istep"><i>2</i><span><b>Vérifier.</b> Ouvrir un <em>nouveau</em> terminal, pour qu'il trouve la commande.</span></p>
+    ${codeBlock({file:'terminal', lang:'bash', src:`claude --version   # affiche un numéro de version
+claude doctor      # diagnostic de l'installation et des réglages`})}
+    <p class="istep"><i>3</i><span><b>Se connecter et démarrer.</b> À la première ouverture, Claude Code ouvre le navigateur pour la connexion. Avec ANTHROPIC_API_KEY définie, il propose de l'utiliser à la place.</span></p>
+    ${codeBlock({file:'terminal', lang:'bash', src:`claude             # ouvre une session, connexion au premier lancement`})}
+    <div class="keys">
+      <div><b>« claude » introuvable</b><span>Le dossier d'installation n'est pas encore dans le PATH. Fermer et rouvrir le terminal, puis relancer claude doctor.</span></div>
+      <div><b>Extension VS Code</b><span>Chercher « Claude Code » dans le marketplace des extensions. JetBrains a son plugin.</span></div>
+      <div><b>Mises à jour</b><span>Automatiques avec l'installeur natif. Homebrew, WinGet et npm : à la main.</span><code>claude update</code></div>
+    </div>`},
+
+  {id:'terminal', n:'03', titre:'Le terminal',
+   lead:'Claude Code vit là où vous tapez vos commandes.',
+   html:() => `<div class="keys">
+      <div><b>macOS</b><span>Terminal ou iTerm2. Cmd+Espace, taper « Terminal ».</span></div>
+      <div><b>Windows</b><span>PowerShell affiche <code>PS C:\\&gt;</code>, CMD affiche <code>C:\\&gt;</code>. WSL pour un environnement Linux.</span></div>
+      <div><b>Dans l'éditeur</b><span>Le terminal intégré de VS Code ou JetBrains. /ide relie la session à l'éditeur.</span><code>/ide</code></div>
+      <div><b>Retour à la ligne</b><span>Installe Shift+Entrée pour écrire un message sur plusieurs lignes.</span><code>/terminal-setup</code></div>
+    </div>
+    ${codeBlock({file:'les quatre commandes qui suffisent', lang:'bash', src:`pwd                     # où suis-je ?
+ls                      # qu'y a-t-il ici ?
+cd ~/projets/mon-app    # aller dans le projet
+code .                  # ouvrir le dossier dans VS Code`})}`},
+
+  {id:'projet', n:'04', titre:'Dans un projet précis',
+   lead:'claude démarre la session, /init écrit la mémoire du projet.',
+   html:() => `<p>Claude Code travaille dans le dossier d'où vous le lancez. Il voit ce dossier et ses sous-dossiers, charge les CLAUDE.md du chemin, et range l'historique par projet. Changer de projet, c'est changer de dossier avant de taper <code>claude</code>.</p>
+    ${codeBlock({file:'terminal', lang:'bash', src:`cd ~/projets/mon-app
+claude                         # ouvre une session dans ce projet`})}
+    ${codeBlock({file:'session Claude Code', lang:'cmd', src:`/init
+# Claude lit le dépôt et écrit un CLAUDE.md de départ :
+# commandes de build et de test, conventions, emplacements.
+# Le relire, le couper à quarante lignes, puis le commiter.`})}
+    <div class="tree">
+      <div><span class="p">claude "explique l'architecture"</span><span class="d">Démarre avec une première question</span></div>
+      <div><span class="p">claude -c</span><span class="d">Reprend la dernière conversation de ce dossier</span></div>
+      <div><span class="p">claude -p "…"</span><span class="d">Répond une fois et rend la main, sans session interactive</span></div>
+      <div><span class="p">/resume</span><span class="d">Choisir parmi les sessions de ce projet</span></div>
+    </div>
+    <button class="golink" data-goface="claudemd">Ce que doit contenir CLAUDE.md : face 02 →</button>`},
+
+  {id:'spec', n:'05', titre:'Lire une spec',
+   lead:'La spec est un fichier du dépôt, pas un message collé.',
+   html:() => `<p>Une spec collée dans le fil disparaît au premier /clear et se déforme à chaque compaction. Rangée dans le dépôt, elle se relit à chaque session, se versionne, et se cite par section.</p>
+    <div class="tree">
+      <div><span class="p">docs/specs/&lt;fonction&gt;.md</span><span class="d">Ce qu'on construit : comportement attendu, critères d'acceptation</span></div>
+      <div><span class="p">docs/adr/</span><span class="d">Pourquoi c'est construit ainsi · section suivante</span></div>
+      <div><span class="p">CONTEXT.md</span><span class="d">Le vocabulaire du domaine, un sens par mot</span></div>
+      <div><span class="p">CLAUDE.md</span><span class="d">Un pointeur vers ces dossiers, pas leur contenu</span></div>
+    </div>
+    ${codeBlock({file:'session Claude Code', lang:'cmd', src:`/plan lis @docs/specs/paiement-3x.md
+avant de planifier, liste ce qui est ambigu ou manquant dans la spec.
+pour chaque étape du plan, cite la section de la spec qu'elle couvre.`})}
+    <p class="note">@ charge le fichier entier dans le contexte. Dans CLAUDE.md, écrire le chemin sans @ (« les specs sont dans docs/specs/ ») : Claude le lit quand il en a besoin, au lieu de le payer à chaque tour.</p>`},
+
+  {id:'adr', n:'06', titre:'Le dossier ADR',
+   lead:'CLAUDE.md dit quoi faire. Une ADR dit pourquoi.',
+   html:() => `<p>Une ADR (Architecture Decision Record) note une décision d'architecture : le contexte, ce qui a été choisi, ce que ça coûte. Sans elle, Claude voit une bizarrerie et la « corrige ». Avec elle, il sait que c'était voulu.</p>
+    <div class="keys">
+      <div><b>Une décision par fichier</b><span>Numérotée, titre court.</span><code>docs/adr/0003-montants-en-centimes.md</code></div>
+      <div><b>On ne réécrit pas</b><span>Une décision qui change donne une nouvelle ADR, et l'ancienne passe en « remplacée par 0007 ».</span></div>
+      <div><b>Courte</b><span>Quatre rubriques, une page au plus.</span></div>
+      <div><b>Écrite pendant la clarification</b><span>/grill-with-docs ouvre une ADR quand une décision est difficile à justifier.</span></div>
+    </div>
+    ${codeBlock({file:'docs/adr/0003-montants-en-centimes.md', lang:'md', todo:true, src:`# 0003 · Les montants sont des entiers en centimes
+
+Statut : acceptée · 2026-10-09
+
+## Contexte
+Les flottants donnent 0,1 + 0,2 = 0,30000000000000004 sur les totaux de TVA.
+
+## Décision
+Tous les montants sont stockés et calculés en centimes, type entier.
+La conversion en euros se fait à l'affichage seulement.
+
+## Conséquences
+- Plus d'erreur d'arrondi dans les calculs.
+- Chaque entrée utilisateur doit être convertie, et testée.`})}
+    ${codeBlock({file:'CLAUDE.md', lang:'md', src:`- Avant de changer l'architecture, lire docs/adr/.
+- Ne jamais contredire une ADR acceptée sans en proposer une nouvelle.`})}`},
+
+  {id:'skills', n:'07', titre:'Skills : avec ou sans',
+   lead:'Même demande, deux résultats.',
+   html:() => `<p>Sans consigne, le modèle prend le chemin le plus probable : les choix qu'il a vus le plus souvent. Une skill de design lui donne un contrat (typographie, palette, hiérarchie) et une vérification avant de rendre. Demande identique : « une page d'accueil pour une app de suivi de budget ».</p>
+    <div class="twocol">
+      <div class="versus"><h4>Sans skill</h4>
+        <div class="mock gen" aria-hidden="true"><b>Révolutionnez votre budget</b><span>La plateforme tout-en-un qui simplifie vos finances.</span><em>Commencer</em><div class="cards"><i></i><i></i><i></i></div></div>
+        <ul><li>Dégradé violet, tout centré</li><li>Slogan générique, trois cartes identiques</li><li>Aucune donnée réelle à l'écran</li></ul>
+      </div>
+      <div class="versus with"><h4>Avec une skill de design</h4>
+        <div class="mock des" aria-hidden="true"><small>Octobre · compte joint</small><b>Il vous reste 412&nbsp;€ jusqu'au&nbsp;31.</b><div class="row"><span>1&nbsp;840&nbsp;€<s>revenus</s></span><span>1&nbsp;428&nbsp;€<s>dépensé</s></span><span>−6&nbsp;%<s>vs septembre</s></span></div></div>
+        <ul><li>Une palette restreinte, un seul accent</li><li>Le chiffre utile en titre, aligné à gauche</li><li>Une hiérarchie qui sert la tâche</li></ul>
+      </div>
+    </div>
+    <p class="mockcap">Illustrations schématiques des deux tendances, pas des captures.</p>
+    ${codeBlock({file:'faire la comparaison soi-même', lang:'cmd', src:`/skills
+# Espace sur la skill de design : la masquer à Claude, Échap
+crée une page d'accueil pour une app de suivi de budget dans maquette-a.html
+/clear
+/skills
+# la réactiver, Échap
+crée une page d'accueil pour une app de suivi de budget dans maquette-b.html`})}
+    <button class="golink" data-goface="skills">Écrire et installer une skill : face 03 →</button>`},
+
+  {id:'skillcreator', n:'08', titre:'Créer une skill avec skill-creator',
+   lead:'Une skill qui écrit des skills, puis les mesure.',
+   html:() => `<p>skill-creator est une skill publiée par Anthropic. Elle vous interroge sur ce que la nouvelle skill doit faire, écrit le SKILL.md, puis le teste : chaque cas tourne deux fois, avec et sans la skill, et les résultats sont comparés. C'est la comparaison de la section précédente, automatisée.</p>
+    ${codeBlock({file:'session Claude Code · installation', lang:'cmd', src:`/plugin marketplace add anthropics/skills
+/plugin install example-skills@anthropic-agent-skills
+# le même plugin contient frontend-design, mcp-builder, webapp-testing…`})}
+    ${codeBlock({file:'session Claude Code · utilisation', lang:'cmd', src:`utilise skill-creator pour créer une skill qui relit un diff contre docs/adr/
+# ou pour améliorer une skill existante :
+utilise skill-creator pour améliorer .claude/skills/verif`})}
+    <div class="loop"><span>intention</span><em>→</em><span>entretien</span><em>→</em><span>SKILL.md</span><em>→</em><span>cas de test</span><em>→</em><span>avec / sans</span><em>→</em><span>relecture</span><em>→</em><span>itération</span></div>
+    <div class="keys">
+      <div><b>Les cas de test</b><span>Deux ou trois demandes réalistes, rangées dans le dossier de la skill.</span><code>evals/evals.json</code></div>
+      <div><b>Avec et sans</b><span>Chaque cas tourne avec la skill et sans, ou contre l'ancienne version. Taux de réussite, durée et tokens côte à côte.</span></div>
+      <div><b>La relecture</b><span>Une page de résultats s'ouvre. Vos remarques nourrissent la version suivante, rangée dans un nouveau dossier d'itération.</span></div>
+      <div><b>La description</b><span>Une vingtaine de demandes qui doivent, ou ne doivent pas, déclencher la skill. La description est réécrite jusqu'à trier juste.</span></div>
+    </div>
+    <p class="note">skill-creator propose, vous jugez. Relire le SKILL.md produit avec les règles de la face 03 : la description d'abord, l'essentiel en haut. Les essais vont dans un dossier &lt;nom&gt;-workspace/, à mettre dans .gitignore.</p>`},
+
+  {id:'grill', n:'09', titre:'Interroger, puis passer la main',
+   lead:'Se faire cuisiner avant de coder, transmettre avant de fermer.',
+   html:() => `<p>Ces commandes ne sont pas fournies avec Claude Code : ce sont des skills communautaires, publiées par Matt Pocock. On les installe une fois, puis on configure chaque dépôt.</p>
+    ${codeBlock({file:'session Claude Code', lang:'cmd', src:`/plugin install mattpocock-skills
+/setup-matt-pocock-skills
+# une fois par dépôt : outil de tickets, emplacement des docs`})}
+    <div class="tablewrap"><table>
+      <thead><tr><th>skill</th><th>qui la lance</th><th>ce qu'elle fait</th></tr></thead>
+      <tbody>
+        <tr><td>/grill-me</td><td>vous</td><td>Vous interroge sur un plan ou un design, une question à la fois, jusqu'à ce que chaque branche soit tranchée. Marche aussi hors code.</td></tr>
+        <tr><td>/grill-with-docs</td><td>vous</td><td>Le même entretien, qui met à jour CONTEXT.md et les ADR au fur et à mesure.</td></tr>
+        <tr><td>grilling</td><td>Claude</td><td>La brique d'entretien réutilisée par les deux premières. Claude la charge seul : on ne la tape pas.</td></tr>
+        <tr><td>/handoff</td><td>vous</td><td>Résume la conversation en un document de passation, pour qu'une autre session ou un autre agent reprenne.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">/handoff, /compact et /recap résument tous les trois. /compact allège la session en cours, /recap tient en une ligne, /handoff produit un document pour quelqu'un d'autre. N'installez pas à la fois le plugin et la copie npx skills : chaque skill apparaîtrait deux fois.</p>`},
+
+  {id:'etapes', n:'10', titre:'Les 7 étapes du développement',
+   lead:'Chaque étape a son outil, et produit un fichier.',
+   html:() => `<div class="pipeline" id="pipeline">${STEPS.map((s,i)=>`${i?'<em>→</em>':''}<button data-step="${s.n}" aria-pressed="${S.step===s.n}"><i>${s.n}</i>${esc(s.court)}</button>`).join('')}</div>
+    <div id="stepcard">${stepCard()}</div>`}
+];
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDU
+   ═══════════════════════════════════════════════════════════════════ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const ALL = [CORE, ...FACES];
+const TABS_ALL = [['description','Description'],['fonctionnement','Fonctionnement'],['ou','Emplacement'],['cles','Éléments clés'],['pratique','Pratique'],['liens','Ressources']];
+const tabsFor = f => TABS_ALL.filter(([id]) =>
+  (id !== 'liens' || f.liens) && (id !== 'fonctionnement' || f.comment_cela_fonctionne));
+const stepsList = etapes => `<ol class="steps">${etapes.map(st=>`<li><div>${st.map(([k,t])=>`<p class="line" data-k="${k}"><i>${k==='cmd'?'$':k==='msg'?'&gt;':'·'}</i><span>${esc(t)}</span></p>`).join('')}</div></li>`).join('')}</ol>`;
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('eqx-'+k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v){ try { localStorage.setItem('eqx-'+k, JSON.stringify(v)); } catch {} }
+};
+const S = { view:store.get('view','harnais'), face:store.get('face','modele'), tab:'description',
+            cmd:store.get('cmd','/context'), scale:store.get('scale',1),
+            os:store.get('os', /Win/i.test(navigator.userAgent) ? 'ps' : 'unix'), step:store.get('step','1') };
+if (!INSTALL.some(o => o.id === S.os)) S.os = 'unix';
+if (!STEPS.some(s => s.n === S.step)) S.step = '1';
+if (!ALL.some(f => f.id === S.face)) S.face = 'modele';
+if (!CMDS.some(c => c.cmd === S.cmd)) S.cmd = CMDS[0].cmd;
+
+/* coloration minimale */
+const LANGS = {
+  json:[/("(?:\\.|[^"\\])*")(\s*:)|("(?:\\.|[^"\\])*")|\b(true|false|null)\b|(-?\b\d+(?:\.\d+)?\b)/g,
+        m => m[1] ? [['t-k',m[1]],[null,m[2]]] : m[3] ? 't-s' : 't-n'],
+  bash:[/(#!.*$|(?:^|\s)#.*$)|("(?:\\.|[^"\\])*"|'[^']*')|(\$\{?\w+\}?|\$\()|\b(if|then|else|elif|fi|for|do|done|exit|echo)\b/gm,
+        m => m[1] ? 't-c' : m[2] ? 't-s' : m[3] ? 't-n' : 't-k'],
+  md:  [/(^---$)|(^#{1,6} .*$)|(^[\w-]+:)|(`[^`\n]*`)|(^\s*(?:\d+\.|[-*]) )/gm,
+        m => m[1] ? 't-c' : m[2] ? 't-h' : m[3] ? 't-k' : m[4] ? 't-s' : 't-p'],
+  cmd: [/(^\/[\w-]+)|(^#.*$)/gm, m => m[1] ? 't-k' : 't-c']
+};
+function hl(src, lang){
+  const r = LANGS[lang]; if (!r) return esc(src);
+  const [re, cls] = r; let out = '', last = 0, m; re.lastIndex = 0;
+  while ((m = re.exec(src))){
+    if (!m[0]) { re.lastIndex++; continue; }
+    out += esc(src.slice(last, m.index));
+    const c = cls(m);
+    out += Array.isArray(c) ? c.map(([k,t]) => k ? `<span class="${k}">${esc(t)}</span>` : esc(t)).join('')
+                            : `<span class="${c}">${esc(m[0])}</span>`;
+    last = m.index + m[0].length;
+  }
+  return out + esc(src.slice(last));
+}
+const codeBlock = c => `<figure class="code"><figcaption><span class="file">${esc(c.file)}</span>${
+  c.todo ? '<span class="todo">à remplacer</span>' : ''}<button type="button" data-copy>copier</button></figcaption>
+  <pre><code>${hl(c.src, c.lang)}</code></pre></figure>`;
+
+/* ─── étoile ─── */
+function buildStar(){
+  const star = $('#star'); let lines = '';
+  const core = document.createElement('button');
+  core.className = 'node core'; core.dataset.face = CORE.id;
+  core.innerHTML = `<i>le centre</i><b>Le<br>modèle</b>`;
+  star.appendChild(core);
+  FACES.forEach((f, i) => {
+    const a = -Math.PI/2 + i*2*Math.PI/FACES.length, R = 39;
+    const x = 50 + R*Math.cos(a), y = 50 + R*Math.sin(a);
+    lines += `<line data-face="${f.id}" x1="50" y1="50" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}"/>`;
+    const b = document.createElement('button');
+    b.className = 'node face'; b.dataset.face = f.id;
+    b.style.left = x+'%'; b.style.top = y+'%';
+    b.innerHTML = `<i>${f.n}</i><b>${esc(f.titre)}</b>`;
+    star.appendChild(b);
+  });
+  $('#starlines').innerHTML = lines;
+  $('#facelist').innerHTML = ALL.map(f => `<button data-face="${f.id}">${f.n} · ${esc(f.titre)}</button>`).join('');
+  document.querySelectorAll('button[data-face]').forEach(el => el.onclick = () => selectFace(el.dataset.face));
+}
+
+const cmdChips = f => f.cmds && f.cmds.length ? `<div class="chips"><span class="lbl">Commandes liées</span>${
+  f.cmds.map(c=>`<button class="chip" data-gocmd="${c}">${c}</button>`).join('')}</div>` : '';
+
+function tabContent(f, tab){
+  if (tab === 'description'){
+    const d = f.description;
+    if (d) return `<p>${esc(d.texte)}</p>
+      <div class="loop">${d.boucle.map(s=>`<span>${esc(s)}</span>`).join('<em>→</em>')}</div>
+      <div class="numbers">${d.numbers.map(x=>`<div><span class="n">${esc(x.n)}</span><span class="t">${esc(x.t)}</span><span class="l">${esc(x.l)}</span></div>`).join('')}</div>
+      ${cmdChips(f)}`;
+    return `<p>${esc(f.cles.note)}</p>${cmdChips(f)}`;
+  }
+  if (tab === 'fonctionnement'){
+    const c = f.comment_cela_fonctionne;
+    return `<div class="exo-head"><h3>${esc(c.titre)}</h3></div>
+      ${c.schema ? `<figure class="schema">${c.schema}${c.legende ? `<figcaption>${esc(c.legende)}</figcaption>` : ''}</figure>` : ''}
+      ${c.etapes && c.etapes.length ? stepsList(c.etapes) : ''}
+      ${c.critere ? `<div class="critere"><b>critère de réussite</b>${esc(c.critere)}</div>` : ''}`;
+  }
+  if (tab === 'ou') return `<p>${esc(f.ou.texte)}</p>
+      <div class="tree">${f.ou.tree.map(([p,d])=>`<div><span class="p">${esc(p)}</span><span class="d">${esc(d)}</span></div>`).join('')}</div>
+      ${f.ou.code.map(codeBlock).join('')}`;
+  if (tab === 'cles') return `<div class="keys">${f.cles.items.map(k=>`<div><b>${esc(k.t)}</b><span>${esc(k.d)}</span>${k.c?`<code>${esc(k.c)}</code>`:''}</div>`).join('')}</div>
+      <p class="note">${esc(f.cles.note)}</p>`;
+  if (tab === 'liens') return `<div class="links">${f.liens.map(g=>`<div><h4>${esc(g.g)}</h4><ul>${
+    g.items.map(l=>`<li><a href="${esc(l.u)}" target="_blank" rel="noopener"><b>${esc(l.t)}<small>${esc(l.u.replace(/^https:\/\/(www\.)?/,'').replace(/\/$/,''))}</small></b><span>${esc(l.d)}${l.warn?`<em>⚠ ${esc(l.warn)}</em>`:''}</span></a></li>`).join('')}</ul></div>`).join('')}</div>`;
+  const p = f.pratique;
+  return `<div class="exo-head"><h3>${esc(p.titre)}</h3><span>${esc(p.duree)}</span></div>
+    <div class="legend"><span>$ commande</span><span>&gt; message à Claude</span><span>· à observer</span></div>
+    ${stepsList(p.etapes)}
+    <div class="critere"><b>critère de réussite</b>${esc(p.critere)}</div>`;
+}
+
+function renderPanel(){
+  const f = ALL.find(x => x.id === S.face);
+  document.querySelectorAll('button[data-face]').forEach(el => el.setAttribute('aria-current', String(el.dataset.face === S.face)));
+  document.querySelectorAll('#starlines line').forEach(l => l.classList.toggle('on', l.dataset.face === S.face));
+  $('#panel').innerHTML = `
+    <p class="kicker"><b>${f.id === 'modele' ? 'le centre' : 'face '+f.n}</b> · ${esc(f.sub)}</p>
+    <h2>${esc(f.titre)}</h2>
+    <p class="punch">${esc(f.punch)}</p>
+    <p class="def">${esc(f.def)}</p>
+    <div class="tabs" role="tablist">${tabsFor(f).map(([id,l],i)=>`<button role="tab" data-tab="${id}" aria-selected="${S.tab===id}"><span>${i+1}</span>${l}</button>`).join('')}</div>
+    <div class="tabpanel" role="tabpanel">${tabContent(f, S.tab)}</div>`;
+  $('#panel').querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { S.tab = b.dataset.tab; renderPanel(); });
+  wireCommon($('#panel'));
+}
+function selectFace(id){ S.face = id; S.tab = 'description'; store.set('face', id); renderPanel(); }
+
+/* ─── commandes ─── */
+function renderCmdNav(){
+  const groups = [...new Set(CMDS.map(c => c.g))];
+  $('#cmdnav').innerHTML = groups.map(g => `<div><h4>${esc(g)}</h4>${
+    CMDS.filter(c=>c.g===g).map(c=>`<button data-cmd="${c.cmd}" aria-current="${S.cmd===c.cmd}">${c.cmd}<small>${esc(c.args)}</small></button>`).join('')}</div>`).join('');
+  $('#cmdnav').querySelectorAll('[data-cmd]').forEach(b => b.onclick = () => selectCmd(b.dataset.cmd));
+}
+function renderCmd(){
+  const c = CMDS.find(x => x.cmd === S.cmd);
+  const face = ALL.find(f => f.id === c.face);
+  $('#cmdcard').innerHTML = `
+    <p class="sig">${c.cmd}${c.args ? ` <span>${esc(c.args)}</span>` : ''}</p>
+    <p class="alias">${c.alias ? 'alias '+esc(c.alias) : '&nbsp;'}</p>
+    <p class="what">${esc(c.quoi)}</p>
+    <dl><dt>en détail</dt><dd>${esc(c.detail)}</dd>
+        <dt>quand</dt><dd>${esc(c.quand)}</dd>
+        <dt>face</dt><dd><button class="chip plain" data-goface="${face.id}">${face.n} · ${esc(face.titre)}</button></dd></dl>
+    ${codeBlock({file:'session Claude Code', lang:'cmd', src:c.ex})}`;
+  wireCommon($('#cmdcard'));
+}
+function selectCmd(cmd){ S.cmd = cmd; store.set('cmd', cmd); renderCmdNav(); renderCmd(); }
+
+function renderStatic(){
+  $('#compare').innerHTML = `<thead><tr>${COMPARE.head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead>
+    <tbody>${COMPARE.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+  $('#flow').innerHTML = FLOW.map(([c,t])=>`<li><code>${esc(c)}</code><span>${esc(t)}</span></li>`).join('');
+}
+
+/* ─── mise en route ─── */
+function stepCard(){
+  const s = STEPS.find(x => x.n === S.step);
+  return `<div class="stepcard">
+    <h3><span>${s.n}</span>${esc(s.t)}</h3>
+    <dl><dt>le but</dt><dd>${esc(s.but)}</dd>
+        <dt>ce qui sort</dt><dd>${esc(s.sortie)}</dd>
+        <dt>le piège</dt><dd class="trap">${esc(s.piege)}</dd></dl>
+    ${codeBlock({file:'session Claude Code', lang:'cmd', src:s.faire})}</div>`;
+}
+function renderSetup(){
+  SETUP.forEach((s,i) => s.n = String(i+1).padStart(2,'0'));   /* numérotation automatique */
+  $('#setupnav').innerHTML = SETUP.map(s => `<a href="#s-${s.id}" data-sec="${s.id}"><i>${s.n}</i>${esc(s.titre)}</a>`).join('');
+  $('#setupbody').innerHTML = SETUP.map(s => `<section class="sblock" id="s-${s.id}">
+    <p class="kicker"><b>${s.n}</b> · mise en route</p><h2>${esc(s.titre)}</h2>
+    <p class="lead">${esc(s.lead)}</p>${s.html()}</section>`).join('');
+  $('#setupnav').querySelectorAll('a').forEach(a => a.onclick = e => {
+    e.preventDefault(); document.getElementById('s-'+a.dataset.sec).scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  wireSetup($('#setupbody'));
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver(es => es.forEach(en => {
+      if (en.isIntersecting) $('#setupnav').querySelectorAll('a').forEach(a =>
+        a.setAttribute('aria-current', String('s-'+a.dataset.sec === en.target.id)));
+    }), {rootMargin:'-30% 0px -60% 0px'});
+    document.querySelectorAll('.sblock').forEach(el => io.observe(el));
+  }
+}
+function wireSetup(root){
+  wireCommon(root);
+  root.querySelectorAll('[data-os]').forEach(b => b.onclick = () => {
+    S.os = b.dataset.os; store.set('os', S.os);
+    const o = INSTALL.find(x => x.id === S.os);
+    root.querySelectorAll('[data-os]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.os === S.os)));
+    $('#oscode').innerHTML = codeBlock({file:'terminal', lang:o.lang, src:o.src}); wireCommon($('#oscode'));
+  });
+  root.querySelectorAll('[data-step]').forEach(b => b.onclick = () => {
+    S.step = b.dataset.step; store.set('step', S.step);
+    root.querySelectorAll('[data-step]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.step === S.step)));
+    $('#stepcard').innerHTML = stepCard(); wireCommon($('#stepcard'));
+  });
+  root.querySelectorAll('[data-goschema]').forEach(b => b.onclick = () => {
+    selectFace('contexte'); S.tab = 'fonctionnement'; renderPanel(); setView('harnais');
+  });
+}
+
+/* ─── liens transverses, copie ─── */
+function wireCommon(root){
+  root.querySelectorAll('[data-gocmd]').forEach(b => b.onclick = () => { selectCmd(b.dataset.gocmd); setView('commandes'); });
+  root.querySelectorAll('[data-goface]').forEach(b => b.onclick = () => { selectFace(b.dataset.goface); setView('harnais'); });
+  root.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => {
+    const txt = b.closest('figure').querySelector('pre').innerText;
+    try { await navigator.clipboard.writeText(txt); b.textContent = 'copié'; } catch { b.textContent = 'copie impossible'; }
+    setTimeout(() => b.textContent = 'copier', 1400);
+  });
+}
+
+/* ─── vues, présentation, taille ─── */
+function setView(v){
+  S.view = v; store.set('view', v);
+  ['harnais','commandes','demarrer'].forEach(id => $('#v-'+id).hidden = v !== id);
+  document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+  window.scrollTo({top:0});
+}
+document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => setView(b.dataset.view));
+
+function setScale(s){
+  S.scale = Math.min(1.5, Math.max(.85, Math.round(s*100)/100));
+  document.documentElement.style.setProperty('--scale', S.scale); store.set('scale', S.scale);
+}
+$('#bigger').onclick = () => setScale(S.scale + .08);
+$('#smaller').onclick = () => setScale(S.scale - .08);
+
+function togglePresent(){
+  const on = !document.body.classList.contains('present');
+  document.body.classList.toggle('present', on);
+  $('#present').setAttribute('aria-pressed', String(on));
+  if (on && S.scale < 1.15) setScale(1.2);
+  if (!on) setScale(1);
+  try {
+    if (on && !document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(()=>{});
+    if (!on && document.fullscreenElement) document.exitFullscreen?.().catch(()=>{});
+  } catch {}
+}
+$('#present').onclick = togglePresent;
+
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input,textarea')) return;
+  const k = e.key;
+  if (S.view === 'harnais' && (k === 'ArrowRight' || k === 'ArrowLeft')){
+    const i = ALL.findIndex(f => f.id === S.face);
+    selectFace(ALL[(i + (k === 'ArrowRight' ? 1 : ALL.length - 1)) % ALL.length].id); e.preventDefault();
+  } else if (S.view === 'commandes' && (k === 'ArrowDown' || k === 'ArrowUp')){
+    const i = CMDS.findIndex(c => c.cmd === S.cmd);
+    selectCmd(CMDS[(i + (k === 'ArrowDown' ? 1 : CMDS.length - 1)) % CMDS.length].cmd); e.preventDefault();
+  } else if (S.view === 'harnais' && /^[1-6]$/.test(k)){
+    const t = tabsFor(ALL.find(f => f.id === S.face))[+k-1]; if (t){ S.tab = t[0]; renderPanel(); } }
+  else if (k === 'h' || k === 'H') setView('harnais');
+  else if (k === 'c' || k === 'C') setView('commandes');
+  else if (k === 'm' || k === 'M') setView('demarrer');
+  else if (k === 'p' || k === 'P') togglePresent();
+  else if (k === '+' || k === '=') setScale(S.scale + .08);
+  else if (k === '-') setScale(S.scale - .08);
+});
+
+/* ─── démarrage ─── */
+setScale(S.scale);
+if (!['harnais','commandes','demarrer'].includes(S.view)) S.view = 'harnais';
+buildStar(); renderPanel(); renderCmdNav(); renderCmd(); renderStatic(); renderSetup(); setView(S.view);
+</script>
+</body>
+</html>

@@ -1,8 +1,22 @@
 {
   "planning": {
     "description": "Everything needed to grill a new plan before building it.",
-    "skills": ["grill-me", "grilling"],
-    "agents": [],
+    "skills": ["grill-me", "grilling", "grill-with-docs"],
+    "agents": ["planner", "architect"],
+    "hooks": [],
+    "mcp": []
+  },
+  "sdlc-team": {
+    "description": "Generic end-to-end delivery team: plan, design, build, review, test.",
+    "skills": [],
+    "agents": ["planner", "architect", "backend-developer", "frontend-developer", "designer", "code-reviewer", "security-reviewer", "test-engineer", "qa-analyst", "devops-engineer", "explorer"],
+    "hooks": [],
+    "mcp": []
+  },
+  "quality": {
+    "description": "Security, testing and UI/SEO quality skills for an existing codebase.",
+    "skills": ["security-audit", "tdd", "ui-slop", "accessibility", "seo"],
+    "agents": ["code-reviewer", "security-reviewer"],
     "hooks": [],
     "mcp": []
   }
