@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Code</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="guide">
@@ -235,6 +234,10 @@ const CORE_FR = {
     {g:'Le même modèle, un autre harnais', items:[
       {t:'opencode-antigravity-auth', u:'https://github.com/NoeFabris/opencode-antigravity-auth', d:'Un plugin pour le harnais OpenCode qui passe par un compte Google pour accéder à des modèles comme Claude ou Gemini. Utile pour montrer que le harnais est séparable du modèle.',
        warn:'Contre-exemple : son README indique qu\'il enfreint les conditions d\'utilisation de Google, et des comptes ont été suspendus. À montrer, pas à installer.'}
+    ]},
+    {g:'Entraîner son propre modèle', items:[
+      {t:'Higgsfield', u:'https://github.com/higgsfield-ai/higgsfield', d:'Framework Python et gestionnaire de workloads GPU pour l\'entraînement distribué de modèles de plusieurs milliards à plusieurs milliers de milliards de paramètres (DeepSpeed ZeRO-3, FSDP). En amont du harnais : ici on fabrique le modèle, pas l\'agent qui s\'en sert.',
+       warn:'Dépôt archivé (lecture seule depuis le 26 octobre 2026) : à consulter, pas à adopter pour un nouveau projet.'}
     ]}
   ]
 };
@@ -292,6 +295,10 @@ const CORE_EN = {
     {g:'The same model, another harness', items:[
       {t:'opencode-antigravity-auth', u:'https://github.com/NoeFabris/opencode-antigravity-auth', d:'A plugin for the OpenCode harness that goes through a Google account to reach models like Claude or Gemini. Useful for showing that the harness is separable from the model.',
        warn:'Counter-example: its README states it violates Google\'s terms of service, and accounts have been suspended. Show it, don\'t install it.'}
+    ]},
+    {g:'Training your own model', items:[
+      {t:'Higgsfield', u:'https://github.com/higgsfield-ai/higgsfield', d:'A Python framework and GPU workload manager for distributed training of models from billions to trillions of parameters (DeepSpeed ZeRO-3, FSDP). Upstream of the harness: this is where the model itself gets built, not the agent that uses it.',
+       warn:'Archived repo (read-only since October 26, 2026): worth reading, not adopting for a new project.'}
     ]}
   ]
 };
@@ -453,7 +460,8 @@ allowed-tools: Read Grep Bash(npm test)
        {t:'skill-creator · Anthropic', u:'https://github.com/anthropics/skills/tree/main/skills/skill-creator', d:'La skill qui crée et améliore des skills, et les teste avec et sans. Dans le plugin example-skills : /plugin marketplace add anthropics/skills.'},
        {t:'skills.sh', u:'https://www.skills.sh/', d:'Un annuaire de skills pour agents. Installation en une ligne : npx skills add <owner/repo>.'},
        {t:'autoskills', u:'https://www.autoskills.sh/', d:'npx autoskills lit les dépendances du projet, détecte la stack et installe les skills qui correspondent, depuis un registre vérifié.'},
-       {t:'Build with Claude', u:'https://buildwithclaude.com/skill/anti-ui-slop', d:'Un annuaire communautaire de skills Claude Code. La fiche anti-ui-slop : concevoir et relire une interface avec un contrat de design et une vérification avant livraison.'}
+       {t:'Build with Claude', u:'https://buildwithclaude.com/skill/anti-ui-slop', d:'Un annuaire communautaire de skills Claude Code. La fiche anti-ui-slop : concevoir et relire une interface avec un contrat de design et une vérification avant livraison.'},
+       {t:'superpowers · obra', u:'https://github.com/obra/superpowers', d:'Un ensemble de skills composables plus les instructions d\'amorçage qui les font utiliser : brainstorming avant de coder, découpage en tâches vérifiables, TDD rouge-vert-refactor, debug systématique, isolation par git worktree. Même plugin sur Claude Code, Codex, Cursor, Gemini CLI, OpenCode et GitHub Copilot CLI. Installation : /plugin install superpowers@claude-plugins-official'}
      ]},
      {g:'Des skills à lire avant d\'écrire la sienne', items:[
        {t:'unslop · Cursor', u:'https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md', d:'Une skill courte qui retire les tics d\'écriture d\'IA. Bon exemple de frontmatter minimal : un name, une description.'},
@@ -827,7 +835,8 @@ allowed-tools: Read Grep Bash(npm test)
        {t:'skill-creator · Anthropic', u:'https://github.com/anthropics/skills/tree/main/skills/skill-creator', d:'The skill that creates and improves skills, and tests them with and without. In the example-skills plugin: /plugin marketplace add anthropics/skills.'},
        {t:'skills.sh', u:'https://www.skills.sh/', d:'A directory of skills for agents. One-line install: npx skills add <owner/repo>.'},
        {t:'autoskills', u:'https://www.autoskills.sh/', d:'npx autoskills reads the project\'s dependencies, detects the stack and installs matching skills from a verified registry.'},
-       {t:'Build with Claude', u:'https://buildwithclaude.com/skill/anti-ui-slop', d:'A community directory of Claude Code skills. The anti-ui-slop entry: designing and reviewing an interface with a design contract and a pre-delivery check.'}
+       {t:'Build with Claude', u:'https://buildwithclaude.com/skill/anti-ui-slop', d:'A community directory of Claude Code skills. The anti-ui-slop entry: designing and reviewing an interface with a design contract and a pre-delivery check.'},
+       {t:'superpowers · obra', u:'https://github.com/obra/superpowers', d:'A set of composable skills plus bootstrap instructions that get the agent to use them: brainstorming before any code, breakdown into verifiable tasks, red-green-refactor TDD, systematic debugging, git worktree isolation. Same plugin on Claude Code, Codex, Cursor, Gemini CLI, OpenCode, and GitHub Copilot CLI. Install: /plugin install superpowers@claude-plugins-official'}
      ]},
      {g:'Skills worth reading before writing your own', items:[
        {t:'unslop · Cursor', u:'https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md', d:'A short skill that strips AI writing tics. A good example of minimal frontmatter: a name, a description.'},

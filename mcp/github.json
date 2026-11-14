@@ -1,0 +1,15 @@
+{
+  "name": "github",
+  "description": "GitHub operations — PRs, issues, repos, code search. Official Anthropic MCP reference server.",
+  "tags": ["vcs", "github"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "shim"
+  },
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-github"],
+  "env": {
+    "GITHUB_PERSONAL_ACCESS_TOKEN": "required"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "strategic-compact",
+  "description": "Suggests a manual /compact once a session crosses a tool-call threshold, then again at regular intervals after — a coarse proxy for 'this session has been running a while', paired with the strategic-compact skill which judges whether the current moment is actually a safe phase boundary to act on it.",
+  "tags": ["context"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "shim",
+    "codex": "shim"
+  },
+  "event": "PreToolUse",
+  "command": "scripts/suggest-compact.sh"
+}

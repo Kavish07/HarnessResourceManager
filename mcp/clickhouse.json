@@ -1,0 +1,12 @@
+{
+  "name": "clickhouse",
+  "description": "Run analytics queries against a ClickHouse database. Official ClickHouse-hosted remote MCP server.",
+  "tags": ["database", "analytics"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "unknown"
+  },
+  "type": "http",
+  "url": "https://mcp.clickhouse.cloud/mcp"
+}

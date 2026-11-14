@@ -1,0 +1,12 @@
+{
+  "name": "railway",
+  "description": "Manage Railway deployments and services from the agent.",
+  "tags": ["hosting", "railway"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "unknown"
+  },
+  "command": "npx",
+  "args": ["-y", "@railway/mcp-server"]
+}

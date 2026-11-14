@@ -1,0 +1,12 @@
+{
+  "name": "sequential-thinking",
+  "description": "Structured chain-of-thought reasoning as an explicit tool call, for problems that benefit from a visible, revisable step sequence. Official Anthropic MCP reference server.",
+  "tags": ["reasoning"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "shim"
+  },
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+}

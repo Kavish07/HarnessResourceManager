@@ -1,0 +1,12 @@
+{
+  "name": "context7",
+  "description": "Live, version-pinned library documentation lookup — pulls current API docs for a package instead of relying on training-data knowledge that may be stale.",
+  "tags": ["docs"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "shim"
+  },
+  "command": "npx",
+  "args": ["-y", "@context7/mcp-server"]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "filesystem",
+  "description": "Scoped filesystem read/write access outside the current project root. Official Anthropic MCP reference server — set the allowed path in args before use.",
+  "tags": ["filesystem"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "shim"
+  },
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allow"]
+}

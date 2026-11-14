@@ -1,0 +1,12 @@
+{
+  "name": "playwright",
+  "description": "Browser automation via Playwright's accessibility tree (not screenshots) — navigate, click, fill forms, read page state. Official Microsoft MCP server.",
+  "tags": ["browser", "testing"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "shim"
+  },
+  "command": "npx",
+  "args": ["@playwright/mcp@latest"]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "memory",
+  "description": "Persistent knowledge-graph memory across sessions. Official Anthropic MCP reference server.",
+  "tags": ["memory"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "shim"
+  },
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-memory"]
+}

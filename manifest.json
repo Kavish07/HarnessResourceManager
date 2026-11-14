@@ -16,12 +16,275 @@
   },
   {
     "type": "skill",
+    "name": "advanced-elicitation",
+    "description": "Push a draft off its first-answer bias using several independent critique methods at once, then propose one merged revision. Use when the user says \"advanced elicitation\", \"push this further\", or wants a draft, plan, or decision pressure-tested from multiple angles before committing to it.",
+    "path": "skills/advanced-elicitation",
+    "tags": [
+      "planning",
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "unknown",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "ai-prompt-research",
+    "description": "Find the questions people actually ask an AI assistant about a market, how it answers them, and which sites get cited. Use when asked what people ask AI about a niche, for prompt ideas, or where a brand is missing before deciding which prompts to track long-term. Research only — it doesn't set up ongoing tracking.",
+    "path": "skills/ai-prompt-research",
+    "tags": [
+      "seo",
+      "ai-visibility"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "ai-visibility-audit",
+    "description": "Audit how a brand shows up in AI answers about its market, and deliver a short report on the few changes most likely to get it mentioned or cited — a third-party page to get onto, an owned page to improve, or an access problem to fix. Use for an AI visibility / GEO / AEO audit, or when asked why AI recommends competitors instead of the user, or how to show up in AI-assistant answers. For prompt demand research alone, use ai-prompt-research.",
+    "path": "skills/ai-visibility-audit",
+    "tags": [
+      "seo",
+      "ai-visibility"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "brainstorming",
+    "description": "Clarify intent and produce a short design before building anything new — a feature, a component, a plan outside code. Use before any creative or open-ended request, especially when the ask is vague (\"build me X\") or non-trivial parts are left unsaid.",
+    "path": "skills/brainstorming",
+    "tags": [
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "build-autonomous",
+    "description": "Implement one story, feature, or bug fix end to end without interactive back-and-forth — plan, code, review, verify, then report status — for use by an orchestrator or when no one is present to ask. Use when invoked headlessly or by another automated process, not for an interactive session.",
+    "path": "skills/build-autonomous",
+    "tags": [
+      "sdlc"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "build-planning",
+    "description": "Implement a story, feature, or bug fix end to end — plan, code, review, verify — when the user hands over a ticket or description and leaves the implementation to you. Use for a substantive change the user wants done, not for small mechanical edits (formatting, typos, config hygiene) or user-directed interactive edits.",
+    "path": "skills/build-planning",
+    "tags": [
+      "sdlc"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "competitive-landscape",
+    "description": "Map who's winning an SEO market, what content is working for them, keyword coverage, and the strategic gaps. Use for a market-level view across several competitors; for a deep dive on one named domain, use competitor-analysis instead.",
+    "path": "skills/competitive-landscape",
+    "tags": [
+      "seo"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "competitor-analysis",
+    "description": "Analyze one named competitor's organic footprint, ranking keywords, content themes, and backlinks to decide what to learn from, counter-position against, or outrank. Use for a single named competitor; for finding who the market leaders even are first, use competitive-landscape instead.",
+    "path": "skills/competitor-analysis",
+    "tags": [
+      "seo"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "continuous-learning",
+    "description": "Mine a finished session's transcript for a technique, workaround, or correction worth keeping, and propose it as a new skill or CLAUDE.md note for the user's approval. Use at natural session boundaries, or when asked to capture what was just learned.",
+    "path": "skills/continuous-learning",
+    "tags": [
+      "meta",
+      "learning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "create-repo-skill",
+    "description": "Create or update a skill in this repository the right way — one canonical file, a consistent frontmatter shape, and every place that lists skills kept in sync. Use whenever adding a new skill, converting a workflow into a skill, or when the manifest looks out of date with the skills folder.",
+    "path": "skills/create-repo-skill",
+    "tags": [
+      "meta",
+      "skills"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "deep-recon",
+    "description": "Decision-grade research on a topic or on this codebase, with every claim traced to an evidence source rather than recalled from training data. Use for market/domain/competitive/technical research, \"research this\", \"research how X works here\", or \"why is X built this way\" when a quick answer in chat isn't enough.",
+    "path": "skills/deep-recon",
+    "tags": [
+      "research"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "unknown",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "skill",
     "name": "designer",
     "description": "Checklist for producing an implementable UI spec (screens, flows, dashboards, forms, charts) with wireframes, every component state, role-based visibility and WCAG 2.1 AA accessibility. Use when asked to design, wireframe, lay out or improve the UX of a screen, dashboard, form or component, or before a frontend task whose screen has no spec.",
     "path": "skills/designer",
     "tags": [
       "design",
       "ui"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "dispatching-parallel-agents",
+    "description": "Fan out two or more independent investigations or fixes to separate subagents in one batch instead of working them one at a time. Use when facing multiple unrelated failures or tasks that share no state and don't depend on each other's results.",
+    "path": "skills/dispatching-parallel-agents",
+    "tags": [
+      "workflow",
+      "subagents"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "unknown",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "eval-harness",
+    "description": "Write and run evals (capability evals for new behavior, regression evals for existing behavior) with an explicit grader, before trusting that a change to agent-facing behavior (a skill, a prompt, an agent persona) actually works. Use when asked to eval, test, or verify a skill/prompt/agent change, or before claiming one is ready.",
+    "path": "skills/eval-harness",
+    "tags": [
+      "meta",
+      "testing",
+      "eval"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "evaluate-skill",
+    "description": "Test a candidate skill or prompt edit empirically by running it in fresh, isolated agent sessions and scoring what they produce against a rubric. Use when editing a skill and you need evidence the new instructions produce better output, not just a cleaner file.",
+    "path": "skills/evaluate-skill",
+    "tags": [
+      "meta",
+      "skills",
+      "evaluation"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "unknown",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "executing-plans",
+    "description": "Execute an already-approved implementation plan yourself, task by task, in the current session, instead of dispatching a fresh subagent per task. Use when the user chose inline execution or no subagent-dispatch tool is available.",
+    "path": "skills/executing-plans",
+    "tags": [
+      "workflow"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "facilitate",
+    "description": "Coach the user through writing, updating, or validating a document section by section, by asking questions rather than generating a draft to react to. Use when the user wants help thinking through a document as they write it, not just a finished draft handed to them.",
+    "path": "skills/facilitate",
+    "tags": [
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "finishing-a-development-branch",
+    "description": "Decide how to integrate finished work once implementation is done and tests pass — merge, PR, or leave as-is. Use when a feature branch or worktree is complete and ready to hand off, before merging or opening a pull request.",
+    "path": "skills/finishing-a-development-branch",
+    "tags": [
+      "git",
+      "workflow"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "forge-idea",
+    "description": "Pressure-test a half-formed idea in conversation, switching between attacking and defending it, until the user can act on it with conviction or drop it with confidence. Use when the user says \"pressure-test this idea\", \"stress-test my thinking\", or wants to harden a rough idea before committing to it.",
+    "path": "skills/forge-idea",
+    "tags": [
+      "planning"
     ],
     "harnesses": {
       "claude-code": "native",
@@ -74,6 +337,239 @@
   },
   {
     "type": "skill",
+    "name": "ingest",
+    "description": "Turn a transcript, chat thread, voice memo, or long document into a cited note that can be acted on without re-reading the source. Use when the user says \"ingest this\", \"make notes from this meeting/recording\", or \"what came out of this thread\".",
+    "path": "skills/ingest",
+    "tags": [
+      "documentation"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "keyword-clustering",
+    "description": "Cluster keywords by search intent and map each cluster to an existing or proposed page. Use when asked to group keywords, map keywords to pages, or find keyword cannibalization.",
+    "path": "skills/keyword-clustering",
+    "tags": [
+      "seo"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "keyword-research",
+    "description": "Discover keyword opportunities from seed topics, evaluate their metrics and SERPs, and prioritize which to target. Use when asked for keyword research, keyword opportunities, or what to target for a topic, product, or page.",
+    "path": "skills/keyword-research",
+    "tags": [
+      "seo"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "link-prospecting",
+    "description": "Find realistic link prospects and contact paths, then draft outreach, from SERP and backlink signals. Use when asked to find link-building prospects, backlink opportunities, or draft outreach for a page or asset.",
+    "path": "skills/link-prospecting",
+    "tags": [
+      "seo"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "local-seo",
+    "description": "Work out why a business does or doesn't show up in local map/local-pack results near its customers, and what to fix first. Use for rankings that depend on a physical location or service area; for national organic work, use competitor-analysis or keyword-research instead.",
+    "path": "skills/local-seo",
+    "tags": [
+      "seo"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "merge-ready",
+    "description": "Get a branch ready for someone else's final review — check it for security, simplicity, and resource-abuse risk, fix what's real, get checks passing, and open or update the PR. Use whenever the user says a feature, fix, or branch should be \"merge ready\", or appends this to a build request (\"build X and make it merge-ready\").",
+    "path": "skills/merge-ready",
+    "tags": [
+      "sdlc",
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "observability-triage",
+    "description": "Triage production errors in an observability/logging backend without rediscovering the same dead ends every time — verified query recipes, counting gotchas, and a maintained known-noise list. Use when asked to review production logs, count errors or crashes, compare error rates between periods, or investigate a prod error spike.",
+    "path": "skills/observability-triage",
+    "tags": [
+      "sdlc",
+      "observability"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "papercuts",
+    "description": "Log genuine, recurring repository friction (confusing setup, a flaky script, a misleading error, a non-obvious gotcha) to a running friction log without derailing the current task. Also use to review, deduplicate, and resolve existing entries. Never log the agent's own sandbox/permission errors, shell mistakes, transient flakiness, or third-party quirks the repo can't fix.",
+    "path": "skills/papercuts",
+    "tags": [
+      "sdlc",
+      "maintenance"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "party-mode",
+    "description": "Run a roundtable discussion between several distinct personas who genuinely disagree with each other, to surface angles a single reviewer would miss. Use when the user wants multiple perspectives on a decision or document, a simulated focus group, or a \"roundtable\" review.",
+    "path": "skills/party-mode",
+    "tags": [
+      "planning",
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "unknown",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "project-context",
+    "description": "Set up, update, or audit a repository's agent-instructions file (CLAUDE.md/AGENTS.md) so it stays small, verified, and free of stale or duplicated rules. Also records an observed agent mistake as a new rule. Use when asked to set up project instructions for AI agents, refresh CLAUDE.md, or record a recurring mistake as a pitfall.",
+    "path": "skills/project-context",
+    "tags": [
+      "documentation"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "receiving-code-review",
+    "description": "Evaluate code review feedback technically before implementing it, instead of agreeing reflexively or implementing blind. Use when receiving review comments, especially ones that seem unclear, overbroad, or technically questionable.",
+    "path": "skills/receiving-code-review",
+    "tags": [
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "requesting-code-review",
+    "description": "Dispatch an isolated reviewer (subagent or separate pass) with precisely scoped context instead of reviewing your own diff inline. Use after finishing a task or feature, and before merging to main.",
+    "path": "skills/requesting-code-review",
+    "tags": [
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "retrospective",
+    "description": "Review a finished body of work against the evidence it left behind — its plan, its diffs, its commits, its tickets — and produce sourced findings, action items, and an accept/reject decision. Use when asked to run a retrospective on a completed epic, milestone, or finished piece of work.",
+    "path": "skills/retrospective",
+    "tags": [
+      "review",
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "review-brief",
+    "description": "Produce a scannable review brief for a branch or PR so a maintainer can approve without reading the whole diff. Use when asked \"how do I review this\", \"summarize the changes\", \"what should I look at\", or to understand a PR in under two minutes.",
+    "path": "skills/review-brief",
+    "tags": [
+      "sdlc",
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "review-simplify",
+    "description": "Review a PR or branch specifically for code that can be deleted or simplified. Use when asked to review for simplicity, or for unnecessary edge-case overengineering.",
+    "path": "skills/review-simplify",
+    "tags": [
+      "sdlc",
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "review-ui-states",
+    "description": "Enumerate and screenshot every UI state a PR or branch adds or changes. Use when asked to show, capture, or screenshot the UI states of a PR or branch.",
+    "path": "skills/review-ui-states",
+    "tags": [
+      "sdlc",
+      "review",
+      "ui"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "unknown",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "skill",
     "name": "security-audit",
     "description": "Security guidance and vulnerability review for codebases, APIs, services, CLI tools, libraries, and daemons. Use for security questions, focused reviews, vulnerability research, security audits, or pen tests. Run the complete workflow only for explicit codebase audit or pen-test requests, full/comprehensive/end-to-end reviews, or requested report artifacts.",
     "path": "skills/security-audit",
@@ -102,11 +598,157 @@
   },
   {
     "type": "skill",
+    "name": "seo-audit",
+    "description": "Audit a website, investigate its real search opportunities, and deliver a short data-backed report on the few changes most likely to grow organic traffic that converts. Use when asked for an SEO audit or review of a domain, especially for a shareable report. For expert-facing analysis of a competitor or market, use competitor-analysis or competitive-landscape instead.",
+    "path": "skills/seo-audit",
+    "tags": [
+      "seo"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "seo-coach",
+    "description": "Enter a friendly SEO coach mode that explains workflows, recommends the next step, and helps a user get the most out of the other SEO skills. Use when a user wants SEO guidance or orientation rather than a full workflow run, or doesn't yet know which SEO skill they need.",
+    "path": "skills/seo-coach",
+    "tags": [
+      "seo"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "seo-report",
+    "description": "Turn finished SEO research into one disciplined, scannable deliverable instead of a chat wall of text. Use when an SEO research skill has finished and needs to hand off its findings, or whenever the user asks for a report, check-in, or summary of research.",
+    "path": "skills/seo-report",
+    "tags": [
+      "seo",
+      "writing"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "shard-pro",
+    "description": "Decide whether a long document needs splitting for agents to navigate cheaply, and if so split it without losing or altering any content. Use when the user says a document is too long for agents to read, asks for a table of contents so agents can find things, or wants a long doc turned into a navigable set of files.",
+    "path": "skills/shard-pro",
+    "tags": [
+      "documentation"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "simple-issue-description",
+    "description": "Turn a rough bug report, feature request, support note, or pull request into a short, plain-language issue focused on the problem and desired behavior. Use when asked to simplify an issue, explain what a PR is for, write the issue for a PR, or strip implementation detail out of a report.",
+    "path": "skills/simple-issue-description",
+    "tags": [
+      "sdlc",
+      "writing"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "strategic-compact",
+    "description": "Judge whether now is a good moment to suggest a manual /compact — a phase boundary (research finished, milestone shipped, about to switch to an unrelated task) rather than whatever point auto-compaction happens to land on. Use when a task phase just completed, or the paired hook signals a tool-call threshold.",
+    "path": "skills/strategic-compact",
+    "tags": [
+      "meta",
+      "context"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "subagent-driven-development",
+    "description": "Execute an implementation plan by dispatching a fresh implementer subagent per task, with a review after each task and one broad review at the end. Use when running a multi-task plan with mostly independent tasks and a subagent-dispatch tool is available.",
+    "path": "skills/subagent-driven-development",
+    "tags": [
+      "workflow",
+      "subagents"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "unknown",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "systematic-debugging",
+    "description": "Find the root cause before proposing any fix. Use for any bug, test failure, or unexpected behavior — especially under time pressure, when a \"quick fix\" seems obvious, or after a previous fix didn't actually work.",
+    "path": "skills/systematic-debugging",
+    "tags": [
+      "debugging"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "takeover",
+    "description": "Take over someone else's open PR, branch, or agent thread and finish it, while keeping the original contributor's credit in the merged commit. Use when asked to take over, finish, adopt, or land someone else's PR, or when triage decides a contributor's PR should ship.",
+    "path": "skills/takeover",
+    "tags": [
+      "sdlc",
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
     "name": "tdd",
     "description": "Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests.",
     "path": "skills/tdd",
     "tags": [
       "testing"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "test-audit",
+    "description": "Gate new or changed tests at write time, and audit existing test suites for low-value, implementation-coupled, or duplicative tests and the test-only production seams that keep them alive. Use when asked to add tests, review tests, clean up a test suite, or when a change touches test files.",
+    "path": "skills/test-audit",
+    "tags": [
+      "testing",
+      "sdlc"
     ],
     "harnesses": {
       "claude-code": "native",
@@ -127,6 +769,120 @@
       "claude-code": "native",
       "cursor": "native",
       "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "using-git-worktrees",
+    "description": "Set up an isolated workspace before starting feature work, preferring a native worktree tool over manual git worktree management. Use before executing an implementation plan that should not touch the current branch's working copy.",
+    "path": "skills/using-git-worktrees",
+    "tags": [
+      "git"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "ux-flow-design",
+    "description": "Elicit the user's UX vision into two companion documents — visual identity (how it looks) and behavior/information architecture (how it works) — rather than inventing a direction and asking them to react to it. Use when the user wants to plan or specify UX/UI before a build, without a visual mockup already driving the decisions.",
+    "path": "skills/ux-flow-design",
+    "tags": [
+      "design"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "verification-before-completion",
+    "description": "Never claim work is done, fixed, or passing without having just run the actual verification command and read its full output. Use before saying anything is complete, before committing, and before opening a pull request.",
+    "path": "skills/verification-before-completion",
+    "tags": [
+      "workflow"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "verify-local-mcp",
+    "description": "Verify a newly added or changed MCP server end to end against a local dev instance — protocol-level correctness first, then a headless-agent consumer probe that tests tool ergonomics (descriptions, schemas, output size, errors) without a human manually driving an MCP client. Use after adding or changing MCP tools, or when asked to check that an MCP server \"works\" or \"is ergonomic\".",
+    "path": "skills/verify-local-mcp",
+    "tags": [
+      "mcp",
+      "testing"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "unknown",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "walkthrough",
+    "description": "Guide a human through reviewing a commit, PR, file, or directory interactively, instead of dumping a static review report. Use when the user wants to walk through a change together rather than just receive a written review.",
+    "path": "skills/walkthrough",
+    "tags": [
+      "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "writing-plans",
+    "description": "Write an implementation plan precise enough for an engineer who has never seen this codebase or spec to execute task-by-task. Use once a spec or requirements exist for a multi-step change, before writing any code.",
+    "path": "skills/writing-plans",
+    "tags": [
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
+    "name": "writing-skills",
+    "description": "Write or edit a skill using the same discipline as test-driven development applied to documentation — see an agent fail without it, then write only what closes that gap. Use when creating a new skill, editing an existing one, or verifying a skill actually works before shipping it.",
+    "path": "skills/writing-skills",
+    "tags": [
+      "meta"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "analyst",
+    "description": "Business analyst for pre-commitment work. Researches market, domain and competitors, runs structured brainstorming, and writes the brief, PRFAQ or business requirements document a project starts from. Use before a PRD exists, when the ask is market/competitive/domain research, or when the user wants help thinking through an idea before committing to it.",
+    "path": "agents/analyst.md",
+    "tags": [
+      "sdlc",
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
     }
   },
   {
@@ -161,12 +917,42 @@
   },
   {
     "type": "agent",
+    "name": "build-error-resolver",
+    "description": "Build and type-error resolution specialist. Gets a broken build or type-check green again with the smallest possible diff, no refactors or redesigns bundled in. Use proactively whenever a build, compile, or type-check step starts failing.",
+    "path": "agents/build-error-resolver.md",
+    "tags": [
+      "sdlc",
+      "build"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "agent",
     "name": "code-reviewer",
     "description": "Senior code reviewer. Reviews changed files or a named feature for correctness bugs, security and data-protection issues, violations of the project's own stated rules, performance (N+1, missing pagination), readability and test gaps, and reports prioritized, verified findings with concrete fixes. Read-only. Use proactively after any implementation task, or when asked to review code.",
     "path": "agents/code-reviewer.md",
     "tags": [
       "sdlc",
       "review"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "debugger",
+    "description": "Root-cause debugging specialist for errors, test failures, and unexpected runtime behavior. Use proactively whenever something breaks and the cause isn't already obvious — as distinct from build-error-resolver (compile/type-check failures) and test-engineer (writing new tests).",
+    "path": "agents/debugger.md",
+    "tags": [
+      "sdlc",
+      "debugging"
     ],
     "harnesses": {
       "claude-code": "native",
@@ -206,6 +992,36 @@
   },
   {
     "type": "agent",
+    "name": "doc-updater",
+    "description": "Documentation and architecture-map specialist. Refreshes READMEs, guides, and structural docs (module maps, dependency diagrams) so they reflect the code as it actually is today, not as it was when first written. Use proactively after a change that alters structure, public APIs, or setup steps, or when asked to update docs.",
+    "path": "agents/doc-updater.md",
+    "tags": [
+      "sdlc",
+      "docs"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "dx-optimizer",
+    "description": "Developer-experience specialist. Cuts friction in onboarding, local setup, and everyday dev workflows (scripts, aliases, git hooks, IDE config). Use when setting up a new project, after friction is reported, or when the same manual step keeps happening.",
+    "path": "agents/dx-optimizer.md",
+    "tags": [
+      "sdlc",
+      "dx"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "agent",
     "name": "explorer",
     "description": "Fast, read-only explorer for this repository. Finds where things live and answers \"where is / how does / what exists\" questions across the codebase and docs, returning concise conclusions with file:line references instead of file dumps. Use before implementing or designing to locate existing code, patterns, requirements, or conventions, or when a search may need several attempts.",
     "path": "agents/explorer.md",
@@ -236,9 +1052,54 @@
   },
   {
     "type": "agent",
+    "name": "legacy-modernizer",
+    "description": "Plans and executes incremental migrations of legacy code — framework upgrades, dependency updates, monolith-to-service splits — without breaking existing behavior. Use for framework migrations, major dependency bumps, or paying down technical debt that a normal refactor pass won't touch. Distinct from refactor-cleaner (removes dead code in place) and build-error-resolver (fixes an already-broken build).",
+    "path": "agents/legacy-modernizer.md",
+    "tags": [
+      "sdlc",
+      "migration"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "agent",
     "name": "planner",
     "description": "Delivery planner. Turns a goal, PRD, or design doc into an ordered, dependency-aware implementation plan of small, independently testable tasks, each with acceptance criteria, files to touch, and the agent best suited to do it. Use when asked to plan, break down, sequence, or estimate work, \"what should we build next\", or before starting a multi-step feature.",
     "path": "agents/planner.md",
+    "tags": [
+      "sdlc",
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "pm",
+    "description": "Product manager. Decides which planning document a piece of work actually needs — a full PRD, a lightweight prd-light, a charter, or nothing more than a ticket — and writes it at the right level of detail for its scope. Use when the user wants a PRD, a planning document, or help deciding how much planning a feature or project actually warrants.",
+    "path": "agents/pm.md",
+    "tags": [
+      "sdlc",
+      "planning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "po",
+    "description": "Product owner. Turns an idea, brief, PRD, or meeting transcript into tracked requirements, slices initiatives into epics and epics into stories, writes and refines tickets, and replans the tree when something upstream changes. Use when asked to write a spec from a document, slice an initiative or epic, create or refine a ticket, check what's ready, or re-plan after a change.",
+    "path": "agents/po.md",
     "tags": [
       "sdlc",
       "planning"
@@ -258,6 +1119,21 @@
       "sdlc",
       "testing",
       "qa"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "refactor-cleaner",
+    "description": "Dead-code and duplication cleanup specialist. Finds unused exports, files, dependencies, and near-duplicate logic with the project's own analysis tools (its dead-code/unused-export/dependency checkers, whatever they are), then safely removes what's genuinely unreferenced. Use when asked to clean up, remove dead code, or consolidate duplication, or after a refactor leaves old paths behind.",
+    "path": "agents/refactor-cleaner.md",
+    "tags": [
+      "sdlc",
+      "refactoring"
     ],
     "harnesses": {
       "claude-code": "native",
@@ -293,6 +1169,227 @@
       "claude-code": "native",
       "cursor": "native",
       "codex": "shim"
+    }
+  },
+  {
+    "type": "hook",
+    "name": "memory-persistence",
+    "description": "Keeps a dated session-notes file across context compaction and between sessions, so work-in-progress state survives both. Fires on three events: SessionStart (surfaces the latest unfinished notes file), PreCompact (marks the notes file with a compaction timestamp before context is summarized), and SessionEnd (stamps the notes file's last-updated time). The listed event/command below is SessionStart; see scripts/ for the other two.",
+    "path": "hooks/memory-persistence",
+    "tags": [
+      "memory",
+      "context"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "shim",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "hook",
+    "name": "self-host-fonts",
+    "description": "Blocks edits that pull fonts or stylesheets straight from a Google (or other third-party) CDN — fonts.googleapis.com, fonts.gstatic.com, ajax.googleapis.com — in HTML or CSS. Use when a project wants every style asset downloaded and self-hosted instead of linked live.",
+    "path": "hooks/self-host-fonts",
+    "tags": [
+      "style",
+      "privacy",
+      "performance"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "shim",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "hook",
+    "name": "strategic-compact",
+    "description": "Suggests a manual /compact once a session crosses a tool-call threshold, then again at regular intervals after — a coarse proxy for 'this session has been running a while', paired with the strategic-compact skill which judges whether the current moment is actually a safe phase boundary to act on it.",
+    "path": "hooks/strategic-compact",
+    "tags": [
+      "context"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "shim",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "hook",
+    "name": "tdd-guard",
+    "description": "Blocks Write/Edit/MultiEdit/TodoWrite calls that skip the test-first loop or over-implement beyond the current failing test, using your project's own test reporter (Vitest, Jest, pytest, Go, Rust, RSpec, Minitest...). Also validates on UserPromptSubmit and SessionStart. Note: the upstream project (nizos/tdd-guard) says its successor 'probity' (nizos/probity) is now the recommended choice for new projects.",
+    "path": "hooks/tdd-guard",
+    "tags": [
+      "testing",
+      "tdd"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "unknown",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "clickhouse",
+    "description": "Run analytics queries against a ClickHouse database. Official ClickHouse-hosted remote MCP server.",
+    "path": "mcp/clickhouse.json",
+    "tags": [
+      "database",
+      "analytics"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "cloudflare-docs",
+    "description": "Search Cloudflare's documentation. Cloudflare also publishes sibling remote MCP endpoints at builds.mcp.cloudflare.com, bindings.mcp.cloudflare.com, and observability.mcp.cloudflare.com for Workers builds, bindings, and logs — same shape, different path, add as needed.",
+    "path": "mcp/cloudflare-docs.json",
+    "tags": [
+      "docs",
+      "cloudflare"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "context7",
+    "description": "Live, version-pinned library documentation lookup — pulls current API docs for a package instead of relying on training-data knowledge that may be stale.",
+    "path": "mcp/context7.json",
+    "tags": [
+      "docs"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "filesystem",
+    "description": "Scoped filesystem read/write access outside the current project root. Official Anthropic MCP reference server — set the allowed path in args before use.",
+    "path": "mcp/filesystem.json",
+    "tags": [
+      "filesystem"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "github",
+    "description": "GitHub operations — PRs, issues, repos, code search. Official Anthropic MCP reference server.",
+    "path": "mcp/github.json",
+    "tags": [
+      "vcs",
+      "github"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "memory",
+    "description": "Persistent knowledge-graph memory across sessions. Official Anthropic MCP reference server.",
+    "path": "mcp/memory.json",
+    "tags": [
+      "memory"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "playwright",
+    "description": "Browser automation via Playwright's accessibility tree (not screenshots) — navigate, click, fill forms, read page state. Official Microsoft MCP server.",
+    "path": "mcp/playwright.json",
+    "tags": [
+      "browser",
+      "testing"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "railway",
+    "description": "Manage Railway deployments and services from the agent.",
+    "path": "mcp/railway.json",
+    "tags": [
+      "hosting",
+      "railway"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "sequential-thinking",
+    "description": "Structured chain-of-thought reasoning as an explicit tool call, for problems that benefit from a visible, revisable step sequence. Official Anthropic MCP reference server.",
+    "path": "mcp/sequential-thinking.json",
+    "tags": [
+      "reasoning"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "supabase",
+    "description": "Query and manage a Supabase project's database, auth, and storage directly from the agent. Official Supabase MCP server.",
+    "path": "mcp/supabase.json",
+    "tags": [
+      "database",
+      "supabase"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "vercel",
+    "description": "Inspect and manage Vercel deployments and projects. Official Vercel-hosted remote MCP server.",
+    "path": "mcp/vercel.json",
+    "tags": [
+      "hosting",
+      "vercel"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "unknown"
     }
   }
 ]

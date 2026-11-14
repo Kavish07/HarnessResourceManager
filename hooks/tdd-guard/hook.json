@@ -1,0 +1,12 @@
+{
+  "name": "tdd-guard",
+  "description": "Blocks Write/Edit/MultiEdit/TodoWrite calls that skip the test-first loop or over-implement beyond the current failing test, using your project's own test reporter (Vitest, Jest, pytest, Go, Rust, RSpec, Minitest...). Also validates on UserPromptSubmit and SessionStart. Note: the upstream project (nizos/tdd-guard) says its successor 'probity' (nizos/probity) is now the recommended choice for new projects.",
+  "tags": ["testing", "tdd"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "unknown",
+    "codex": "unknown"
+  },
+  "event": "PreToolUse",
+  "command": "npx tdd-guard@latest"
+}

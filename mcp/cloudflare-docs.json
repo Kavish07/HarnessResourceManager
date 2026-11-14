@@ -1,0 +1,12 @@
+{
+  "name": "cloudflare-docs",
+  "description": "Search Cloudflare's documentation. Cloudflare also publishes sibling remote MCP endpoints at builds.mcp.cloudflare.com, bindings.mcp.cloudflare.com, and observability.mcp.cloudflare.com for Workers builds, bindings, and logs — same shape, different path, add as needed.",
+  "tags": ["docs", "cloudflare"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "unknown"
+  },
+  "type": "http",
+  "url": "https://docs.mcp.cloudflare.com/mcp"
+}

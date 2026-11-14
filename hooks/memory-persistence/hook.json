@@ -1,0 +1,12 @@
+{
+  "name": "memory-persistence",
+  "description": "Keeps a dated session-notes file across context compaction and between sessions, so work-in-progress state survives both. Fires on three events: SessionStart (surfaces the latest unfinished notes file), PreCompact (marks the notes file with a compaction timestamp before context is summarized), and SessionEnd (stamps the notes file's last-updated time). The listed event/command below is SessionStart; see scripts/ for the other two.",
+  "tags": ["memory", "context"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "shim",
+    "codex": "shim"
+  },
+  "event": "SessionStart",
+  "command": "scripts/session-start.sh"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "supabase",
+  "description": "Query and manage a Supabase project's database, auth, and storage directly from the agent. Official Supabase MCP server.",
+  "tags": ["database", "supabase"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "shim"
+  },
+  "command": "npx",
+  "args": ["-y", "@supabase/mcp-server-supabase@latest", "--project-ref=YOUR_PROJECT_REF"]
+}

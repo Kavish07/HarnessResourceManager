@@ -1,0 +1,12 @@
+{
+  "name": "vercel",
+  "description": "Inspect and manage Vercel deployments and projects. Official Vercel-hosted remote MCP server.",
+  "tags": ["hosting", "vercel"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "unknown"
+  },
+  "type": "http",
+  "url": "https://mcp.vercel.com"
+}

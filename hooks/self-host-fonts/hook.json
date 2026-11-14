@@ -1,0 +1,12 @@
+{
+  "name": "self-host-fonts",
+  "description": "Blocks edits that pull fonts or stylesheets straight from a Google (or other third-party) CDN — fonts.googleapis.com, fonts.gstatic.com, ajax.googleapis.com — in HTML or CSS. Use when a project wants every style asset downloaded and self-hosted instead of linked live.",
+  "tags": ["style", "privacy", "performance"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "shim",
+    "codex": "shim"
+  },
+  "event": "PreToolUse",
+  "command": "scripts/check.sh"
+}

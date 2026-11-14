@@ -4,9 +4,9 @@
   "database": ["PostgreSQL", "MySQL", "Oracle", "Redis", "Qdrant", "DBeaver", "Supabase"],
   "hosting": ["Vercel", "Render", "Azure"],
   "auth": ["Clerk", "Auth0", "Microsoft Entra ID"],
-  "orchestration": ["LangGraph", "CrewAI", "Mastra", "n8n"],
+  "orchestration": ["LangGraph", "CrewAI", "Mastra", "n8n", "Claude Managed Agents"],
   "deployment": ["Docker", "Kubernetes", "Vercel", "Cloudflare", "Neon", "GitHub", "Render"],
   "rag": ["Documents", "Vector DB", "Retrieval"],
-  "tools": ["GitHub", "Browser", "APIs"],
+  "tools": ["GitHub", "Browser", "APIs", "VoiceStudio", "OpenWhispr"],
   "observability": ["Langfuse", "Phoenix", "RAGAs", "TruLens"]
 }
