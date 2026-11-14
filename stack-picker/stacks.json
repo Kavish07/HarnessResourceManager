@@ -1,32 +1,12 @@
-[
-  {
-    "id": "react-express-postgres",
-    "name": "React + Express + Postgres",
-    "frontend": "React",
-    "backend": "Node / Express",
-    "database": "Postgres",
-    "hosting": "Vercel",
-    "auth": "Clerk",
-    "notes": "Default go-to for a full-stack app with real auth and a relational schema."
-  },
-  {
-    "id": "angular-spring-postgres",
-    "name": "Angular + Spring Boot + Postgres",
-    "frontend": "Angular",
-    "backend": "Java / Spring Boot",
-    "database": "Postgres",
-    "hosting": "Render",
-    "auth": "Auth0",
-    "notes": "Enterprise-friendly combo when the backend team is already on the JVM."
-  },
-  {
-    "id": "vue-dotnet-postgres",
-    "name": "Vue.js + ASP.NET Core + Postgres",
-    "frontend": "Vue.js",
-    "backend": ".NET / ASP.NET Core",
-    "database": "Postgres",
-    "hosting": "Azure",
-    "auth": "Microsoft Entra ID",
-    "notes": "Lightweight Vue frontend on a .NET API, common when the backend already runs on Azure."
-  }
-]
+{
+  "frontend": ["React", "Next.js", "Vue.js", "Streamlit", "Angular"],
+  "backend": ["Java", "Python", "Go", ".NET", "PHP"],
+  "database": ["PostgreSQL", "MySQL", "Oracle", "Redis", "Qdrant", "DBeaver", "Supabase"],
+  "hosting": ["Vercel", "Render", "Azure"],
+  "auth": ["Clerk", "Auth0", "Microsoft Entra ID"],
+  "orchestration": ["LangGraph", "CrewAI", "Mastra", "n8n"],
+  "deployment": ["Docker", "Kubernetes", "Vercel", "Cloudflare", "Neon", "GitHub", "Render"],
+  "rag": ["Documents", "Vector DB", "Retrieval"],
+  "tools": ["GitHub", "Browser", "APIs"],
+  "observability": ["Langfuse", "Phoenix", "RAGAs", "TruLens"]
+}

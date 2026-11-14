@@ -2,21 +2,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   await HRM.init();
 
   const res = await fetch('stack-picker/stacks.json');
-  const stacks = await res.json();
+  const options = await res.json();
 
-  const AXES = ['frontend', 'backend', 'database', 'hosting', 'auth'];
-  const state = Object.fromEntries(AXES.map((a) => [a, new Set()]));
+  const AXES = Object.keys(options);
+  const picks = {};
 
   const bar = document.getElementById('axis-bar');
-  const table = document.getElementById('stack-table');
+  const tableBody = document.getElementById('stack-table-body');
 
-  function checkbox(value, checked, onChange) {
+  function radioOpt(axis, value, checked, onChange) {
     const row = document.createElement('label');
     row.className = 'check-opt';
     const input = document.createElement('input');
-    input.type = 'checkbox';
+    input.type = 'radio';
+    input.name = axis;
     input.checked = checked;
-    input.addEventListener('change', () => onChange(input.checked));
+    input.addEventListener('change', () => onChange(value));
     row.append(input, document.createTextNode(value));
     return row;
   }
@@ -30,10 +31,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       h4.textContent = HRM.t(`stacks.axis.${axis}`);
       const opts = document.createElement('div');
       opts.className = 'opts';
-      [...new Set(stacks.map((s) => s[axis]))].forEach((value) => {
-        opts.appendChild(checkbox(value, state[axis].has(value), (checked) => {
-          checked ? state[axis].add(value) : state[axis].delete(value);
-          render();
+      options[axis].forEach((value) => {
+        opts.appendChild(radioOpt(axis, value, picks[axis] === value, (v) => {
+          picks[axis] = v;
+          renderTable();
         }));
       });
       group.append(h4, opts);
@@ -42,21 +43,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function renderTable() {
-    const filtered = stacks.filter((s) => AXES.every((axis) => state[axis].size === 0 || state[axis].has(s[axis])));
-
-    if (!filtered.length) {
-      table.innerHTML = `<tr><td class="empty">${HRM.t('stacks.empty')}</td></tr>`;
+    if (!AXES.some((axis) => picks[axis])) {
+      tableBody.innerHTML = `<tr><td class="empty" colspan="${AXES.length}">${HRM.t('stacks.empty')}</td></tr>`;
       return;
     }
-
-    const head = `<tr>${AXES.map((a) => `<th>${HRM.t(`stacks.axis.${a}`)}</th>`).join('')}<th></th></tr>`;
-    const rows = filtered
-      .map(
-        (s) =>
-          `<tr>${AXES.map((a) => `<td class="name">${s[a]}</td>`).join('')}<td class="notes">${s.notes}</td></tr>`
-      )
-      .join('');
-    table.innerHTML = head + rows;
+    const cells = AXES.map((axis) => `<td class="name">${picks[axis] || '—'}</td>`).join('');
+    tableBody.innerHTML = `<tr>${cells}</tr>`;
   }
 
   function render() {

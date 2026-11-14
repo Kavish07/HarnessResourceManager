@@ -19,13 +19,18 @@
   "configs.harness.shim": "shim",
   "configs.harness.unknown": "unknown",
   "configs.harness.unsupported": "unsupported",
-  "stacks.kicker": "frontend · backend · database · hosting · auth",
+  "stacks.kicker": "frontend · backend · database · hosting · auth · orchestration · deployment · rag · tools · observability",
   "stacks.title": "Stack picker",
-  "stacks.subtitle": "The combinations actually worth reaching for, tagged by axis. Grows as you build with more of them.",
+  "stacks.subtitle": "Pick one option per axis and see your stack take shape. Any combination goes.",
   "stacks.axis.frontend": "Frontend",
   "stacks.axis.backend": "Backend",
   "stacks.axis.database": "Database",
   "stacks.axis.hosting": "Hosting",
   "stacks.axis.auth": "Auth",
-  "stacks.empty": "No stack matches these filters yet."
+  "stacks.axis.orchestration": "Agent orchestration",
+  "stacks.axis.deployment": "Deployment",
+  "stacks.axis.rag": "Knowledge / RAG",
+  "stacks.axis.tools": "Tools / MCP",
+  "stacks.axis.observability": "Observability",
+  "stacks.empty": "Pick an option on the left to start building your stack."
 }

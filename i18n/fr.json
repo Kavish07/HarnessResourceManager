@@ -19,13 +19,18 @@
   "configs.harness.shim": "adapté",
   "configs.harness.unknown": "inconnu",
   "configs.harness.unsupported": "non supporté",
-  "stacks.kicker": "frontend · backend · base de données · hébergement · auth",
+  "stacks.kicker": "frontend · backend · base de données · hébergement · auth · orchestration · déploiement · rag · outils · observabilité",
   "stacks.title": "Choix de stack",
-  "stacks.subtitle": "Les combinaisons qui valent vraiment le coup, classées par axe. S'enrichit à mesure qu'on les utilise.",
+  "stacks.subtitle": "Choisissez une option par axe et voyez votre stack prendre forme. Toutes les combinaisons sont possibles.",
   "stacks.axis.frontend": "Frontend",
   "stacks.axis.backend": "Backend",
   "stacks.axis.database": "Base de données",
   "stacks.axis.hosting": "Hébergement",
   "stacks.axis.auth": "Auth",
-  "stacks.empty": "Aucune stack ne correspond à ces filtres pour l'instant."
+  "stacks.axis.orchestration": "Orchestration d'agents",
+  "stacks.axis.deployment": "Déploiement",
+  "stacks.axis.rag": "Connaissance / RAG",
+  "stacks.axis.tools": "Outils / MCP",
+  "stacks.axis.observability": "Observabilité",
+  "stacks.empty": "Choisissez une option à gauche pour commencer à construire votre stack."
 }

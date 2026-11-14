@@ -28,7 +28,24 @@
 
     <div class="configs-layout">
       <div class="filters" id="axis-bar"></div>
-      <table class="stack-table" id="stack-table"></table>
+      <table class="stack-table" id="stack-table">
+        <caption class="sr-only" data-i18n="stacks.title"></caption>
+        <thead id="stack-table-head">
+          <tr>
+            <th data-i18n="stacks.axis.frontend"></th>
+            <th data-i18n="stacks.axis.backend"></th>
+            <th data-i18n="stacks.axis.database"></th>
+            <th data-i18n="stacks.axis.hosting"></th>
+            <th data-i18n="stacks.axis.auth"></th>
+            <th data-i18n="stacks.axis.orchestration"></th>
+            <th data-i18n="stacks.axis.deployment"></th>
+            <th data-i18n="stacks.axis.rag"></th>
+            <th data-i18n="stacks.axis.tools"></th>
+            <th data-i18n="stacks.axis.observability"></th>
+          </tr>
+        </thead>
+        <tbody id="stack-table-body"></tbody>
+      </table>
     </div>
   </section>
 

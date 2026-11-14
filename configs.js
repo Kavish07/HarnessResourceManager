@@ -42,9 +42,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function harnessBadge(name, status) {
+    const statusClass = status === 'native' || status === 'shim' ? status : '';
+    const statusLabel = HRM.t('configs.harness.' + status);
     const span = document.createElement('span');
-    span.className = `badge ${status === 'native' ? 'native' : status === 'shim' ? 'shim' : ''}`;
-    span.textContent = `${name} · ${HRM.t(`configs.harness.${status}`)}`;
+    span.className = `badge ${statusClass}`;
+    span.textContent = `${name} · ${statusLabel}`;
     return span;
   }
 

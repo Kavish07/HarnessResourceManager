@@ -84,7 +84,7 @@ function safeQuote(value) {
 }
 
 function propertyPath(base, key) {
-  return /^[A-Za-z_][A-Za-z0-9_]*$/.test(key)
+  return /^[A-Za-z_]\w*$/.test(key)
     ? `${base}.${key}`
     : `${base}[${safeQuote(key)}]`;
 }
@@ -663,8 +663,7 @@ function enforceJsonTextLimits(contents) {
     }
   }
 
-  for (let index = 0; index < contents.length; index++) {
-    const character = contents[index];
+  for (const character of contents) {
     if (inString) {
       if (escaped) {
         escaped = false;

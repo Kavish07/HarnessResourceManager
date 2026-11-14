@@ -58,7 +58,11 @@
     <div class="section-gap">
       <h3 class="sub" data-ui="compareH3">Que devient la conversation ?</h3>
       <p class="sublead" data-ui="compareP">Six commandes touchent à la conversation en cours, et aucune ne fait la même chose.</p>
-      <div class="tablewrap"><table id="compare"></table></div>
+      <div class="tablewrap"><table id="compare">
+        <caption class="sr-only">Que devient la conversation ?</caption>
+        <thead><tr><th>commande</th><th>la conversation actuelle</th><th>ce que vous avez sous les yeux ensuite</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
     </div>
 
     <div class="section-gap">
@@ -1246,10 +1250,11 @@ const STEPS_FR = [
    sortie:'Une carte des fichiers concernés et des questions ouvertes, notées dans NOTES.md.',
    piege:'Laisser Claude coder dès sa première réponse. En mode plan, il ne peut pas.'},
   {n:'2', t:'Clarifier les concepts', court:'Clarifier',
-   but:'Que chaque mot du domaine ait un seul sens, et que chaque choix ait une raison écrite.',
+   but:'Que chaque mot du domaine ait un seul sens, et que chaque choix ait une raison écrite, avant d\'écrire du code.',
    faire:`/grill-with-docs je veux ajouter le paiement en trois fois
-# une question à la fois, jusqu'à ce que chaque branche soit tranchée`,
-   sortie:'CONTEXT.md (le vocabulaire) mis à jour, et une ADR par décision difficile.',
+# une question à la fois, jusqu'à ce que chaque branche soit tranchée
+/grill-me pour le même entretien, sans toucher à CONTEXT.md ni aux ADR`,
+   sortie:'CONTEXT.md (le vocabulaire) mis à jour, et une ADR par décision difficile. (/grill-me n\'écrit aucun fichier.)',
    piege:'Accepter un terme flou (« client », « commande ») qui voudra dire deux choses dans le code.'},
   {n:'3', t:'Découpage → Plan', court:'Plan',
    but:'Transformer la décision en tranches petites, vérifiables, dans l\'ordre.',
@@ -1275,9 +1280,10 @@ implémente le ticket 2 du plan, en commençant par un test qui échoue`,
    sortie:'Une liste d\'écarts corrigés, et un diff que vous avez lu vous-même.',
    piege:'Demander « c\'est bon ? » à la session qui vient d\'écrire le code. /code-review lance des agents à contexte frais.'},
   {n:'6', t:'Tests', court:'Tests',
-   but:'Prouver que ça marche, et que rien d\'autre n\'a cassé.',
-   faire:`lance npm test et corrige les échecs sans modifier les tests
-# ou un hook PostToolUse qui lance les tests après chaque écriture`,
+   but:'Prouver que ça marche fonctionnellement, et que rien d\'autre n\'a cassé.',
+   faire:`lance npm test (Vitest, unitaire/composants) et npm run test:e2e (Playwright, parcours utilisateur)
+# ou un hook PostToolUse qui lance les tests après chaque écriture
+/security-audit pour une revue type pen-test, sur demande explicite (différent du /security-review de l'étape 5)`,
    sortie:'Une suite verte, et un test qui aurait échoué avant le correctif.',
    piege:'Claude qui modifie le test pour le faire passer. L\'interdire dans CLAUDE.md, et le vérifier dans le diff.'},
   {n:'7', t:'Commit / Déploiement', court:'Livrer',
@@ -1298,10 +1304,11 @@ const STEPS_EN = [
    sortie:'A map of the files involved and open questions, noted in NOTES.md.',
    piege:'Letting Claude code on its very first response. In plan mode, it can\'t.'},
   {n:'2', t:'Clarify the concepts', court:'Clarify',
-   but:'Every domain word has one meaning, and every choice has a written reason.',
+   but:'Every domain word has one meaning, and every choice has a written reason, before any code gets written.',
    faire:`/grill-with-docs I want to add 3-installment payment
-# one question at a time, until every branch is settled`,
-   sortie:'CONTEXT.md (the vocabulary) updated, and an ADR per hard decision.',
+# one question at a time, until every branch is settled
+/grill-me for the same interview, without touching CONTEXT.md or the ADRs`,
+   sortie:'CONTEXT.md (the vocabulary) updated, and an ADR per hard decision. (/grill-me writes no file.)',
    piege:'Accepting a vague term ("client", "order") that will mean two different things in the code.'},
   {n:'3', t:'Breakdown → Plan', court:'Plan',
    but:'Turn the decision into small, verifiable slices, in order.',
@@ -1327,9 +1334,10 @@ implement ticket 2 of the plan, starting with a failing test`,
    sortie:'A list of fixed gaps, and a diff you\'ve read yourself.',
    piege:'Asking "is this good?" to the session that just wrote the code. /code-review launches fresh-context agents.'},
   {n:'6', t:'Tests', court:'Tests',
-   but:'Prove it works, and that nothing else broke.',
-   faire:`run npm test and fix the failures without modifying the tests
-# or a PostToolUse hook that runs the tests after every write`,
+   but:'Prove it works functionally, and that nothing else broke.',
+   faire:`run npm test (Vitest, unit/component) and npm run test:e2e (Playwright, user journeys)
+# or a PostToolUse hook that runs the tests after every write
+/security-audit for a pen-test-style review, on explicit request (different from step 5's /security-review)`,
    sortie:'A green suite, and a test that would have failed before the fix.',
    piege:'Claude modifying the test to make it pass. Forbid it in CLAUDE.md, and check for it in the diff.'},
   {n:'7', t:'Commit / Deploy', court:'Ship',
@@ -1939,7 +1947,8 @@ function renderCmd(){
 function selectCmd(cmd){ S.cmd = cmd; store.set('cmd', cmd); renderCmdNav(); renderCmd(); }
 
 function renderStatic(){
-  $('#compare').innerHTML = `<thead><tr>${COMPARE.head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead>
+  $('#compare').innerHTML = `<caption class="sr-only">${esc(UI.compareH3)}</caption>
+    <thead><tr>${COMPARE.head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead>
     <tbody>${COMPARE.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody>`;
   $('#flow').innerHTML = FLOW.map(([c,t])=>`<li><code>${esc(c)}</code><span>${esc(t)}</span></li>`).join('');
 }
