@@ -461,7 +461,8 @@ allowed-tools: Read Grep Bash(npm test)
        {t:'skills.sh', u:'https://www.skills.sh/', d:'Un annuaire de skills pour agents. Installation en une ligne : npx skills add <owner/repo>.'},
        {t:'autoskills', u:'https://www.autoskills.sh/', d:'npx autoskills lit les dépendances du projet, détecte la stack et installe les skills qui correspondent, depuis un registre vérifié.'},
        {t:'Build with Claude', u:'https://buildwithclaude.com/skill/anti-ui-slop', d:'Un annuaire communautaire de skills Claude Code. La fiche anti-ui-slop : concevoir et relire une interface avec un contrat de design et une vérification avant livraison.'},
-       {t:'superpowers · obra', u:'https://github.com/obra/superpowers', d:'Un ensemble de skills composables plus les instructions d\'amorçage qui les font utiliser : brainstorming avant de coder, découpage en tâches vérifiables, TDD rouge-vert-refactor, debug systématique, isolation par git worktree. Même plugin sur Claude Code, Codex, Cursor, Gemini CLI, OpenCode et GitHub Copilot CLI. Installation : /plugin install superpowers@claude-plugins-official'}
+       {t:'superpowers · obra', u:'https://github.com/obra/superpowers', d:'Un ensemble de skills composables plus les instructions d\'amorçage qui les font utiliser : brainstorming avant de coder, découpage en tâches vérifiables, TDD rouge-vert-refactor, debug systématique, isolation par git worktree. Même plugin sur Claude Code, Codex, Cursor, Gemini CLI, OpenCode et GitHub Copilot CLI. Installation : /plugin install superpowers@claude-plugins-official'},
+       {t:'playwright-cli · Microsoft', u:'https://github.com/microsoft/playwright-cli', d:'La skill officielle du CLI Playwright : snapshots d\'accessibilité, clics/saisies par référence, enregistrement vidéo, tests, le tout en lignes de commande plutôt qu\'en outils MCP — moins cher en tokens pour un agent de code. Installation : npm install -g @playwright/cli@latest puis playwright-cli install --skills'}
      ]},
      {g:'Des skills à lire avant d\'écrire la sienne', items:[
        {t:'unslop · Cursor', u:'https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md', d:'Une skill courte qui retire les tics d\'écriture d\'IA. Bon exemple de frontmatter minimal : un name, une description.'},
@@ -472,6 +473,12 @@ allowed-tools: Read Grep Bash(npm test)
      {g:'Vérifier ce qu\'une skill a produit', items:[
        {t:'SEOptimer', u:'https://www.seoptimer.com/', d:'Audit SEO d\'une page en ligne. Pour contrôler une page générée par une skill de front-end ou de contenu.'},
        {t:'OpenGraph.xyz', u:'https://www.opengraph.xyz/', d:'Aperçu des balises Open Graph : à quoi ressemble le lien partagé sur LinkedIn, Slack ou X.'}
+     ]},
+     {g:'Vérifier une skill avant de l\'installer', items:[
+       {t:'SkillSpector · NVIDIA', u:'https://github.com/NVIDIA/SkillSpector', d:'Scanner de sécurité pour les skills d\'agents : vulnérabilités, motifs malveillants, injection de prompt, exfiltration de données, risques de chaîne d\'approvisionnement — avant d\'installer une skill Claude Code, Codex ou MCP venue d\'ailleurs.'}
+     ]},
+     {g:'Mémoire persistante entre sessions', items:[
+       {t:'claude-mem · thedotmack', u:'https://github.com/thedotmack/claude-mem', d:'Capture tout ce que l\'agent fait pendant une session, compresse via un modèle, réinjecte le contexte pertinent dans les sessions suivantes. Hook d\'installation complexe (résolution de version/cache du plugin) : à installer via le marketplace, pas à copier. Installation : /plugin marketplace add thedotmack/claude-mem puis /plugin install claude-mem'}
      ]}
    ]},
 
@@ -836,7 +843,8 @@ allowed-tools: Read Grep Bash(npm test)
        {t:'skills.sh', u:'https://www.skills.sh/', d:'A directory of skills for agents. One-line install: npx skills add <owner/repo>.'},
        {t:'autoskills', u:'https://www.autoskills.sh/', d:'npx autoskills reads the project\'s dependencies, detects the stack and installs matching skills from a verified registry.'},
        {t:'Build with Claude', u:'https://buildwithclaude.com/skill/anti-ui-slop', d:'A community directory of Claude Code skills. The anti-ui-slop entry: designing and reviewing an interface with a design contract and a pre-delivery check.'},
-       {t:'superpowers · obra', u:'https://github.com/obra/superpowers', d:'A set of composable skills plus bootstrap instructions that get the agent to use them: brainstorming before any code, breakdown into verifiable tasks, red-green-refactor TDD, systematic debugging, git worktree isolation. Same plugin on Claude Code, Codex, Cursor, Gemini CLI, OpenCode, and GitHub Copilot CLI. Install: /plugin install superpowers@claude-plugins-official'}
+       {t:'superpowers · obra', u:'https://github.com/obra/superpowers', d:'A set of composable skills plus bootstrap instructions that get the agent to use them: brainstorming before any code, breakdown into verifiable tasks, red-green-refactor TDD, systematic debugging, git worktree isolation. Same plugin on Claude Code, Codex, Cursor, Gemini CLI, OpenCode, and GitHub Copilot CLI. Install: /plugin install superpowers@claude-plugins-official'},
+       {t:'playwright-cli · Microsoft', u:'https://github.com/microsoft/playwright-cli', d:'The official Playwright CLI skill: accessibility snapshots, ref-based click/fill, video recording, test generation, all as CLI commands instead of MCP tool calls — cheaper in tokens for a coding agent. Install: npm install -g @playwright/cli@latest then playwright-cli install --skills'}
      ]},
      {g:'Skills worth reading before writing your own', items:[
        {t:'unslop · Cursor', u:'https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md', d:'A short skill that strips AI writing tics. A good example of minimal frontmatter: a name, a description.'},
@@ -847,6 +855,12 @@ allowed-tools: Read Grep Bash(npm test)
      {g:'Check what a skill produced', items:[
        {t:'SEOptimer', u:'https://www.seoptimer.com/', d:'SEO audit of a live page. For checking a page a front-end or content skill generated.'},
        {t:'OpenGraph.xyz', u:'https://www.opengraph.xyz/', d:'Preview of Open Graph tags: what the shared link looks like on LinkedIn, Slack or X.'}
+     ]},
+     {g:'Vet a skill before installing it', items:[
+       {t:'SkillSpector · NVIDIA', u:'https://github.com/NVIDIA/SkillSpector', d:'Security scanner for agent skills: vulnerabilities, malicious patterns, prompt injection, data exfiltration, supply-chain risk — before you install a Claude Code, Codex, or MCP skill from somewhere else.'}
+     ]},
+     {g:'Persistent memory across sessions', items:[
+       {t:'claude-mem · thedotmack', u:'https://github.com/thedotmack/claude-mem', d:'Captures everything the agent does during a session, compresses it with a model, and injects the relevant context back into later sessions. Its install hook resolves plugin cache/version paths at runtime — install it via the marketplace, don\'t copy it. Install: /plugin marketplace add thedotmack/claude-mem then /plugin install claude-mem'}
      ]}
    ]},
 

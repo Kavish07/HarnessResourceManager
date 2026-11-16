@@ -1,0 +1,12 @@
+{
+  "name": "resend",
+  "description": "Send and receive emails, manage contacts, broadcasts, and domains via Resend. Official Resend-hosted remote MCP server (OAuth login on connect) — a local npm package also exists if a remote server isn't wanted.",
+  "tags": ["email"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "unknown"
+  },
+  "type": "http",
+  "url": "https://mcp.resend.com/mcp"
+}

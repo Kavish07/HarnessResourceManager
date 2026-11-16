@@ -1,0 +1,12 @@
+{
+  "name": "neon",
+  "description": "Manage Neon Postgres projects, branches, and schema, and run queries, in natural language. Official Neon-hosted remote MCP server. Neon's own docs say it's for local dev/IDE use only, not production — always review what it's about to execute.",
+  "tags": ["database", "postgres", "neon"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "unknown"
+  },
+  "type": "http",
+  "url": "https://mcp.neon.tech/mcp"
+}

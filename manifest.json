@@ -1233,6 +1233,22 @@
   },
   {
     "type": "mcp",
+    "name": "chrome-devtools",
+    "description": "Full Chrome DevTools access for an agent — performance traces, network inspection, console/source-mapped stack traces, screenshots, Puppeteer-driven automation. Official Google/ChromeDevTools MCP server. Sends usage telemetry to Google by default; add --no-usage-statistics to opt out.",
+    "path": "mcp/chrome-devtools.json",
+    "tags": [
+      "browser",
+      "debugging",
+      "performance"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "mcp",
     "name": "clickhouse",
     "description": "Run analytics queries against a ClickHouse database. Official ClickHouse-hosted remote MCP server.",
     "path": "mcp/clickhouse.json",
@@ -1320,6 +1336,22 @@
   },
   {
     "type": "mcp",
+    "name": "neon",
+    "description": "Manage Neon Postgres projects, branches, and schema, and run queries, in natural language. Official Neon-hosted remote MCP server. Neon's own docs say it's for local dev/IDE use only, not production — always review what it's about to execute.",
+    "path": "mcp/neon.json",
+    "tags": [
+      "database",
+      "postgres",
+      "neon"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "mcp",
     "name": "playwright",
     "description": "Browser automation via Playwright's accessibility tree (not screenshots) — navigate, click, fill forms, read page state. Official Microsoft MCP server.",
     "path": "mcp/playwright.json",
@@ -1341,6 +1373,20 @@
     "tags": [
       "hosting",
       "railway"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "unknown"
+    }
+  },
+  {
+    "type": "mcp",
+    "name": "resend",
+    "description": "Send and receive emails, manage contacts, broadcasts, and domains via Resend. Official Resend-hosted remote MCP server (OAuth login on connect) — a local npm package also exists if a remote server isn't wanted.",
+    "path": "mcp/resend.json",
+    "tags": [
+      "email"
     ],
     "harnesses": {
       "claude-code": "native",

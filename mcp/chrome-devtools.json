@@ -1,0 +1,12 @@
+{
+  "name": "chrome-devtools",
+  "description": "Full Chrome DevTools access for an agent — performance traces, network inspection, console/source-mapped stack traces, screenshots, Puppeteer-driven automation. Official Google/ChromeDevTools MCP server. Sends usage telemetry to Google by default; add --no-usage-statistics to opt out.",
+  "tags": ["browser", "debugging", "performance"],
+  "harnesses": {
+    "claude-code": "native",
+    "cursor": "native",
+    "codex": "shim"
+  },
+  "command": "npx",
+  "args": ["-y", "chrome-devtools-mcp@latest"]
+}
