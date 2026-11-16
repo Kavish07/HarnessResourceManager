@@ -479,6 +479,11 @@ allowed-tools: Read Grep Bash(npm test)
      ]},
      {g:'Mémoire persistante entre sessions', items:[
        {t:'claude-mem · thedotmack', u:'https://github.com/thedotmack/claude-mem', d:'Capture tout ce que l\'agent fait pendant une session, compresse via un modèle, réinjecte le contexte pertinent dans les sessions suivantes. Hook d\'installation complexe (résolution de version/cache du plugin) : à installer via le marketplace, pas à copier. Installation : /plugin marketplace add thedotmack/claude-mem puis /plugin install claude-mem'}
+     ]},
+     {g:'Skills plus lourdes, à installer telles quelles', items:[
+       {t:'impeccable · pbakaus', u:'https://github.com/pbakaus/impeccable', d:'Un vocabulaire de design complet pour l\'agent : critique, audit, polish, bolder/quieter, extraction de design system, avec un lanceur binaire et des sous-agents dédiés (asset producer, documenter, motion reviewer...). Beaucoup plus profond que les skills design de ce dépôt — à installer en plus, pas à remplacer par une copie.'},
+       {t:'codeburn', u:'https://github.com/getagentseal/codeburn', d:'Suivi local et gratuit du coût des outils IA (Claude Code, Cursor, Codex...), par modèle, projet et tâche. Sa skill n\'est qu\'un appel à `npx codeburn` : installez l\'outil, pas une copie de la skill.'},
+       {t:'lemo-opuscar · Lemomo', u:'https://github.com/lemomo-ai/lemo-opuscar', d:'99 styles de films faits entièrement en code (peinture, aquarelle, ukiyo-e, démontage produit...). Sa skill clone la bibliothèque complète et s\'appuie dessus — à installer via le dépôt, pas à copier localement.'}
      ]}
    ]},
 
@@ -861,6 +866,11 @@ allowed-tools: Read Grep Bash(npm test)
      ]},
      {g:'Persistent memory across sessions', items:[
        {t:'claude-mem · thedotmack', u:'https://github.com/thedotmack/claude-mem', d:'Captures everything the agent does during a session, compresses it with a model, and injects the relevant context back into later sessions. Its install hook resolves plugin cache/version paths at runtime — install it via the marketplace, don\'t copy it. Install: /plugin marketplace add thedotmack/claude-mem then /plugin install claude-mem'}
+     ]},
+     {g:'Heavier skills, worth installing as-is', items:[
+       {t:'impeccable · pbakaus', u:'https://github.com/pbakaus/impeccable', d:'A full design vocabulary for the agent: critique, audit, polish, bolder/quieter, design-system extraction, with a compiled binary launcher and dedicated sub-agents (asset producer, documenter, motion reviewer...). Much deeper than this repo\'s own design skills — install it alongside them, don\'t copy it in.'},
+       {t:'codeburn', u:'https://github.com/getagentseal/codeburn', d:'Free local tracking of AI tool cost (Claude Code, Cursor, Codex...) by model, project, and task. Its skill is just a call to `npx codeburn` — install the tool, not a copy of the skill.'},
+       {t:'lemo-opuscar · Lemomo', u:'https://github.com/lemomo-ai/lemo-opuscar', d:'99 film styles made entirely in code (oil painting, watercolor, ukiyo-e, product teardown...). Its skill clones the full library and hands off to it — install via the repo, don\'t copy it locally.'}
      ]}
    ]},
 

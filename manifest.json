@@ -422,6 +422,22 @@
   },
   {
     "type": "skill",
+    "name": "mobile-uiux",
+    "description": "Design, generate, or audit a native or cross-platform mobile app UI (Flutter, React Native, SwiftUI, Jetpack Compose, native iOS/Android). Use when building or reviewing a mobile screen — distinct from the web-focused skills/accessibility and skills/designer, which don't cover touch ergonomics, platform HIG/Material conventions, or foldable layouts.",
+    "path": "skills/mobile-uiux",
+    "tags": [
+      "design",
+      "mobile",
+      "accessibility"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "native"
+    }
+  },
+  {
+    "type": "skill",
     "name": "observability-triage",
     "description": "Triage production errors in an observability/logging backend without rediscovering the same dead ends every time — verified query recipes, counting gotchas, and a maintained known-noise list. Use when asked to review production logs, count errors or crashes, compare error rates between periods, or investigate a prod error spike.",
     "path": "skills/observability-triage",
@@ -1043,6 +1059,21 @@
     "tags": [
       "sdlc",
       "frontend"
+    ],
+    "harnesses": {
+      "claude-code": "native",
+      "cursor": "native",
+      "codex": "shim"
+    }
+  },
+  {
+    "type": "agent",
+    "name": "git-master",
+    "description": "Splits a change into atomic, independently-revertable commits matching the project's own commit-message style, and handles rebases safely. Use when a diff spans multiple unrelated concerns, or before a rebase/history rewrite on a shared branch.",
+    "path": "agents/git-master.md",
+    "tags": [
+      "sdlc",
+      "git"
     ],
     "harnesses": {
       "claude-code": "native",
